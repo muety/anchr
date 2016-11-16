@@ -1,0 +1,104 @@
+<div class="content-box shadow-z-1">
+  <h1 class="text-primary">{{image._id}}</h1>
+  <div class="alert alert-warning" ng-if="data.loading">
+    <strong>Decryption in progress.</strong>This may take a few seconds - mainly depending on the CPU power of your device - while you can't interact with your browser.
+  </div>
+  <p class="view-image"><img src="{{image.href}}" ng-if="!image.encrypted"></p>
+  <p class="view-image"><img src="{{data.imageSrc}}" ng-if="image.encrypted"></p>
+  <div class="row" ng-if="image.encrypted && !data.imageSrc">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <div class="form-group" style="padding: 0; margin: 0;">
+        <div class="input-group">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+          <input type="text" ng-model="data.password" class="form-control" placeholder="Enter passphrase to encrypt image ..." ng-disabled="data.loading">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-fab btn-fab-mini btn-primary" ng-disabled="!data.password || data.password.length < 6" ng-click="decrypt()">
+              <i ng-class="{'mdi-content-send' : !data.loading, 'mdi-notification-sync' : data.loading}"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+  <div class="locked-placeholder view-image" ng-if="image.encrypted && !data.imageSrc"><span class="glyphicon glyphicon-lock"></span></div>
+  <p></p>
+  <p style="text-align: center">Uploaded on {{image.created | date:'MMM d, y hh:mm'}}</p>
+  <p></p>
+</div>
+
+<div class="content-box shadow-z-1" ng-if="!image.encrypted">
+  <h3 class="text-primary">Get the links</h3>
+  <div class="row">
+
+    <div class="col-md-6">
+
+      <div class="form-group has-success no-space">
+        <div class="input-group">
+          <label class="control-label" for="link">Link</label>
+          <input type="text" class="form-control" id="link" value="{{image.link}}" readonly>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#link" ng-click="snackbar.show('Link copied to clipboard.')">
+              <i class="mdi-content-content-copy"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+      <div class="form-group has-success no-space">
+        <div class="input-group">
+          <label class="control-label" for="link">Direct link</label>
+          <input type="text" class="form-control" id="directLink" value="{{image.href}}" readonly>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#directLink" ng-click="snackbar.show('Link copied to clipboard.')">
+              <i class="mdi-content-content-copy"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-md-6">
+
+      <div class="form-group has-success no-space">
+        <div class="input-group">
+          <label class="control-label" for="link">Link for HTML pages</label>
+          <input type="text" class="form-control" id="htmlLink" value="{{image.href | imageHtmlLink}}" readonly>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#htmlLink" ng-click="snackbar.show('Link copied to clipboard.')">
+              <i class="mdi-content-content-copy"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+      <div class="form-group has-success no-space">
+        <div class="input-group">
+          <label class="control-label" for="link">Link for forums</label>
+          <input type="text" class="form-control" id="forumsLink" value="{{image.href | imageForumLink}}" readonly>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#forumsLink" ng-click="snackbar.show('Link copied to clipboard.')">
+              <i class="mdi-content-content-copy"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

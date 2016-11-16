@@ -1,0 +1,9 @@
+/node_modules
+/dist
+/.tmp
+/.sass-cache
+/bower_components
+.gitattributes
+.jscsrc
+.jshintrc
+.yo-rc.json

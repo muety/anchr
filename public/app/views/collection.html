@@ -1,0 +1,120 @@
+<div class="content-box shadow-z-1">
+  <h3 class="text-primary">My link collection</h3>
+  <div style="height: 500px" ng-if="!loggedIn()">
+    <div class="alert alert-dismissible alert-warning">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <p>Sorry, you need to be logged in to view this page.</p>
+    </div>
+  </div>
+  <div class="row" ng-if="loggedIn()">
+
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked nav-primary">
+        <li role="presentation" ng-class="{'active' : data.active == c._id}" ng-repeat="c in data.collections | orderBy : 'name'" ng-mouseover="hover[c._id] = true" ng-mouseleave="hover[c._id] = false">
+          <a href="javascript:void(0)" ng-click="setActiveCollection(c._id)">
+            {{c.name}}
+            <i class="glyphicon glyphicon-trash" style="float:right" ng-if="hover[c._id]" ng-click="deleteCollection(c._id)"></i>
+            <i class="glyphicon glyphicon-share" style="float:right; padding-right: 10px" ng-if="hover[c._id] && !c.shared" ng-click="shareCollection(c._id)"></i>
+          </a>
+        </li>
+        <li role="presentation">
+          <a href="javascript:void(0)" ng-click="toggleNewCollection()" ng-hide="adding"><i class="glyphicon glyphicon-plus"></i> New</a>
+          <div class="form-group" style="margin: 0">
+            <input ng-if="adding" type="text" class="form-control" id="inputNewName" ng-model="data.inputNewName" placeholder="Name" ng-blur="toggleNewCollection()" my-enter="addCollection(data.inputNewName)">
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-md-9">
+
+      <div class="row" ng-if="!data.active">
+        <div class="alert alert-dismissible alert-success">
+          Sorry, you have no collections.
+        </div>
+      </div>
+      <div class="row" ng-if="data.active">
+
+        <div class="form-group label-floating" style="margin-top: 15px;" ng-if="getCollection(data.active).shared">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <i class="glyphicon glyphicon-share"></i>
+            </span>
+            <label class="control-label" for="shareUrl"><strong>Collection share URL:</strong></label>
+            <input type="text" id="shareUrl" class="form-control" readonly value="{{config[env].clientBaseUrl}}collection/{{data.active}}">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-fab btn-fab-mini " ngclipboard data-clipboard-target="#shareUrl" ng-click="snackbar.show('Link copied to clipboard.')">
+              <i class="mdi-content-content-copy"></i>
+            </button>
+          </span>
+          </div>
+        </div>
+
+        <h4 class="text-primary">Add new link</h4>
+        <form name="linkInputForm">
+          <div class="form-group">
+            <div class="input-group">
+              <label for="linkInput" class="col-md-2 control-label">Link</label>
+              <div class="col-md-10">
+                <input type="url" name="linkInput" class="form-control" id="linkInput" placeholder="Paste a link here" ng-model="data.linkInput" my-enter="saveLink(data.active, data.linkInput, data.descriptionInput)">
+              </div>
+              <span class="input-group-btn"></span>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: -20px">
+            <div class="input-group">
+              <label for="descriptionInput" class="col-md-2 control-label">Description</label>
+              <div class="col-md-10" style="padding-left: 25px">
+                <input type="text" name="descriptionInput" class="form-control" id="descriptionInput" placeholder="Describe your link" ng-model="data.descriptionInput" my-enter="saveLink(data.active, data.linkInput, data.descriptionInput)">
+              </div>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-fab btn-fab-mini btn-primary" id="saveButton" ng-disabled="!linkInputForm.linkInput.$valid || stringEmpty(data.linkInput) || data.loading" ng-click="saveLink(data.active, data.linkInput, data.descriptionInput)">
+                  <i ng-class="{'mdi-content-send' : !data.loading, 'mdi-notification-sync' : data.loading}"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="row" ng-if="getCollection(data.active).links.length">
+        <div class="row">
+          <div class="col-md-8">
+            <h4 class="text-primary">My links</h4>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group search-form">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                <input class="form-control" ng-model="search" placeholder="Search ...">
+              </div>
+            </div>
+          </div>
+        </div>
+        <table class="table table-striped table-hover table-collection">
+          <thead>
+          <tr>
+            <th class="col-md-4">Link</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="l in getCollection(data.active).links | filter:search | orderBy:'-date'">
+            <td><a href="{{l.url}}" target="_blank">{{l.url}}</a></td>
+            <td>{{l.description}}</td>
+            <td>{{l.date | date : 'MMM d, y h:mm a'}}</td>
+            <td>
+              <a href="javascript:void(0)" ng-click="deleteLink(data.active, l._id)" class="btn btn-raised btn-danger btn-sm delete-button"><i class="glyphicon glyphicon-trash"></i></a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>

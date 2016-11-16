@@ -1,0 +1,26 @@
+<div class="row hidden-xs">
+  <img src="images/logo.png" class="logo">
+  <p class="description">Anchr provides you with kind of a toolbox for tiny tasks on the internet. Currently you can <i>upload and share pictures</i>,
+    <i>shorten links for easier sharing</i> and <i>create link collections</i>, which are like a bookmark list that is accessible from everywhere. Awesome features like a message board, a notes book, a poll service and many more are about to come.<br><br>
+    <i class="glyphicon glyphicon-info-sign"></i> Check out the <a href="https://anchr.io/s/KJhh9" class="text-white" target="_blank">Chrome extension</a> for saving and shortening links even easier.
+  </p>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div ng-include src="'views/image.html'" onload="init()" ng-controller="ImageCtrl"></div>
+  </div>
+
+  <div class="col-md-6">
+    <div ng-include src="'views/shortlink.html'" onload="init()" ng-controller="ShortlinkCtrl"></div>
+  </div>
+</div>
+
+<div class="row" ng-if="loggedIn()">
+  <div class="col-md-12">
+    <div ng-include src="'views/collection.html'" onload="init()" ng-controller="CollectionCtrl"></div>
+  </div>
+</div>
+
+<div class="row">
+</div>

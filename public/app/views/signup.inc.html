@@ -1,0 +1,39 @@
+<div class="modal" id="modalSignup">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" onclick="$('#modalSignup').toggle()" aria-hidden="true">×</button>
+        <h3 class="modal-title text-primary">Sign up</h3>
+      </div>
+      <div class="modal-body">#
+        <form name="signupForm">
+          <div class="form-group">
+            <label for="inputEmail" class="col-md-2 control-label">Email</label>
+            <div class="col-md-10">
+              <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email" ng-model="data.email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword" class="col-md-2 control-label">Password</label>
+            <div class="col-md-10">
+              <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="data.password" my-enter="signup()">
+            </div>
+          </div>
+        </form>
+        <br><br>
+        <div class="row">
+          <div class="col-md-4"><h4 class="text-primary">Or login with ...</h4></div>
+          <div class="col-md-4">
+            <a href="{{config[env].apiBaseUrl}}auth/facebook"><img src="images/facebook.png" width="52px"></a>
+            <a href="{{config[env].apiBaseUrl}}auth/google"><img src="images/google.png" width="52px"></a>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="$('#modalSignup').toggle()">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="signup()" ng-disabled="!signupForm.email.$valid || !signupForm.password.$valid || stringEmpty(data.email) || stringEmpty(data.password) || data.loading">Send</button>
+      </div>
+    </div>
+  </div>
+</div>

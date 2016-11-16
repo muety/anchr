@@ -1,0 +1,195 @@
+.container {
+  color: #555;
+}
+
+.nav, .navbar-header {
+  color: #fff;
+}
+.navbar.navbar, .navbar-default {
+  max-height: 200px;
+}
+
+.content-box {
+  padding: 20px;
+  background: #fff;
+  min-height: 250px;
+  margin-top: 20px;
+}
+
+.content-box .alert {
+  margin: 0 20px;
+}
+
+.form-group {
+  margin-bottom: 30px !important;
+}
+
+.jumbotron {
+  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px 0px, rgba(0, 0, 0, 0.117647) 0px 1px 6px 0px !important;
+  padding: 20px 30px !important;
+  text-align: left;
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+.text-dark {
+  color: #555 !important;
+}
+
+.list-unstyled {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.no-space {
+  margin: 0 !important;
+}
+
+.no-space-v {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.no-space-h {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.view-image {
+  text-align: center;
+  margin: auto;
+}
+
+.view-image img {
+  max-width: 100%;
+}
+
+.file-drag {
+  border: 3px dashed #aaa;
+  color: #aaa;
+  text-align: center;
+  line-height: 100px;
+  width: 100%;
+  height: 100px;
+}
+
+.dragover {
+  color: #333;
+  border: 3px dashed #333;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  float: left;
+  margin: 20px;
+}
+
+.text-secondary {
+  color: #D75137;
+}
+
+.secondary {
+  background: #D75137;
+}
+
+.second-header {
+  height: 200px;
+  width: 100%;
+  background: #009688;
+  border-top: 1px solid #eee;
+}
+
+.navbar-brand {
+  font-size: 22px;
+}
+
+.description {
+  color: #fff;
+  font-size: 18px;
+  margin: 30px 0;
+}
+
+.thumb {
+  float: left;
+  margin-right: 10px;
+}
+
+.thumb img {
+  height: 40px;
+}
+
+.modal-body {
+  margin-top: -40px;
+}
+
+.modal-footer {
+  margin-top: 40px;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+  background-color: #009688;
+}
+
+.delete-button {
+  margin-top: 0;
+}
+
+.search-form {
+  margin: 0 20px;
+  padding: 0;
+}
+
+.method-label {
+  margin-right: 5px;
+}
+
+td h4 {
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.api-description tr {
+  height: 30px;
+}
+
+.api-description td {
+  vertical-align: top;
+}
+
+.locked-placeholder {
+  width: 750px;
+  height: 360px;
+  background-color: #ddd;
+  text-align: center;
+}
+
+.locked-placeholder span {
+  font-size: 100px;
+  line-height: 360px;
+}
+
+.noscript {
+  position: absolute;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.beta {
+  width: 128px;
+  height: 128px;
+  position: absolute;
+  z-index: 9998;
+  top: 0;
+  right: 0;
+  background-image: url('/images/beta.png');
+}
+
+.table-collection {
+  table-layout: fixed;
+  word-wrap: break-word;
+}

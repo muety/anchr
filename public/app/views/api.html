@@ -1,0 +1,172 @@
+<div class="content-box shadow-z-1">
+    <h3 class="text-primary">Developer API</h3>
+    The Anchr.io backend provides a powerful REST API (even though not completely RESTful yet) to interact with the server and do all stuff the UI can do too.
+    The intention is to encourage developers to make own applications based on the Anchr.io functionality.
+    The API supports resources <code>shortlink</code>, <code>image</code> and <code>collection</code> with the following routes.
+    <br><br>
+    <table border="0" class="api-description table table-striped table-hover">
+        <tr>
+            <td colspan="3">
+                <h4 class="text-primary">Shortlinks</h4>
+            </td>
+        </tr>
+
+        <tr>
+            <th width="20%">Method / format</th>
+            <th width="40%">Endpoint</th>
+            <th width="40%">Parameters / request body</th>
+        </tr>
+
+        <tr>
+            <td><span class="label label-primary method-label">GET</span></td>
+            <td><code>/api/shortlink/:id</code></td>
+            <td>optional <code>?json=true</code> to get resource data instead of redirect</td>
+        </tr>
+        <tr>
+            <td><span class="label label-primary method-label">POST</span><span class="label label-default method-label">json</span></td>
+            <td><code>/api/shortlink</code></td>
+            <td><code>{ "url" : "http://your-destination.tld" }</code></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <h4 class="text-primary">Images</h4>
+            </td>
+        </tr>
+
+        <tr>
+            <th width="20%">Method / format</th>
+            <th width="40%">Endpoint</th>
+            <th width="40%">Parameters / request body</th>
+        </tr>
+
+        <tr>
+            <td><span class="label label-primary method-label">GET</span></td>
+            <td><code>/api/image/:id</code></td>
+            <td>optional <code>?json=true</code> to get resource data instead of displaying the image</td>
+        </tr>
+        <tr>
+            <td><span class="label label-primary method-label">POST</span><span class="label label-default method-label">multipart</span></td>
+            <td><code>/api/image</code></td>
+            <td><code>uploadFile=@yourFileObjectHere</code></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <h4 class="text-primary">Collections</h4>
+            </td>
+        </tr>
+
+        <tr>
+            <th width="20%">Method / format</th>
+            <th width="40%">Endpoint</th>
+            <th width="40%">Parameters / request body</th>
+        </tr>
+
+        <tr>
+            <td><span class="label label-primary method-label">GET</span></td>
+            <td><code>/api/collection</code></td>
+            <td>Returns an array of all collections for the authenticated user.</td>
+        </tr>
+        <tr>
+            <td><span class="label label-primary method-label">POST</span><span class="label label-default method-label">json</span></td>
+            <td><code>/api/collection</code></td>
+            <td><code>{ "name" : "My new collection" }</code></td>
+        </tr>
+        <tr>
+            <td><span class="label label-primary method-label">GET</span></td>
+            <td><code>/api/collection/:id</code></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><span class="label label-primary method-label">DELETE</span></td>
+            <td><code>/api/collection/:id</code></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><span class="label label-primary method-label">GET</span></td>
+            <td><code>/api/collection/:id/links</code></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><span class="label label-primary method-label">POST</span><span class="label label-default method-label">json</span></td>
+            <td><code>/api/collection/:id/links</code></td>
+            <td><code>{ "url" : "http://duckduckgo.com", "description" : "Search engine" }</code></td>
+        </tr>
+        <tr>
+            <td><span class="label label-primary method-label">GET</span></td>
+            <td><code>/api/collection/:id/links/:linkId</code></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><span class="label label-primary method-label">DELETE</span></td>
+            <td><code>/api/collection/:id/links/:linkId</code></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><span class="label label-primary method-label">POST</span><span class="label label-default method-label">json</span></td>
+            <td><code>/api/collection/:id/share</code></td>
+            <td>Makes this collection publicly readable under <code>{{config[env].clientBaseUrl}}:id</code></td>
+        </tr>
+    </table>
+
+    <h3 class="text-primary">Resource models</h3>
+    <div class="row">
+        <div class="col-md-4">
+            <h4 class="text-primary">Shortlink</h4>
+            <code>
+                {<br>
+                &nbsp;&nbsp;"_id" : "bW2oL"<br>
+                &nbsp;&nbsp;"url" : "http://example.com",<br>
+                &nbsp;&nbsp;"href" : "http://anchr.io/s/bW2oL"<br>
+                }
+            </code>
+        </div>
+        <div class="col-md-4">
+            <h4 class="text-primary">Image</h4>
+            <code>
+                {<br>
+                &nbsp;&nbsp;"_id" : "Re49P.jpg"<br>
+                &nbsp;&nbsp;"created" : 1448702387366,<br>
+                &nbsp;&nbsp;"href" : "http://anchr.io/i/Re49P.jpg"<br>
+                }
+            </code>
+        </div>
+
+        <div class="col-md-4">
+            <h4 class="text-primary">Collection</h4>
+            <code>
+                {<br>
+                &nbsp;&nbsp;"_id" : "cg32e"<br>
+                &nbsp;&nbsp;"name" : "My collection",<br>
+                &nbsp;&nbsp;"shared" : false,<br>
+                &nbsp;&nbsp;"owner" : "465826a3011dab3814fc71et"<br>
+                &nbsp;&nbsp;"links" : [<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"url" : "http://duckduckgo.com",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"description" : "Search engine"<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"date" : 1448702387366<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;]<br>
+                }
+            </code>
+        </div>
+    </div>
+
+    <h3 class="text-primary">Authentication / Authorization</h3>
+    To use the <code>/collection</code> endpoints users need to authenticate against the API. Authentication is based on <a href="http://jwt.io/introduction/" target="_blank">JSON web tokens (JWT)</a> and works as follows, assuming that a user account already exists:<br><br>
+    <ol>
+        <li>
+            <strong>Make a login request:</strong><br>
+            <span class="label label-primary method-label">POST</span><code>/api/auth/token</code> with body
+            <code>{ "email" : "theusers@emailadress.tld", "password" : "userpasswordinplaintext" }</code>
+            <br><br>
+        </li>
+        <li>
+            <strong>Get the token</strong> from the response:<br> <code>{ "token" : "thisisareplacementforaverylongtoken" }</code>
+            <br><br>
+        </li>
+        <li>
+            <strong>Set the Authorization header</strong> in every request to an <code>/collection</code> endpoint:<br>
+            <code>Authorization: Bearer thisisareplacementforaverylongtoken</code>
+        </li>
+    </ol>
+</div>
