@@ -15,15 +15,15 @@ var config = {
             name: 'anchr-multi-webservice'
         },
         port: 3000,
-        db: '',
-        uploadDir : path.normalize('/var/data/anchr'),
+        db: 'mongodb://anchr:Agiwovibu146@ferdinand-muetsch.de:27017/anchr',
+        uploadDir : path.normalize('C:\\Users\\Ferdinand\\WebstormProjects\\anchr\\data\\'),
         maxFileSize : 1000000 * 10,
         allowedFileTypes : ['image/'],
         secret : 'shhh',
         tokenExpire : '30d',
         workers: 2,
-        accessLogPath: path.normalize('/var/log/anchr/access.log'),
-        errorLogPath: path.normalize('/var/log/anchr/error.log')
+        accessLogPath: path.normalize('C:\\Users\\Ferdinand\\WebstormProjects\\anchr\\log\\access.log\\'),
+        errorLogPath: path.normalize('C:\\Users\\Ferdinand\\WebstormProjects\\anchr\\log\\error.log\\')
     },
 
     development: {
@@ -40,7 +40,7 @@ var config = {
         publicImageUrl: 'https://anchr.io/i',
         clientUrl: 'https://anchr.io/#/',
         uploadDir : path.normalize('/var/data/anchr.io/'),
-        secret : '',
+        secret : 'DRwZ34eG9CbDkAXauqGO7SOUYUWYt2kc',
         accessLogPath: path.normalize('/var/log/anchr/access.log'),
         errorLogPath: path.normalize('/var/log/anchr/error.log'),
         port: 3005
