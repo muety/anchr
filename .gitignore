@@ -8,5 +8,12 @@ data
 log/*
 *.log
 .vscode
-snippets/history.json
-snippets/*.log
+snippets
+dist
+.tmp
+bower_components
+.gitattributes
+.jscsrc
+.jshintrc
+.yo-rc.json
+.sass-cache
