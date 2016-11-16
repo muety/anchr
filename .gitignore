@@ -8,7 +8,6 @@ data
 log/*
 *.log
 .vscode
-snippets
 dist
 .tmp
 bower_components
