@@ -71,7 +71,12 @@ module.exports = function(app, config) {
     app.use('/bower_components', express.static(config.root + '/public/bower_components', {redirect: false}));
   }
   else {
-    app.use('/', express.static(config.root + '/public/dist', {redirect: false}));
+    app.use('/', express.static(config.root + '/public/dist', {
+      redirect: false,
+      setHeaders: (res, path) => {
+        if (/.*\.(css|js|png|jpg)/.test(path)) res.setHeader('Cache-Control', 'public, max-age=604800');
+      }
+    }));
   }
 
   app.use(methodOverride());
