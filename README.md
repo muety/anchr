@@ -1,6 +1,6 @@
 # Anchr - Image uploads, bookmarks and shortlink service
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTBP64PZDPDZW)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTBP64PZDPDZW) [![Say thanks](https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg)](https://saythanks.io/to/n1try)
 
 Anchr is a useful little helper or toolbox or the like for common tasks on the internet. The official hosted version is available at [anchr.io](https://anchr.io). There's also a [Chrome extension](https://anchr.io/s/tzYcr) for the official Anchr.io as well as a [ScreenCloud upload script](https://ferdinand-muetsch.de/anchrio-screencloud-script-for-windows.html) for Windows.
 
