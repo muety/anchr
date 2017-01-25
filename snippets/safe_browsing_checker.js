@@ -45,7 +45,7 @@ MongoClient.connect(DB_URL, function(err, db) {
     dbConnection = db;
 
     coll.find({ _id: { $nin: processedIds } }).toArray((err, results) => {
-        if (!results.length) exit(-1);
+        if (!results.length) exit(null);
         let resultMap = results.reduce(function(map, obj) {
             if (map[obj.url]) map[obj.url].push(obj._id);
             else map[obj.url] = [obj._id];
