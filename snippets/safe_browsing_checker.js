@@ -24,6 +24,7 @@ MongoClient.connect(DB_URL, function(err, db) {
     coll.find({ _id: { $nin: processedIds } }).toArray((err, results) => {
         results.forEach((result) => {
             let host = url.parse(result.url).hostname;
+            winston.log('debug', 'Processing ' + host);
             request('https://safeweb.norton.com/report/show?url=' + host, (err, res, body) => {
                 processedIds.push(result._id);
                 if (body && extractNumber(body) >= THRESHOLD) {
