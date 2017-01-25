@@ -22,7 +22,7 @@ MongoClient.connect(DB_URL, function(err, db) {
     let coll = db.collection(COLLECTION);
 
     coll.find({ _id: { $nin: processedIds } }).toArray((err, results) => {
-        if (!results.length) notifyFinished(1, db);
+        if (!results.length) notifyFinished(-1, db);
         results.forEach((result) => {
             let host = url.parse(result.url).hostname;
             winston.log('debug', 'Processing ' + host);
@@ -52,7 +52,7 @@ let c = 0;
 
 function notifyFinished(total, db) {
     c++;
-    if (c === total) {
+    if (c === total || total === -1) {
         winston.log('info', `Processed ${c} entries.`);
         fs.writeFileSync(path.normalize(__dirname + '/history.json'), JSON.stringify(processedIds));
         db.close();
