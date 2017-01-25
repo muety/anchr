@@ -1,32 +1,30 @@
-#!/home/fm94/.nvm/versions/node/v5.2.0/bin/node
-
 'use strict';
 
-const request = require('request')
-    , url = require('url')
-    , MongoClient = require('mongodb').MongoClient
-    , fs = require('fs')
-    , winston = require('winston')
-    , DB_URL = 'mongodb://anchr:Agiwovibu146@ferdinand-muetsch.de:27017/anchr'
-    , COLLECTION = 'shortlinks'
-    , THRESHOLD = 3;
+const request = require('request'),
+    url = require('url'),
+    MongoClient = require('mongodb').MongoClient,
+    fs = require('fs'),
+    path = require('path'),
+    winston = require('winston'),
+    DB_URL = 'mongodb://anchr:Agiwovibu146@ferdinand-muetsch.de:27017/anchr',
+    COLLECTION = 'shortlinks',
+    THRESHOLD = 1;
 
 winston.add(winston.transports.File, { filename: 'safe_browsing_checker.log' });
 
 let processedIds = [];
 
 try {
-    processedIds = JSON.parse(fs.readFileSync('./history.json'));
-}
-catch (e) { }
+    processedIds = JSON.parse(fs.readFileSync(path.normalize(__dirname + '/history.json')));
+} catch (e) {}
 
-MongoClient.connect(DB_URL, function (err, db) {
+MongoClient.connect(DB_URL, function(err, db) {
     let coll = db.collection(COLLECTION);
 
     coll.find({ _id: { $nin: processedIds } }).toArray((err, results) => {
         results.forEach((result) => {
             let host = url.parse(result.url).hostname;
-            request('http://www.urlvoid.com/scan/' + host, (err, res, body) => {
+            request('https://safeweb.norton.com/report/show?url=' + host, (err, res, body) => {
                 processedIds.push(result._id);
                 if (body && extractNumber(body) >= THRESHOLD) {
                     coll.deleteOne({ _id: result._id }, (err, ok) => {
@@ -34,15 +32,14 @@ MongoClient.connect(DB_URL, function (err, db) {
                         else winston.log('info', '[DELETED] ' + result.url);
                         notifyFinished(results.length, db);
                     });
-                }
-                else notifyFinished(results.length, db);
+                } else notifyFinished(results.length, db);
             });
         });
     });
 });
 
 function extractNumber(textString) {
-    const searchString = 'The website is identified by <b>';
+    const searchString = '<b> Total threats</b> on this site: ';
     let sub = textString.substr(textString.indexOf(searchString));
     sub = sub.substr(searchString.length);
     let num = parseInt(sub.substr(0, sub.indexOf(' ')));
@@ -50,6 +47,7 @@ function extractNumber(textString) {
 }
 
 let c = 0;
+
 function notifyFinished(total, db) {
     c++;
     if (c === total) {
