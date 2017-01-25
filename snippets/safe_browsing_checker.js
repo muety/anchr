@@ -52,7 +52,7 @@ function notifyFinished(total, db) {
     c++;
     if (c === total) {
         winston.log('info', `Processed ${c} entries.`);
-        fs.writeFileSync('./history.json', JSON.stringify(processedIds));
+        fs.writeFileSync(path.normalize(__dirname + '/history.json'), JSON.stringify(processedIds));
         db.close();
     }
 }
