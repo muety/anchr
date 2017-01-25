@@ -22,6 +22,7 @@ MongoClient.connect(DB_URL, function(err, db) {
     let coll = db.collection(COLLECTION);
 
     coll.find({ _id: { $nin: processedIds } }).toArray((err, results) => {
+        if (!results.length) notifyFinished(1, db);
         results.forEach((result) => {
             let host = url.parse(result.url).hostname;
             winston.log('debug', 'Processing ' + host);
