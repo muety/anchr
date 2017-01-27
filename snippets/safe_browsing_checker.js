@@ -29,7 +29,7 @@ Array.prototype.getUnique = function() {
     return a;
 }
 
-winston.add(winston.transports.File, { filename: 'safe_browsing_checker.log' });
+winston.add(winston.transports.File, { filename: path.normalize(__dirname + '/safe_browsing_checker.log') });
 
 let processedIds = [];
 let dbConnection = null;
