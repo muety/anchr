@@ -29,16 +29,18 @@ Array.prototype.getUnique = function() {
     return a;
 }
 
-winston.add(winston.transports.File, { filename: 'safe_browsing_checker.log' });
+winston.add(winston.transports.File, { filename: path.normalize(__dirname + '/safe_browsing_checker.log') });
 
 let processedIds = [];
 let dbConnection = null;
 let total = 0;
 let numProcessed = 0;
 
+/*
 try {
     processedIds = JSON.parse(fs.readFileSync(path.normalize(__dirname + '/history.json')));
 } catch (e) {}
+*/
 
 MongoClient.connect(DB_URL, function(err, db) {
     let coll = db.collection(COLLECTION);
@@ -88,7 +90,7 @@ function notifyFinished() {
 function exit(err) {
     if (!err) winston.log('info', `Processed ${numProcessed} entries.`);
     else winston.log('info', `[ERROR] ${err.message}`);
-    fs.writeFileSync(path.normalize(__dirname + '/history.json'), JSON.stringify(processedIds));
+    //fs.writeFileSync(path.normalize(__dirname + '/history.json'), JSON.stringify(processedIds));
     dbConnection.close();
     process.exit(0);
 }
