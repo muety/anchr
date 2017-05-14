@@ -1,33 +1,35 @@
 <!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Anchr.io - Image Uploads and Shortlink Service - Your little Helper on the Internet</title>
-  <base href="/">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css(.) styles/vendor.css -->
-  <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css" />
-  <!-- endbower -->
-  <!-- endbuild -->
-  <!-- build:css(.tmp) styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <link rel="stylesheet" href="styles/custom.css">
-  <link rel="stylesheet" href="styles/override.css">
-  <!-- endbuild -->
 
-  <link rel="stylesheet" href="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.css" />
+<head>
+    <meta charset="utf-8">
+    <title>Anchr.io - Image Uploads and Shortlink Service - Your little Helper on the Internet</title>
+    <base href="/">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/custom.css">
+    <link rel="stylesheet" href="styles/override.css">
+    <!-- endbuild -->
+
+    <link rel="stylesheet" href="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.css" />
 </head>
+
 <body ng-app="anchrClientApp">
-<!--[if lte IE 8]>
+    <!--[if lte IE 8]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
-<noscript>
+    <noscript>
   <div class="noscript">
     <div class="alert alert-warning">
       <p>You need to enable JavaScript in your browser to use this page.</p>
@@ -35,133 +37,142 @@
   </div>
 </noscript>
 
-<!-- Add your site or application content here -->
-<div class="beta hidden-xs" data-toggle="tooltip" data-placement="left" title="This application is in beta phase. That means that there might still occur bugs or unexpected behaviour. Please bear with us. Also please leave us feedback to dev(at)anchr.io. Thank you!"></div>
-<div class="header">
-  <div class="navbar navbar-default" role="navigation">
-    <div class="container">
-      <div class="navbar-header">
+    <!-- Add your site or application content here -->
+    <div class="beta hidden-xs" data-toggle="tooltip" data-placement="left" title="This application is in beta phase. That means that there might still occur bugs or unexpected behaviour. Please bear with us. Also please leave us feedback to dev(at)anchr.io. Thank you!"></div>
+    <div class="header">
+        <div class="navbar navbar-default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
 
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
 
-        <a class="navbar-brand" href="#/">Anchr.io</a>
-      </div>
-      <div class="collapse navbar-collapse" id="js-navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><a></a></li>
-          <li ng-class="{ active: isActive('/')}"><a href="#/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-          <li ng-class="{ active: isActive('/collection')}"><a href="#/collection" ng-if="loggedIn()"><i class="glyphicon glyphicon-list"></i> My collection</a></li>
-          <li ng-class="{ active: isActive('/collection')}"><a href="#/" onclick="$('#modalLogin').toggle()" ng-if="!loggedIn()"><i class="glyphicon glyphicon-list"></i> My collection</a></li>
-          <li ng-class="{ active: isActive('/api')}"><a href="#/api"><i class="glyphicon glyphicon-menu-left"></i><i class="glyphicon glyphicon-menu-right"></i> API</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="/#/" onclick="$('#modalSignup').toggle()" ng-if="!loggedIn()"><i class="glyphicon glyphicon-new-window"></i> Sign Up</a></li>
-          <li><a href="/#/" onclick="$('#modalLogin').toggle()" ng-if="!loggedIn()"><i class="glyphicon glyphicon-log-in"></i> Log In</a></li>
-          <li><a href="/#/" ng-if="loggedIn()" ng-click="logout()"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="second-header">
+                    <a class="navbar-brand" href="#/">Anchr.io</a>
+                </div>
+                <div class="collapse navbar-collapse" id="js-navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a></a>
+                        </li>
+                        <li ng-class="{ active: isActive('/')}"><a href="#/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+                        <li ng-class="{ active: isActive('/collection')}"><a href="#/collection" ng-if="loggedIn()"><i class="glyphicon glyphicon-list"></i> My collection</a></li>
+                        <li ng-class="{ active: isActive('/collection')}"><a href="#/" onclick="$('#modalLogin').toggle()" ng-if="!loggedIn()"><i class="glyphicon glyphicon-list"></i> My collection</a></li>
+                        <li ng-class="{ active: isActive('/api')}"><a href="#/api"><i class="glyphicon glyphicon-menu-left"></i><i class="glyphicon glyphicon-menu-right"></i> API</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/#/" onclick="$('#modalSignup').toggle()" ng-if="!loggedIn()"><i class="glyphicon glyphicon-new-window"></i> Sign Up</a></li>
+                        <li><a href="/#/" onclick="$('#modalLogin').toggle()" ng-if="!loggedIn()"><i class="glyphicon glyphicon-log-in"></i> Log In</a></li>
+                        <li><a href="/#/" ng-if="loggedIn()" ng-click="logout()"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="second-header">
 
-      <div class="container">
-        <div ng-view=""></div>
-      </div>
+                <div class="container">
+                    <div ng-view=""></div>
+                </div>
 
-      <div class="footer">
-        <div class="container">
-          <!--<p>Made with <span class="glyphicon glyphicon-heart"></span>-->
-          <p><img src="images/germany.png" width="30px"> <span data-toggle="tooltip" data-placement="right" title="This web application's backend servers are all located in Germany.">Made and hosted in Germany</span>
-            <a href="#/terms" style="float: right">Legal notice, terms and privacy conditions.</a></p>
+                <div class="footer">
+                    <div class="container">
+                        <!--<p>Made with <span class="glyphicon glyphicon-heart"></span>-->
+                        <p><img src="images/germany.png" width="30px"> <span data-toggle="tooltip" data-placement="right" title="This web application's backend servers are all located in Germany.">Made and hosted in Germany</span>
+                            <a href="#/terms" style="float: right">Legal notice, terms and privacy conditions.</a></p>
+                    </div>
+                </div>
+
+                <ng-include src="'views/signup.inc.html'" ng-controller="SignupCtrl" onload="init()"></ng-include>
+                <ng-include src="'views/login.inc.html'" ng-controller="LoginCtrl" onload="init()"></ng-include>
+
+            </div>
         </div>
-      </div>
-
-      <ng-include src="'views/signup.inc.html'" ng-controller="SignupCtrl" onload="init()"></ng-include>
-      <ng-include src="'views/login.inc.html'" ng-controller="LoginCtrl" onload="init()"></ng-include>
-
     </div>
-  </div>
-</div>
 
-<script>
-  function onControllerEvent(e) {
-    switch (e) {
-      case 'signup':
-        $('#modalSignup').toggle();
-        $('#modalLogin').toggle();
-        break;
-      case 'login':
-        $('#modalLogin').toggle();
-        break;
-      case 'newCollection':
-        $('#inputNewName').focus();
-        break;
-    }
-  };
-</script>
+    <script>
+        function onControllerEvent(e) {
+            switch (e) {
+                case 'signup':
+                    $('#modalSignup').toggle();
+                    $('#modalLogin').toggle();
+                    break;
+                case 'login':
+                    $('#modalLogin').toggle();
+                    break;
+                case 'newCollection':
+                    $('#inputNewName').focus();
+                    break;
+            }
+        };
+    </script>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-70854237-1', 'auto');
-  ga('send', 'pageview');
+        ga('create', 'UA-70854237-1', 'auto');
+        ga('send', 'pageview');
+    </script>
 
-</script>
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
+    <script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
+    <script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
+    <script src="bower_components/clipboard/dist/clipboard.js"></script>
+    <script src="bower_components/ngclipboard/dist/ngclipboard.js"></script>
+    <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+    <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+    <script src="bower_components/cryptojslib/rollups/aes.js"></script>
 
-<!-- build:js(.) scripts/vendor.js -->
-<!-- bower:js -->
-<script src="bower_components/jquery/dist/jquery.js"></script>
-<script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-<script src="bower_components/angular-cookies/angular-cookies.js"></script>
-<script src="bower_components/angular-resource/angular-resource.js"></script>
-<script src="bower_components/angular-route/angular-route.js"></script>
-<script src="bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"></script>
-<script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
-<script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
-<script src="bower_components/clipboard/dist/clipboard.js"></script>
-<script src="bower_components/ngclipboard/dist/ngclipboard.js"></script>
-<script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
-<script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
-<!-- endbower -->
-<!-- endbuild -->
+    <!-- endbower -->
+    <!-- endbuild -->
 
-<!-- build:js({.tmp,app}) scripts/scripts.js -->
-<script src="scripts/app.js"></script>
-<script src="scripts/controllers/main.js"></script>
-<script src="scripts/services/shortlink.js"></script>
-<script src="scripts/services/snackbar.js"></script>
-<script src="scripts/controllers/image.js"></script>
-<script src="scripts/controllers/shortlink.js"></script>
-<script src="scripts/controllers/view-image.js"></script>
-<script src="scripts/controllers/view-collection.js"></script>
-<script src="scripts/services/image.js"></script>
-<script src="scripts/filters/imageLinkFilters.js"></script>
-<script src="scripts/controllers/signup.js"></script>
-<script src="scripts/services/auth.js"></script>
-<script src="scripts/controllers/login.js"></script>
-<script src="scripts/controllers/collection.js"></script>
-<script src="scripts/services/collection.js"></script>
-<script src="scripts/directives/myenter.js"></script>
-<script src="scripts/services/config.js"></script>
-<script src="scripts/controllers/api.js"></script>
-<script src="scripts/directives/apicall.js"></script>
-<script src="scripts/controllers/auth.js"></script>
-<script src="scripts/controllers/termsn.js"></script>
-<script src="scripts/controllers/terms.js"></script>
-<!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/services/shortlink.js"></script>
+    <script src="scripts/services/snackbar.js"></script>
+    <script src="scripts/controllers/image.js"></script>
+    <script src="scripts/controllers/shortlink.js"></script>
+    <script src="scripts/controllers/view-image.js"></script>
+    <script src="scripts/controllers/view-collection.js"></script>
+    <script src="scripts/services/image.js"></script>
+    <script src="scripts/filters/imageLinkFilters.js"></script>
+    <script src="scripts/controllers/signup.js"></script>
+    <script src="scripts/services/auth.js"></script>
+    <script src="scripts/controllers/login.js"></script>
+    <script src="scripts/controllers/collection.js"></script>
+    <script src="scripts/services/collection.js"></script>
+    <script src="scripts/directives/myenter.js"></script>
+    <script src="scripts/services/config.js"></script>
+    <script src="scripts/controllers/api.js"></script>
+    <script src="scripts/directives/apicall.js"></script>
+    <script src="scripts/controllers/auth.js"></script>
+    <script src="scripts/controllers/termsn.js"></script>
+    <script src="scripts/controllers/terms.js"></script>
+    <!-- endbuild -->
 
-<!-- Include manually -->
-<script src="//fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core-min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/cipher-core-min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/aes-min.js"></script>
+    <!-- Include manually -->
 </body>
+
+</html>
+
 </html>
