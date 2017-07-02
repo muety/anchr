@@ -11,7 +11,7 @@ The idea arised when someday I considered it useful to have a collection of web 
 
 The second feature is to __upload images__. You can easily upload one or more photos from your computer oder mobile device and send them to friends or include them into forum posts or the like. Special with Anchr’s image hosting is that users are given the opportunity to client-sided encrypt images with a password. As a result no one without the password will ever see their photos’ content.
 
-The last feature are __shortlinks__ – actually not any different from those you know from goo.gl or bit.ly. They’re useful if you have a very long web link including many query parameters, access tokens, session ids, special characters and the like and want to share them. Often special characters break the linking or your chat application has a maximum length for hyperlinks. Or you just want to keep clarity in your document or emails. In this case it can be very helpful to make the links as short as any possible.
+The last feature are __shortlinks__ – actually not any different from those you know from goo.gl or bit.ly. They’re useful if you have a very long web link including many query parameters, access tokens, session ids, special characters and the like and want to share them. Often special characters break the linking or your chat application has a maximum length for hyperlinks. Or you just want to keep clarity in your document or emails. In this case it can be very helpful to make the links as short as any possible. Additionally, shortlinks are checked against [Google's Safe Browsing API](https://developers.google.com/safe-browsing/) to prevent your site to reference phishing sites or the like.
 
 Anchr’s focus is on ease and quickness of use – short loading times, flat menu hierarchies, etc. There's also a Chrome extension out there, which you can use to save or shorten links directly from the website.
 
@@ -30,7 +30,8 @@ In order to host Anchr on your own, you need a few things.
     3. `accessLogPath` and `errorLogPath`: Same as with `uploadDir`, but for server logs.
     4. `secret`: A (preferably long), random character sequence to be used for the JSON Web Token
     5. `*Url`-fields: Change them to your domain
-    6. All other config fields are not that important and should be self-explaining anyway.
+    6. `googleApiKey`: Your API key for Google APIs (required for safe browse checking incoming shortlinks), which you get at the [Developers Console](https://console.developers.google.com/apis/)
+    7. All other config fields are not that important and should be self-explaining anyway.
 3. Edit `config/auth.js`. Set `facebookAuth.clientID` and `facebookAuth.clientSecret` to the OAuth credentials you got from creating a Facebook app to be used for "Login with Facebook". Same for Google.
 4. `$ npm install`
 5. `$ cd public && bower install`
