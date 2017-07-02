@@ -1,7 +1,7 @@
-var path = require('path')
-    , rootPath = path.normalize(__dirname + '/..')
-    , env = process.env.NODE_ENV || 'development'
-    , _ = require('underscore');
+var path = require('path'),
+    rootPath = path.normalize(__dirname + '/..'),
+    env = process.env.NODE_ENV || 'development',
+    _ = require('underscore');
 
 /* Specialized configs (development, test, production) will inherit and possibly override all properties from root */
 var config = {
@@ -16,14 +16,15 @@ var config = {
         },
         port: 3000,
         db: 'mongodb://anchr:Agiwovibu146@ferdinand-muetsch.de:27017/anchr',
-        uploadDir : path.normalize('C:\\Users\\Ferdinand\\WebstormProjects\\anchr\\data\\'),
-        maxFileSize : 1000000 * 10,
-        allowedFileTypes : ['image/'],
-        secret : 'shhh',
-        tokenExpire : '30d',
+        uploadDir: path.normalize('C:\\Users\\Ferdinand\\WebstormProjects\\anchr\\data\\'),
+        maxFileSize: 1000000 * 10,
+        allowedFileTypes: ['image/'],
+        secret: 'shhh',
+        tokenExpire: '30d',
         workers: 2,
         accessLogPath: path.normalize('C:\\Users\\Ferdinand\\WebstormProjects\\anchr\\log\\access.log\\'),
-        errorLogPath: path.normalize('C:\\Users\\Ferdinand\\WebstormProjects\\anchr\\log\\error.log\\')
+        errorLogPath: path.normalize('C:\\Users\\Ferdinand\\WebstormProjects\\anchr\\log\\error.log\\'),
+        googleApiKey: 'AIzaSyCjjrpLaBBvF202Gr2xzqgmX4nJAHtFML8'
     },
 
     development: {
@@ -31,16 +32,15 @@ var config = {
         errorLogPath: path.normalize('./error.log')
     },
 
-    test: {
-    },
+    test: {},
 
     production: {
         publicUrl: 'https://anchr.io/api',
         publicShortlinkUrl: 'https://anchr.io/s',
         publicImageUrl: 'https://anchr.io/i',
         clientUrl: 'https://anchr.io/#/',
-        uploadDir : path.normalize('/var/data/anchr.io/'),
-        secret : 'DRwZ34eG9CbDkAXauqGO7SOUYUWYt2kc',
+        uploadDir: path.normalize('/var/data/anchr.io/'),
+        secret: 'DRwZ34eG9CbDkAXauqGO7SOUYUWYt2kc',
         accessLogPath: path.normalize('/var/log/anchr/access.log'),
         errorLogPath: path.normalize('/var/log/anchr/error.log'),
         port: 3005
