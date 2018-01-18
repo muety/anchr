@@ -33,7 +33,12 @@ angular.module('anchrClientApp')
             l.$save(function(result) {
                 $scope.data.linkInput = '';
                 $scope.data.descriptionInput = '';
-                $scope.getCollection(collId).links.push(result);
+                $scope.getCollection(collId).links.push({
+                    _id: result._id,
+                    url: result.url,
+                    description: result.description,
+                    date: result.date
+                });
             }, function(err) {
                 Snackbar.show('Failed to save link: ' + err.data.error);
             });
