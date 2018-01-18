@@ -13,7 +13,6 @@ var express = require('express'),
 module.exports = function(app, passport) {
     app.use('/api/image', router);
     app.use('/i', router);
-    router.use(jwtAuth(passport));
     router.use(log);
 
     router.get('/:id', function(req, res) {
@@ -32,7 +31,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    router.post('/', function(req, res) {
+    router.post('/', jwtAuth(passport), function(req, res) {
         var FILE_UPLOAD_FIELD = "uploadFile";
 
         var tmpPath = req.files[FILE_UPLOAD_FIELD].path;

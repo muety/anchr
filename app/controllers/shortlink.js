@@ -14,7 +14,6 @@ var blacklist = [/.*bit\.ly.*/gi, /.*goo\.gl.*/gi, /.*confirm.*/gi, /.*verif.*/g
 module.exports = function(app, passport) {
     app.use('/api/shortlink', router);
     app.use('/s', router);
-    router.use(jwtAuth(passport));
     router.use(log);
 
     router.get('/:id', function(req, res, next) {
@@ -27,7 +26,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    router.post('/', function(req, res, next) {
+    router.post('/', jwtAuth(passport), function(req, res, next) {
         if (!req.body.url) return res.makeError(400, 'Malformed request: You need to pass a url attribute.');
 
         for (var i = 0; i < blacklist.length; i++) {
