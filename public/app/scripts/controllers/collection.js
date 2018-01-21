@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('anchrClientApp')
-    .controller('CollectionCtrl', ['$scope', '$rootScope', 'Collection', 'Snackbar', '$window', '$timeout', function($scope, $rootScope, Collection, Snackbar, $window, $timeout) {
+    .controller('CollectionCtrl', ['$scope', '$rootScope', 'Collection', 'Upload', 'Snackbar', '$window', '$timeout', function ($scope, $rootScope, Collection, Upload, Snackbar, $window, $timeout) {
 
         var collections = [];
         var nameAddedLatest = null;
+        var allowedTypes = ['text/html'];
 
         /* Either id or index! */
         $scope.setActiveCollection = function(id, index) {
@@ -80,6 +81,39 @@ angular.module('anchrClientApp')
             });
         };
 
+        $scope.importBookmarks = function (file, errFile) {
+            if (file || errFile) {
+                $scope.data.file = file;
+                $scope.data.errFile = errFile;
+
+                if (!arrayMatch(allowedTypes, file.type)) {
+                    file.err = "Type not allowed.";
+                    file.finished = true;
+                }
+                else {
+                    file.upload = Upload.upload({
+                        url: $rootScope.config[$rootScope.env].apiBaseUrl + 'collection/import',
+                        data: { uploadFile: file }
+                    });
+
+                    file.upload.then(function (response) {
+                        $timeout(function () {
+                            file.result = response.data;
+                            file.finished = true;
+                            $rootScope.init();
+                        });
+                    }, function (response) {
+                        if (response.status > 0) {
+                            file.err = response.data.error;
+                            file.finished = true;
+                        }
+                    }, function (evt) {
+                        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    });
+                }
+            }
+        };
+
         $scope.shareCollection = function(collId) {
             new Collection.shared({
                 _id: collId
@@ -94,7 +128,10 @@ angular.module('anchrClientApp')
         $scope.clear = function() {
             $scope.data = {
                 collections: collections,
-                active: 0
+                active: 0,
+                file: null,
+                errFile: null,
+                loading: false
             };
 
             Collection.collection.query(function(result) {
@@ -147,5 +184,12 @@ angular.module('anchrClientApp')
 
         function getCollection(colls, collId) {
             return colls[findCollection(colls, collId)];
+        }
+
+        function arrayMatch(regexArray, val) {
+            for (var i = 0; i < regexArray.length; i++) {
+                if (val.match(regexArray[i])) return true;
+            }
+            return false;
         }
     }]);

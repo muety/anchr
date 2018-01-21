@@ -120,3 +120,62 @@
     </div>
 
 </div>
+
+<div class="content-box shadow-z-1">
+    <h3 class="text-primary">Import from Chrome/firefox bookmarks file.</h3>
+    <span class="text-secondary">Export bookmarks from Chrome/firefox into the .html file, and upload it here.</span>
+    <div class="row" ng-if="loggedIn()">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="file-drag" ngf-select="importBookmarks($file, $invalidFile)" ngf-drop="importBookmarks($file, $invalidFile)"
+                class="drop-box" ngf-drag-over-class="'dragover'" ngf-allow-dir="false" accept="text/html" ngf-pattern="'text/html'"
+                ngf-max-size="5MB">
+                Drop the bookmarks export file here, or click to upload.
+            </div>
+            <button class="btn btn-block btn-primary" ngf-select="importBookmarks($file, $invalidFile)" accept="text/html" ngf-max-size="5MB">
+                Select File
+            </button>
+            <div ng-show="data.file || data.errFile">
+                <div>
+                    <span ng-if="!data.file.finished && data.file.name">{{f.name}}</span>
+                    <div class="progress" ng-hide="data.file.finished || !data.file.name">
+                        <div class="progress-bar progress-bar-primary" style="width: {{data.file.progress}}%"></div>
+                    </div>
+                </div>
+
+                <!-- Successful upload -->
+                <div class="form-group no-space" ng-if="data.file.result">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="mdi-action-done text-success"></i>
+                        </span>
+                        <span class="text-primary">
+                            File uploaded succesfully.
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Unsucessful upload -->
+                <div class="form-group no-space" ng-if="data.file.err">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="mdi-content-clear text-danger"></i>
+                        </span>
+                        <input type="text" class="form-control" value="{{data.file.name}} - {{data.file.err}}" disabled>
+                    </div>
+                </div>
+
+                <div class="form-group no-space" ng-if="data.errFile">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="mdi-content-clear text-danger"></i>
+                        </span>
+                        <input type="text" class="form-control" value="{{data.errFile.name}} - {{data.errFile.$error}} {{data.errFile.$errorParam}}"
+                            disabled>
+                    </div>
+                </div>
+
+                <button class="btn btn-block" ng-click="clear()">Reset</button>
+            </div>
+        </div>
+    </div>
+</div>

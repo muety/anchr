@@ -18,7 +18,7 @@ var config = {
         db: '',
         uploadDir: path.normalize('/var/data/anchr'),
         maxFileSize: 1000000 * 10,
-        allowedFileTypes: ['image/'],
+        allowedFileTypes: ['image/', 'text/html'],
         secret: 'shhh',
         tokenExpire: '30d',
         workers: 2,

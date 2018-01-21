@@ -6,6 +6,7 @@ var express = require('express'),
     _ = require('underscore'),
     jwtAuth = require('./../../config/middlewares/jwtauth'),
     mongoose = require('mongoose'),
+    BMParser = require('bookmark-parser'),
     Collection = mongoose.model('Collection');
 
 module.exports = function(app, passport) {
@@ -186,4 +187,57 @@ module.exports = function(app, passport) {
         res.makeError(404, 'Not found. Please give an id.');
     });
 
+    router.post('/import', jwtAuth(passport), function (req, res) {
+        var FILE_UPLOAD_FIELD = "uploadFile";
+
+        var tmpPath = req.files[FILE_UPLOAD_FIELD].path;
+        BMParser.readFromHTMLFile(tmpPath).then(res => {
+            parseBookmarks(req.user._id, res, '', res.Bookmarks);
+        });
+
+        res.status(201).send();
+    });
+
 };
+
+
+function parseBookmarks(uname, res, root, bookmarks) {
+    var name = root == '' || root == undefined ? bookmarks.name : root + ' › ' + bookmarks.name;
+    var linkSet = [];
+    bookmarks.children.forEach(function (bookmark) {
+        if (bookmark.type == 'folder') {
+            parseBookmarks(uname, res, name, bookmark);
+        } else {
+            // Add to obj
+            linkSet.push({
+                url: bookmark.url,
+                description: bookmark.name,
+                date: bookmark.lastModified
+            });
+        }
+    });
+
+    if (linkSet.length > 0) {
+        Collection.findOne({ name: name, owner: uname }, function (err, obj) {
+            if (err) console.log('ERR:', err); //return res.makeError(500, err.message, err);
+            if (!obj) {
+                new Collection({
+                    _id: utils.generateUUID(),
+                    name: name,
+                    links: linkSet,
+                    owner: uname,
+                    shared: false
+                }).save(function (err, obj) {
+                    if (err || !obj) console.log('ERR:', err);// return res.makeError(500, err.message || 'Unable to save new collection.', err);
+                    // res.status(201).send(_.omit(obj.toObject(), '__v'));
+                });
+            } else {
+                obj.links = obj.links.concat(linkSet);
+                obj.save(function (err) {
+                    if (err) console.log('ERR:', err);//return res.makeError(500, err.message, err);
+                    // res.status(201).end();
+                });
+            }
+        });
+    }
+}
