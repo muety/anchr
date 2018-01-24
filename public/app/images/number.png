@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head data-suburl="">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	
+		<meta name="author" content="n1try" />
+		<meta name="description" content="anchr.io" />
+		<meta name="keywords" content="go, git, self-hosted, gogs">
+	
+	<meta name="referrer" content="no-referrer" />
+	<meta name="_csrf" content="hjqJDEAEkYsbdawLKVS-q3p6Mio6MTUxNjc3NDg4NzU1MTU2NjMyMw==" />
+	<meta name="_suburl" content="" />
+	
+	
+	
+		<meta property="og:url" content="https://git.ferdinand-muetsch.de/n1try/anchr.io" />
+		<meta property="og:type" content="object" />
+		<meta property="og:title" content="n1try/anchr.io">
+		<meta property="og:description" content="">
+		<meta property="og:image" content="https://secure.gravatar.com/avatar/5970a177b907b321a7d3c23f9e2c0580" />
+	
+
+	<link rel="shortcut icon" href="/img/favicon.png" />
+
+	<script src="/js/jquery-1.11.3.min.js"></script>
+	<script src="/js/libs/jquery.are-you-sure.js"></script>
+	<link rel="stylesheet" href="/assets/font-awesome-4.6.3/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/assets/octicons-4.3.0/octicons.min.css">
+
+	
+	
+
+	
+
+	
+	<link rel="stylesheet" href="/css/semantic-2.2.10.min.css">
+	<link rel="stylesheet" href="/css/gogs.css?v=d9c2d9bb647a949f6d06f4946ab31d91">
+
+	
+	<script src="/js/semantic-2.2.10.min.js"></script>
+	<script src="/js/gogs.js?v=d9c2d9bb647a949f6d06f4946ab31d91"></script>
+
+	<title>n1try/anchr.io @ private - Gogs</title>
+
+	<meta name="theme-color" content="#ff5343">
+
+	
+</head>
+<body>
+	<div class="full height">
+		<noscript>Please enable JavaScript in your browser!</noscript>
+
+		
+			<div class="following bar light">
+				<div class="ui container">
+					<div class="ui grid">
+						<div class="column">
+							<div class="ui top secondary menu">
+								<a class="item brand" href="/">
+									<img class="ui mini image" src="/img/favicon.png">
+								</a>
+
+								
+									<a class="item" href="/">Dashboard</a>
+									<a class="item" href="/issues">Issues</a>
+									<a class="item" href="/pulls">Pull Requests</a>
+								
+
+								<a class="item" href="/explore/repos">Explore</a>
+								
+
+								
+									<div class="right menu">
+										<div class="ui dropdown head link jump item poping up" data-content="Create..." data-variation="tiny inverted">
+											<span class="text">
+												<i class="octicon octicon-plus"><span class="sr-only">Create...</span></i>
+												<i class="octicon octicon-triangle-down"></i>
+											</span>
+											<div class="menu">
+												<a class="item" href="/repo/create">
+													<i class="octicon octicon-plus"></i> New Repository
+												</a>
+												<a class="item" href="/repo/migrate">
+													<i class="octicon octicon-repo-clone"></i> New Migration
+												</a>
+												
+												<a class="item" href="/org/create">
+													<i class="octicon octicon-organization"></i> New Organization
+												</a>
+												
+											</div>
+										</div>
+
+										<div class="ui dropdown head link jump item poping up" tabindex="-1" data-content="User profile and more" data-variation="tiny inverted">
+											<span class="text avatar">
+												<img class="ui small rounded image" src="https://secure.gravatar.com/avatar/5970a177b907b321a7d3c23f9e2c0580">
+												<span class="sr-only">User profile and more</span>
+												<i class="octicon octicon-triangle-down" tabindex="-1"></i>
+											</span>
+											<div class="menu" tabindex="-1">
+												<div class="ui header">
+													Signed in as <strong>n1try</strong>
+												</div>
+
+												<div class="divider"></div>
+												<a class="item" href="/n1try">
+													<i class="octicon octicon-person"></i>
+													Your Profile
+												</a>
+												<a class=" item" href="/user/settings">
+													<i class="octicon octicon-settings"></i>
+													Your Settings
+												</a>
+												<a class="item" target="_blank" href="https://gogs.io/docs" rel="noreferrer">
+													<i class="octicon octicon-question"></i>
+													Help
+												</a>
+												
+													<div class="divider"></div>
+
+													<a class=" item" href="/admin">
+														<i class="icon settings"></i>
+														Admin Panel
+													</a>
+												
+
+												<div class="divider"></div>
+												<a class="item" href="/user/logout">
+													<i class="octicon octicon-sign-out"></i>
+													Sign Out
+												</a>
+											</div>
+										</div>
+									</div>
+
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+
+
+<div class="repository file list">
+	<div class="header-wrapper">
+
+	<div class="ui container">
+		<div class="ui vertically padded grid head">
+			<div class="column">
+				<div class="ui header">
+					<div class="ui huge breadcrumb">
+						<i class="mega-octicon octicon-lock"></i>
+						<a href="/n1try">n1try</a>
+						<div class="divider"> / </div>
+						<a href="/n1try/anchr.io">anchr.io</a>
+						
+						
+					</div>
+
+					
+						<div class="ui right">
+							<div class="ui labeled button" tabindex="0">
+								<a class="ui basic button" href="/n1try/anchr.io/action/unwatch?redirect_to=%2fn1try%2fanchr.io%2fsrc%2fprivate%2fpublic%2fapp%2fimages%2fnumber.png">
+									<i class="icon fa-eye"></i>Unwatch
+								</a>
+								<a class="ui basic label" href="/n1try/anchr.io/watchers">
+									1
+								</a>
+							</div>
+							<div class="ui labeled button" tabindex="0">
+								<a class="ui basic button" href="/n1try/anchr.io/action/star?redirect_to=%2fn1try%2fanchr.io%2fsrc%2fprivate%2fpublic%2fapp%2fimages%2fnumber.png">
+									<i class="icon fa-star-o"></i>Star
+								</a>
+								<a class="ui basic label" href="/n1try/anchr.io/stars">
+									0
+								</a>
+							</div>
+							
+								<div class="ui labeled button" tabindex="0">
+									<a class="ui basic button poping up" href="/repo/fork/15">
+										<i class="octicon octicon-repo-forked"></i>Fork
+									</a>
+									<a class="ui basic label" href="/n1try/anchr.io/forks">
+										0
+									</a>
+								</div>
+							
+						</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="ui tabs container">
+		<div class="ui tabular menu navbar">
+			
+				<a class="active item" href="/n1try/anchr.io">
+					<i class="octicon octicon-file-text"></i> Files
+				</a>
+			
+			
+				<a class=" item" href="/n1try/anchr.io/issues">
+					<i class="octicon octicon-issue-opened"></i> Issues <span class="ui gray small label">0</span>
+				</a>
+			
+			
+				<a class=" item" href="/n1try/anchr.io/pulls">
+					<i class="octicon octicon-git-pull-request"></i> Pull Requests <span class="ui gray small label">0</span>
+				</a>
+			
+			
+				<a class=" item" href="/n1try/anchr.io/wiki">
+					<i class="octicon octicon-book"></i> Wiki
+				</a>
+			
+			
+				<div class="right menu">
+					<a class=" item" href="/n1try/anchr.io/settings">
+						<i class="octicon octicon-tools"></i> Settings
+					</a>
+				</div>
+			
+		</div>
+	</div>
+	<div class="ui tabs divider"></div>
+
+</div>
+
+	<div class="ui container">
+		
+
+
+
+
+		
+		<div class="ui secondary menu">
+			
+				<div class="fitted item">
+					<a href="/n1try/anchr.io/compare/master...private">
+						<button class="ui green small button"><i class="octicon octicon-git-compare"></i></button>
+					</a>
+				</div>
+			
+			<div class="fitted item choose reference">
+	<div class="ui floating filter dropdown" data-no-results="No results found.">
+			<div class="ui basic small button">
+			<span class="text">
+				<i class="octicon octicon-git-branch"></i>
+				Branch:
+				<strong>private</strong>
+			</span>
+			<i class="dropdown icon"></i>
+		</div>
+		<div class="menu">
+			<div class="ui icon search input">
+				<i class="filter icon"></i>
+				<input name="search" placeholder="Filter branch or tag...">
+			</div>
+			<div class="header">
+				<div class="ui grid">
+					<div class="two column row">
+						<a class="reference column" href="#" data-target="#branch-list">
+							<span class="text black">
+								Branches
+							</span>
+						</a>
+						<a class="reference column" href="#" data-target="#tag-list">
+							<span class="text ">
+								Tags
+							</span>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div id="branch-list" class="scrolling menu" >
+				
+					<div class="item " data-url="/n1try/anchr.io/src/dockerization/public/app/images/number.png">dockerization</div>
+				
+					<div class="item " data-url="/n1try/anchr.io/src/master/public/app/images/number.png">master</div>
+				
+					<div class="item selected" data-url="/n1try/anchr.io/src/private/public/app/images/number.png">private</div>
+				
+			</div>
+			<div id="tag-list" class="scrolling menu" style="display: none">
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+			<div class="fitted item">
+				<div class="ui breadcrumb">
+					<a class="section" href="/n1try/anchr.io/src/private">anchr.io</a>
+					
+					
+					
+						<div class="divider"> / </div>
+						
+							
+							<span class="section"><a href="/n1try/anchr.io/src/private/public">public</a></span>
+						
+					
+						<div class="divider"> / </div>
+						
+							
+							<span class="section"><a href="/n1try/anchr.io/src/private/public/app">app</a></span>
+						
+					
+						<div class="divider"> / </div>
+						
+							
+							<span class="section"><a href="/n1try/anchr.io/src/private/public/app/images">images</a></span>
+						
+					
+						<div class="divider"> / </div>
+						
+							<span class="active section">number.png</span>
+						
+					
+				</div>
+			</div>
+			<div class="right fitted item">
+				
+					<div id="file-buttons" class="ui tiny blue buttons">
+						
+						
+					</div>
+				
+
+				
+				
+			</div>
+		</div>
+		
+			<div id="file-content" class="tab-size-2">
+	<h4 class="ui top attached header" id="repo-read-file">
+		
+			<i class="file text outline icon ui left"></i>
+			<strong>number.png</strong> <span class="text grey normal">1.1 KB</span>
+		
+		
+			<div class="ui right file-actions">
+				<div class="ui buttons">
+					
+						<a class="ui button" href="/n1try/anchr.io/src/d448d8b9c0146ee7cf550c0e2210e7888ba9598b/public/app/images/number.png">Permalink</a>
+					
+					<a class="ui button" href="/n1try/anchr.io/commits/private/public/app/images/number.png">History</a>
+					<a class="ui button" href="/n1try/anchr.io/raw/private/public/app/images/number.png">Raw</a>
+				</div>
+				
+					
+						<i class="octicon octicon-pencil btn-octicon poping up disabled" data-content="Cannot edit non-text files" data-position="bottom center" data-variation="tiny inverted"></i>
+					
+					
+						<a href="/n1try/anchr.io/_delete/private/public/app/images/number.png"><i class="octicon octicon-trashcan btn-octicon btn-octicon-danger poping up"  data-content="Delete this file" data-position="bottom center" data-variation="tiny inverted"></i></a>
+					
+				
+			</div>
+		
+	</h4>
+	<div class="ui attached table segment">
+		<div id="" class="file-view  has-emoji">
+			
+				<div class="view-raw ui center">
+					
+						<img src="/n1try/anchr.io/raw/private/public/app/images/number.png">
+					
+				</div>
+			
+		</div>
+	</div>
+</div>
+
+<script>
+function submitDeleteForm() {
+    var message = prompt("delete_confirm_message\n\ndelete_commit_summary", "Delete ''");
+    if (message != null) {
+        $("#delete-message").val(message);
+        $("#delete-file-form").submit()
+    }
+}
+</script>
+
+		
+	</div>
+</div>
+
+	</div>
+	<footer>
+		<div class="ui container">
+			<div class="ui left">
+				© 2017 Gogs Version: 0.11.19.0609 Page: <strong>164ms</strong> Template: <strong>4ms</strong>
+			</div>
+			<div class="ui right links">
+				
+				<div class="ui language bottom floating slide up dropdown link item">
+					<i class="world icon"></i>
+					<div class="text">English</div>
+					<div class="menu">
+						
+							<a class="item active selected" href="#">English</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=zh-CN">简体中文</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=zh-HK">繁體中文（香港）</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=zh-TW">繁體中文（台湾）</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=de-DE">Deutsch</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=fr-FR">français</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=nl-NL">Nederlands</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=lv-LV">latviešu</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=ru-RU">русский</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=ja-JP">日本語</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=es-ES">español</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=pt-BR">português do Brasil</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=pl-PL">polski</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=bg-BG">български</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=it-IT">italiano</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=fi-FI">suomi</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=tr-TR">Türkçe</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=cs-CZ">čeština</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=sr-SP">српски</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=sv-SE">svenska</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=ko-KR">한국어</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=gl-ES">galego</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=uk-UA">українська</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=en-GB">English (United Kingdom)</a>
+						
+							<a class="item " href="/n1try/anchr.io/src/private/public/app/images/number.png?lang=hu-HU">Magyar</a>
+						
+					</div>
+				</div>
+				<a href="/assets/librejs/librejs.html" style="display:none" data-jslicense="1">Javascript Licenses</a>
+				<a target="_blank" href="https://gogs.io">Website</a>
+				<span class="version">Go1.8</span>
+			</div>
+		</div>
+	</footer>
+</body>
+
+
+
+	<link rel="stylesheet" href="/plugins/highlight-9.6.0/github.css">
+	<script src="/plugins/highlight-9.6.0/highlight.pack.js"></script>
+
+
+
+
+<script src="/js/libs/emojify-1.1.0.min.js"></script>
+<script src="/js/libs/clipboard-1.5.9.min.js"></script>
+
+
+</html>
+
