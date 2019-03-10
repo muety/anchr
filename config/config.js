@@ -20,7 +20,7 @@ var config = {
         maxFileSize: 1000000 * 10,
         allowedFileTypes: ['image/'],
         secret: 'shhh',
-        tokenExpire: '30d',
+        tokenExpire: '1d',
         workers: 2,
         accessLogPath: path.normalize('/var/log/anchr/access.log'),
         errorLogPath: path.normalize('/var/log/anchr/error.log'),
