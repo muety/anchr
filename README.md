@@ -2,7 +2,7 @@
 
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoff.ee/n1try)
 
-Anchr is a useful little helper or toolbox or the like for common tasks on the internet. The official hosted version is available at [anchr.io](https://anchr.io). There's also a [Chrome extension](https://anchr.io/s/tzYcr) for the official Anchr.io as well as a [ScreenCloud upload script](https://ferdinand-muetsch.de/anchrio-screencloud-script-for-windows.html) for Windows.
+Anchr is a useful little helper or toolbox or the like for common tasks on the internet. The official hosted version is available at [anchr.io](https://anchr.io). There's also an [Android App](https://github.com/n1try/anchr-android) for Anchr link collections.
 
 ![](https://anchr.io/i/9w5si.png)
 
@@ -24,28 +24,26 @@ In order to host Anchr on your own, you need a few things.
 
 ### Setup and configuration
 1. `$ git clone https://github.com/n1try/anchr`
-2. Edit `config/config.js`. You are given three different config objects to configure different envionments (set through `NODE_ENV` environment variable). The root confog applies by default and specific fields can get overwritten, if environment specific fields are set.
-    1. `db`: Set this to your MongoDB connection URL inclusing host, port, user, password and database path. If using mlab, you can just copy it from their dashboard.
-    2. `uploadDir`: Set this to a directory on your filesystem, where image uploads are saved to. Don't forget to actually create the directory and give the user, who runs Anchr, according RW permissions.
-    3. `accessLogPath` and `errorLogPath`: Same as with `uploadDir`, but for server logs.
-    4. `secret`: A (preferably long), random character sequence to be used for the JSON Web Token
-    5. `*Url`-fields: Change them to your domain
-    6. `googleApiKey`: Your API key for Google APIs (required for safe browse checking incoming shortlinks), which you get at the [Developers Console](https://console.developers.google.com/apis/)
-    7. All other config fields are not that important and should be self-explaining anyway.
-3. Edit `config/auth.js`. Set `facebookAuth.clientID` and `facebookAuth.clientSecret` to the OAuth credentials you got from creating a Facebook app to be used for "Login with Facebook". Same for Google.
+2. Copy `env.sh.example` to `env.sh` and edit the contents to set environment variables:
+    * `PORT`: TCP port to start the server on (default: `3000`)
+    * `ANCHR_DB_URL`: Connection URL to MongoDB (default: `mongodb://localhost:27017/anchr`)
+    * `ANCHR_UPLOAD_DIR`: Absolute path to a file system directory (must exist!) to persist uploaded images to (default: `/var/data/anchr`)
+    * `ANCHR_SECRET`: A (preferably long), random character sequence to be used for the JSON Web Token (default: `shhh`)
+    * `ANCHR_LOG_PATH`: Absolute file path for access logs (directory must exist!) (default:  `/var/log/anchr/access.log`)
+    * `ANCHR_ERROR_LOG_PATH`: Absolute file path for error logs (directory must exist!) (default: `/var/log/anchr/error.log`)
+    * `ANCHR_GOOGLE_API_KEY`: Your API key for Google APIs (required for safe browse checking incoming shortlinks), which you get at the [Developers Console](https://console.developers.google.com/apis/)
+    * `ANCHR_FB_CLIENT_ID` and `ANCHR_FB_SECRET`: OAuth credentials for Facebook Login
+    * `ANCHR_GOOGLE_SECRET` and `ANCHR_GOOGLE_API_KEY`: OAuth credentials for Google Login
+3. `$ source env.sh`
 4. `$ npm install`
-5. `$ cd public && bower install`
+5. `$ cd public && bower install && cd..`
 
-#### For development
-6. `$ grunt` (from root folder)
+#### Run for development
+1. `$ npm start` (from root folder)
 
-#### For production
-6. Edit `public/app/scripts/app.js` and set `$rootScope.env` variable (very bottom) from _dev_ to _production_ (yes, I know, this is not good practice at all...)
-7. `$ grunt build` (from public folder)
-8. `$ grunt production` (from root folder)
-
-### TODO
-* Use ORM to abstract from DBS
+#### Run in production
+1. `$ npm build` (to build frontend)
+2. `$ npm run production`
 
 ## License
 GNU General Public License v3 (GPL-3) @ [Ferdinand Mütsch](https://ferdinand-muetsch.de)

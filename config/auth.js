@@ -1,18 +1,17 @@
-var path = require('path')
-  , env = process.env.NODE_ENV || 'development'
+var env = process.env.NODE_ENV || 'development'
   , _ = require('underscore')
   , config = require('./config');
 
 var config = {
   root : {
     'facebookAuth': {
-      'clientID': '',
-      'clientSecret': '',
+      'clientID': process.env.ANCHR_FB_CLIENT_ID || '',
+      'clientSecret': process.env.ANCHR_FB_SECRET || '',
       'callbackURL': config.publicUrl + '/auth/facebook/callback'
     },
     'googleAuth': {
-      'clientID': '',
-      'clientSecret': '',
+      'clientID': process.env.ANCHR_GOOGLE_CLIENT_ID || '',
+      'clientSecret': process.env.ANCHR_GOOGLE_SECRET || '',
       'callbackURL': config.publicUrl + '/auth/google/callback'
   }
   },

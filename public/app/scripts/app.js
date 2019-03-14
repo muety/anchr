@@ -103,9 +103,6 @@ angular
             });
         };
     }])
-    .run(['$rootScope', 'Config', function($rootScope, Config) {
-        $rootScope.config = Config;
-    }])
     .run(['$rootScope', 'Snackbar', 'Auth', '$location', function($rootScope, Snackbar, Auth, $location) {
         $rootScope.snackbar = Snackbar;
         $rootScope.isActive = function(viewLocation) {
@@ -127,8 +124,16 @@ angular
     .run(['Auth', function(Auth) {
         if (Auth.loggedin()) Auth.renew();
     }])
-    .run(['$rootScope', function($rootScope) {
-        /* SET ENVIRONMENT / RUN MODE HERE WHEN DEPLOYING !!! */
-        $rootScope.env = 'dev';
-        //$rootScope.env = 'production';
+    .run(['$rootScope', '$location', function($rootScope, $location) {
+        $rootScope.getBaseUrl = function() {
+            return $location.protocol() + '://' + location.host + '/';
+        };
+
+        $rootScope.getClientUrl = function() {
+            return $rootScope.getBaseUrl() + '#/';
+        };
+
+        $rootScope.getApiUrl = function() {
+            return $rootScope.getBaseUrl() + 'api/';
+        };
     }]);

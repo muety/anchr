@@ -41,7 +41,7 @@
               <i class="glyphicon glyphicon-share"></i>
             </span>
                         <label class="control-label" for="shareUrl"><strong>Collection share URL:</strong></label>
-                        <input type="text" id="shareUrl" class="form-control" readonly value="{{config[env].clientBaseUrl}}collection/{{data.active}}">
+                        <input type="text" id="shareUrl" class="form-control" readonly value="{{getClientUrl()}}collection/{{data.active}}">
                         <span class="input-group-btn">
             <button type="button" class="btn btn-fab btn-fab-mini " ngclipboard data-clipboard-target="#shareUrl" ng-click="snackbar.show('Link copied to clipboard.')">
               <i class="mdi-content-content-copy"></i>

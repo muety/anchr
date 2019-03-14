@@ -41,7 +41,7 @@ angular.module('anchrClientApp')
           }
           else {
             file.upload = Upload.upload({
-              url: $rootScope.config[$rootScope.env].apiBaseUrl + 'image',
+              url: $rootScope.getApiUrl() + 'image',
               data: {uploadFile: file, encrypted: file.encrypted}
             });
 

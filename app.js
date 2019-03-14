@@ -2,7 +2,6 @@ var express = require('express')
   , config = require('./config/config')
   , glob = require('glob')
   , mongoose = require('mongoose')
-  , fs = require('fs')
   , loggers = require('./config/log')();
 
 mongoose.connect(config.db);

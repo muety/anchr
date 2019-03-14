@@ -3,7 +3,9 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "start": "node app.js"
+        "start": "NODE_ENV=development node app.js",
+        "production": "NODE_ENV=production node app.js",
+        "build": "cd public && grunt build && cd .."
     },
     "dependencies": {
         "bcrypt-nodejs": "0.0.3",

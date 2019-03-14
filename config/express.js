@@ -1,15 +1,12 @@
 var express = require('express')
   , path = require('path')
   , glob = require('glob')
-  , config = require('./config')
-  , favicon = require('serve-favicon')
   , bodyParser = require('body-parser')
   , compress = require('compression')
   , methodOverride = require('method-override')
   , multipart = require('connect-multiparty')
   , filetype = require('./middlewares/filetype')
   , error = require('./middlewares/error')
-  , log = require('./middlewares/log')()
   , passport = require('passport')
   , monitoring = require('express-status-monitor');
 

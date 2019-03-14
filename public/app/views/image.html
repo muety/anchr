@@ -50,7 +50,7 @@
         <div class="form-group no-space" ng-if="f.result">
           <div class="input-group">
             <span class="input-group-addon"><i class="mdi-action-done text-success"></i></span>
-            <input type="text" id="{{removeChar(f.result._id, '.')}}" class="form-control" value="{{config[env].clientBaseUrl}}image/{{f.result._id}}" readonly>
+            <input type="text" id="{{removeChar(f.result._id, '.')}}" class="form-control" value="{{getClientUrl()}}image/{{f.result._id}}" readonly>
               <span class="input-group-btn">
                 <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#{{removeChar(f.result._id, '.')}}" ng-click="snackbar.show('Link copied to clipboard.')">
                   <i class="mdi-content-content-copy"></i>

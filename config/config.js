@@ -14,36 +14,28 @@ var config = {
         app: {
             name: 'anchr-multi-webservice'
         },
-        port: 3000,
-        db: '',
-        uploadDir: path.normalize('/var/data/anchr'),
+        port: parseInt(process.env.PORT) || 3000,
+        db: process.env.ANCHR_DB_URL || '   ',
+        uploadDir: path.normalize((process.env.ANCHR_UPLOAD_DIR || '/var/data/anchr') + '/'),
         maxFileSize: 1000000 * 10,
         allowedFileTypes: ['image/'],
-        secret: 'shhh',
+        secret: process.env.ANCHR_SECRET || 'shhh',
         tokenExpire: '1d',
         workers: 2,
-        accessLogPath: path.normalize('/var/log/anchr/access.log'),
-        errorLogPath: path.normalize('/var/log/anchr/error.log'),
-        googleApiKey: ''
+        accessLogPath: path.normalize(process.env.ANCHR_LOG_PATH || '/var/log/anchr/access.log'),
+        errorLogPath: path.normalize(process.env.ANCHR_ERROR_LOG_PATH || '/var/log/anchr/error.log'),
+        googleApiKey: process.env.ANCHR_GOOGLE_API_KEY || ''
     },
-
     development: {
         accessLogPath: path.normalize('./access.log'),
         errorLogPath: path.normalize('./error.log')
     },
-
     test: {},
-
     production: {
         publicUrl: 'https://anchr.io/api',
         publicShortlinkUrl: 'https://anchr.io/s',
         publicImageUrl: 'https://anchr.io/i',
-        clientUrl: 'https://anchr.io/#/',
-        uploadDir: path.normalize('/var/data/anchr.io/'),
-        secret: '',
-        accessLogPath: path.normalize('/var/log/anchr/access.log'),
-        errorLogPath: path.normalize('/var/log/anchr/error.log'),
-        port: 3005
+        clientUrl: 'https://anchr.io/#/'
     }
 };
 
