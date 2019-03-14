@@ -42,7 +42,7 @@ In order to host Anchr on your own, you need a few things.
 1. `$ npm start` (from root folder)
 
 #### Run in production
-1. `$ npm build` (to build frontend)
+1. `$ npm run build` (to build frontend)
 2. `$ npm run production`
 
 ## License
