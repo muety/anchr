@@ -5,7 +5,8 @@
         <button type="button" class="close" onclick="$('#modalLogin').toggle()" aria-hidden="true">×</button>
         <h3 class="modal-title text-primary">Log In</h3>
       </div>
-      <div class="modal-body">#
+      <div class="modal-body">
+        <p ng-if="isNewUser">✔️ Welcome! You have signed up successfully. Now you are ready to go ahead and log in.</p>
         <form name="loginForm">
           <div class="form-group">
             <label for="inputEmail" class="col-md-2 control-label">Email</label>

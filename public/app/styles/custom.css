@@ -12,6 +12,10 @@
     max-height: 200px;
 }
 
+.navbar-collapse {
+    background-color: #009688;
+}
+
 .content-box {
     padding: 20px;
     background: #fff;
@@ -126,6 +130,12 @@
 
 .modal-body {
     margin-top: -40px;
+}
+
+.modal-body p {
+    color: rgba(0, 0, 0, 0.84);
+    margin-top: 10px;
+    margin-bottom: 0;
 }
 
 .modal-footer {

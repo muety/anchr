@@ -1,9 +1,7 @@
 'use strict';
 
 angular.module('anchrClientApp')
-  .controller('LoginCtrl', ['$scope', '$window', 'Auth', 'Snackbar', function ($scope,$window, Auth, Snackbar) {
-
-
+  .controller('LoginCtrl', ['$scope', '$rootScope', '$window', 'Auth', 'Snackbar', function ($scope, $rootScope, $window, Auth, Snackbar) {
     $scope.login = function() {
       var e = $scope.data.email;
       var p = $scope.data.password;
@@ -11,6 +9,7 @@ angular.module('anchrClientApp')
         localStorage.token = result.data.token;
         $scope.data.loading = false;
         $window.onControllerEvent('login');
+        delete $rootScope.isNewUser;
         Snackbar.show("Login successful.");
       };
       var onError = function (result) {

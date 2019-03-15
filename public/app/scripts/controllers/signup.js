@@ -1,15 +1,14 @@
 'use strict';
 
 angular.module('anchrClientApp')
-  .controller('SignupCtrl', ['$scope', '$window', 'Auth', 'Snackbar', function ($scope,$window, Auth, Snackbar) {
-
-
+  .controller('SignupCtrl', ['$scope', '$rootScope', '$window', 'Auth', 'Snackbar', function ($scope, $rootScope, $window, Auth, Snackbar) {
     $scope.signup = function() {
       var e = $scope.data.email;
       var p = $scope.data.password;
       var onSuccess = function (result) {
         Snackbar.show("You have signed up successfully.");
         $scope.data.loading = false;
+        $rootScope.isNewUser = true;
         $window.onControllerEvent('signup');
       };
       var onError = function (result) {
