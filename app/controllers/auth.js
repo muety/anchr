@@ -30,7 +30,7 @@ module.exports = function(app, passport) {
         })(req, res, next);
     });
 
-    router.post('/renew', function(req, res, next) {
+    router.post('/renew', jwtAuth(passport), function(req, res, next) {
         passport.authenticate('jwt', function(err, user) {
             if (err || !user) return res.makeError(400, err.message || 'Unknown error during login.', err);
 

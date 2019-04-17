@@ -20,7 +20,7 @@ var config = {
         maxFileSize: 1000000 * 10,
         allowedFileTypes: ['image/'],
         secret: process.env.ANCHR_SECRET || 'shhh',
-        tokenExpire: '1d',
+        tokenExpire: '7d',
         workers: 2,
         accessLogPath: path.normalize(process.env.ANCHR_LOG_PATH || '/var/log/anchr/access.log'),
         errorLogPath: path.normalize(process.env.ANCHR_ERROR_LOG_PATH || '/var/log/anchr/error.log'),
