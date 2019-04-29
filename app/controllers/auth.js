@@ -8,12 +8,17 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Collection = mongoose.model('Collection');
 
+function checkSignup(req, res, next) {
+  if (!config.allowSignUp) return res.makeError(403, 'User registration is disabled by the server.')
+  next()
+}
+
 module.exports = function(app, passport) {
     app.use('/api/auth', router);
 
     router.use(log);
 
-    router.post('/signup', function(req, res, next) {
+    router.post('/signup', checkSignup, function(req, res, next) {
         passport.authenticate('local-signup', function(err, user) {
             if (err || !user) return res.makeError(400, err.message || 'Unknown error during signup.', err);
 
@@ -39,7 +44,7 @@ module.exports = function(app, passport) {
         })(req, res, next);
     });
 
-    router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+    router.get('/facebook', checkSignup, passport.authenticate('facebook', { scope: ['email'] }));
 
     router.get('/facebook/callback', function(req, res, next) {
         passport.authenticate('facebook', function(err, user) {
@@ -50,7 +55,7 @@ module.exports = function(app, passport) {
         })(req, res, next);
     });
 
-    router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+    router.get('/google', checkSignup, passport.authenticate('google', { scope: ['profile', 'email'] }));
 
     router.get('/google/callback', function(req, res, next) {
         passport.authenticate('google', function(err, user) {

@@ -12,7 +12,7 @@ angular.module('anchrClientApp')
         $window.onControllerEvent('signup');
       };
       var onError = function (result) {
-        Snackbar.show("Sorry, there was an error while signing up" + result.data.error ? ' :' + result.data.error : '.');
+        Snackbar.show(result.data.error ? ('Error: ' + result.data.error) : 'Error');
         $scope.data.loading = false;
       }
 

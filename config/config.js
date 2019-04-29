@@ -24,7 +24,8 @@ var config = {
         workers: 2,
         accessLogPath: path.normalize(process.env.ANCHR_LOG_PATH || '/var/log/anchr/access.log'),
         errorLogPath: path.normalize(process.env.ANCHR_ERROR_LOG_PATH || '/var/log/anchr/error.log'),
-        googleApiKey: process.env.ANCHR_GOOGLE_API_KEY || ''
+        googleApiKey: process.env.ANCHR_GOOGLE_API_KEY || '',
+        allowSignUp: process.env.ANCHR_ALLOW_SIGNUP !== 'false'
     },
     development: {
         accessLogPath: path.normalize('./access.log'),
