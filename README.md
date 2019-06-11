@@ -18,7 +18,7 @@ Anchr’s focus is on ease and quickness of use – short loading times, flat me
 ## How to host it myself?
 ### Prerequisites
 In order to host Anchr on your own, you need a few things.
-* Node.js (preferbly at the latest version)
+* Node.js 8.x
 * A MongoDB database (you can use [mlab.com](http://mlab.com) to get a free, hosted MongoDB)
 * Optionally, but recommended: A webserver as a reverse proxy (e.g. nginx) to enable compression and SSL encryption
 
@@ -36,8 +36,9 @@ In order to host Anchr on your own, you need a few things.
     * `ANCHR_GOOGLE_SECRET` and `ANCHR_GOOGLE_API_KEY`: OAuth credentials for Google Login
     * `ANCHR_ALLOW_SIGNUP`: Whether or not to allow sign up of new users (default: `true`)
 3. `$ source env.sh`
-4. `$ npm install`
-5. `$ cd public && bower install && cd..`
+4. `$ npm install -g bower`
+5. `$ npm install`
+6. `$ cd public && bower install && cd..`
 
 #### Run for development
 1. `$ npm start` (from root folder)
