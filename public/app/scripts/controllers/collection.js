@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('anchrClientApp')
-    .controller('CollectionCtrl', ['$scope', '$rootScope', 'Collection', 'Snackbar', '$window', '$timeout', function($scope, $rootScope, Collection, Snackbar, $window, $timeout) {
+    .controller('CollectionCtrl', ['$scope', '$rootScope', 'Collection', 'Remote', 'Snackbar', '$window', '$timeout', function($scope, $rootScope, Collection, Remote, Snackbar, $window, $timeout) {
 
         var collections = [];
-        var nameAddedLatest = null;
+        var fetchTitleDebounce = null;
 
         /* Either id or index! */
         $scope.setActiveCollection = function(id, index) {
@@ -89,6 +89,17 @@ angular.module('anchrClientApp')
             }, function(err) {
                 Snackbar.show('Failed to share collection: ' + err.data.error);
             });
+        };
+
+        $scope.onLinkChanged = function() {
+            if (!$scope.data.linkInput || !$scope.data.linkInput.length > 1 || $scope.data.descriptionInput.length) return;
+            if (fetchTitleDebounce != null) $timeout.cancel(fetchTitleDebounce);
+            fetchTitleDebounce = $timeout(function() {
+                Remote.page.get({ url: $scope.data.linkInput }, function(result) {
+                    if (!result.title) return;
+                    $scope.data.descriptionInput = result.title;
+                }, function(err) {});
+            }, 500);
         };
 
         $scope.clear = function() {

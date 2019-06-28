@@ -10,17 +10,24 @@
 
         <div class="col-md-3">
             <ul class="nav nav-pills nav-stacked nav-primary">
-                <li role="presentation" ng-class="{'active' : data.active == c._id}" ng-repeat="c in data.collections | orderBy : 'name'" ng-mouseover="hover[c._id] = true" ng-mouseleave="hover[c._id] = false">
+                <li role="presentation" ng-class="{'active' : data.active == c._id}"
+                    ng-repeat="c in data.collections | orderBy : 'name'" ng-mouseover="hover[c._id] = true"
+                    ng-mouseleave="hover[c._id] = false">
                     <a href="javascript:void(0)" ng-click="setActiveCollection(c._id)">
-            {{c.name}}
-            <i class="glyphicon glyphicon-trash" style="float:right" ng-if="hover[c._id]" ng-click="deleteCollection(c._id)"></i>
-            <i class="glyphicon glyphicon-share" style="float:right; padding-right: 10px" ng-if="hover[c._id] && !c.shared" ng-click="shareCollection(c._id)"></i>
-          </a>
+                        {{c.name}}
+                        <i class="glyphicon glyphicon-trash" style="float:right" ng-if="hover[c._id]"
+                            ng-click="deleteCollection(c._id)"></i>
+                        <i class="glyphicon glyphicon-share" style="float:right; padding-right: 10px"
+                            ng-if="hover[c._id] && !c.shared" ng-click="shareCollection(c._id)"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="javascript:void(0)" ng-click="toggleNewCollection()" ng-hide="adding"><i class="glyphicon glyphicon-plus"></i> New</a>
+                    <a href="javascript:void(0)" ng-click="toggleNewCollection()" ng-hide="adding"><i
+                            class="glyphicon glyphicon-plus"></i> New</a>
                     <div class="form-group" style="margin: 0">
-                        <input ng-if="adding" type="text" class="form-control" id="inputNewName" ng-model="data.inputNewName" placeholder="Name" ng-blur="toggleNewCollection()" my-enter="addCollection(data.inputNewName)">
+                        <input ng-if="adding" type="text" class="form-control" id="inputNewName"
+                            ng-model="data.inputNewName" placeholder="Name" ng-blur="toggleNewCollection()"
+                            my-enter="addCollection(data.inputNewName)">
                     </div>
                 </li>
             </ul>
@@ -35,18 +42,21 @@
             </div>
             <div class="row" ng-if="data.active">
 
-                <div class="form-group label-floating" style="margin-top: 15px;" ng-if="getCollection(data.active).shared">
+                <div class="form-group label-floating" style="margin-top: 15px;"
+                    ng-if="getCollection(data.active).shared">
                     <div class="input-group">
                         <span class="input-group-addon">
-              <i class="glyphicon glyphicon-share"></i>
-            </span>
+                            <i class="glyphicon glyphicon-share"></i>
+                        </span>
                         <label class="control-label" for="shareUrl"><strong>Collection share URL:</strong></label>
-                        <input type="text" id="shareUrl" class="form-control" readonly value="{{getClientUrl()}}collection/{{data.active}}">
+                        <input type="text" id="shareUrl" class="form-control" readonly
+                            value="{{getClientUrl()}}collection/{{data.active}}">
                         <span class="input-group-btn">
-            <button type="button" class="btn btn-fab btn-fab-mini " ngclipboard data-clipboard-target="#shareUrl" ng-click="snackbar.show('Link copied to clipboard.')">
-              <i class="mdi-content-content-copy"></i>
-            </button>
-          </span>
+                            <button type="button" class="btn btn-fab btn-fab-mini " ngclipboard
+                                data-clipboard-target="#shareUrl" ng-click="snackbar.show('Link copied to clipboard.')">
+                                <i class="mdi-content-content-copy"></i>
+                            </button>
+                        </span>
                     </div>
                 </div>
 
@@ -56,7 +66,9 @@
                         <div class="input-group">
                             <label for="linkInput" class="col-md-2 control-label">Link</label>
                             <div class="col-md-10">
-                                <input type="url" name="linkInput" class="form-control" id="linkInput" placeholder="Paste a link here" ng-model="data.linkInput" my-enter="saveLink(data.active, data.linkInput, data.descriptionInput)">
+                                <input type="url" name="linkInput" class="form-control" id="linkInput"
+                                    placeholder="Paste a link here" ng-model="data.linkInput" ng-change="onLinkChanged()"
+                                    my-enter="saveLink(data.active, data.linkInput, data.descriptionInput)">
                             </div>
                             <span class="input-group-btn"></span>
                         </div>
@@ -66,13 +78,18 @@
                         <div class="input-group">
                             <label for="descriptionInput" class="col-md-2 control-label">Description</label>
                             <div class="col-md-10" style="padding-left: 25px">
-                                <input type="text" name="descriptionInput" class="form-control" id="descriptionInput" placeholder="Describe your link" ng-model="data.descriptionInput" my-enter="saveLink(data.active, data.linkInput, data.descriptionInput)">
+                                <input type="text" name="descriptionInput" class="form-control" id="descriptionInput"
+                                    placeholder="Describe your link" ng-model="data.descriptionInput"
+                                    my-enter="saveLink(data.active, data.linkInput, data.descriptionInput)">
                             </div>
                             <span class="input-group-btn">
-                <button type="button" class="btn btn-fab btn-fab-mini btn-primary" id="saveButton" ng-disabled="!linkInputForm.linkInput.$valid || stringEmpty(data.linkInput) || data.loading" ng-click="saveLink(data.active, data.linkInput, data.descriptionInput)">
-                  <i ng-class="{'mdi-content-send' : !data.loading, 'mdi-notification-sync' : data.loading}"></i>
-                </button>
-              </span>
+                                <button type="button" class="btn btn-fab btn-fab-mini btn-primary" id="saveButton"
+                                    ng-disabled="!linkInputForm.linkInput.$valid || stringEmpty(data.linkInput) || data.loading"
+                                    ng-click="saveLink(data.active, data.linkInput, data.descriptionInput)">
+                                    <i
+                                        ng-class="{'mdi-content-send' : !data.loading, 'mdi-notification-sync' : data.loading}"></i>
+                                </button>
+                            </span>
                         </div>
                     </div>
                 </form>
@@ -107,7 +124,9 @@
                             <td>{{l.description}}</td>
                             <td>{{l.date | date : 'MMM d, y h:mm a'}}</td>
                             <td>
-                                <a href="javascript:void(0)" ng-click="deleteLink(data.active, l._id)" class="btn btn-raised btn-danger btn-sm delete-button pull-right"><i class="glyphicon glyphicon-trash"></i></a>
+                                <a href="javascript:void(0)" ng-click="deleteLink(data.active, l._id)"
+                                    class="btn btn-raised btn-danger btn-sm delete-button pull-right"><i
+                                        class="glyphicon glyphicon-trash"></i></a>
                             </td>
                         </tr>
                     </tbody>

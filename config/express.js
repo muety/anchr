@@ -1,4 +1,5 @@
 var express = require('express')
+  , cors = require('cors')
   , path = require('path')
   , glob = require('glob')
   , bodyParser = require('body-parser')
@@ -33,9 +34,7 @@ module.exports = function(app, config) {
 
   if (env === 'development') {
     app.use(function (req, res, next) {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,HEAD');
-      res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+      app.use(cors());
 
       // intercept OPTIONS method
       if ('OPTIONS' == req.method) {

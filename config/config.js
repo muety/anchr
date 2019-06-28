@@ -18,6 +18,7 @@ var config = {
         db: process.env.ANCHR_DB_URL || '   ',
         uploadDir: path.normalize((process.env.ANCHR_UPLOAD_DIR || '/var/data/anchr') + '/'),
         maxFileSize: 1000000 * 10,
+        maxHtmlSizeKb: 1024,
         allowedFileTypes: ['image/'],
         secret: process.env.ANCHR_SECRET || 'shhh',
         tokenExpire: '7d',

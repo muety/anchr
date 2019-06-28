@@ -6,8 +6,8 @@ var express = require('express'),
     Shortlink = mongoose.model('Shortlink'),
     utils = require('../../utils'),
     log = require('./../../config/middlewares/log')(),
-    _ = require('underscore')
-jwtAuth = require('./../../config/middlewares/jwtauth');
+    _ = require('underscore'),
+    jwtAuth = require('./../../config/middlewares/jwtauth');
 
 var blacklist = [/.*bit\.ly.*/gi, /.*goo\.gl.*/gi, /.*confirm.*/gi, /.*verif.*/gi, /.*account.*/gi, /.*secur.*/gi];
 

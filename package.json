@@ -8,13 +8,16 @@
         "build": "cd public && grunt build && cd .."
     },
     "dependencies": {
+        "axios": "^0.19.0",
         "bcrypt-nodejs": "0.0.3",
         "body-parser": "1.13.3",
         "compression": "1.5.2",
         "connect-multiparty": "2.0.0",
+        "cors": "^2.8.5",
         "express": "4.13.3",
         "express-status-monitor": "0.0.10",
         "glob": "5.0.3",
+        "htmlparser": "^1.7.7",
         "jade": "1.11.0",
         "jsonwebtoken": "5.4.1",
         "log4js": "0.6.29",
