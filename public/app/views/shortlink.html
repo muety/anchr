@@ -2,35 +2,39 @@
   <h3 class="text-primary">Shorten link</h3>
   <div class="form-group label-floating">
     <div class="input-group">
-          <span class="input-group-addon">
-            <i class="mdi-editor-insert-link"></i>
-          </span>
+      <span class="input-group-addon">
+        <i class="mdi-editor-insert-link"></i>
+      </span>
       <label class="control-label" for="linkInput" ng-if="!data.loading">Paste a link here.</label>
       <label class="control-label" for="linkInput" ng-if="data.loading">Saving ...</label>
       <form name="linkInputForm">
-      <input type="url" id="linkInput" name="linkInput" class="form-control" ng-model="data.linkInput" ng-disabled="data.loading" my-enter="createShortlink(data.linkInput)">
-        </form>
+        <input type="url" id="linkInput" name="linkInput" class="form-control" ng-model="data.linkInput"
+          ng-disabled="data.loading" my-enter="createShortlink(data.linkInput)">
+      </form>
       <p class="help-block">Paste a link which you want to be shortened.</p>
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-fab btn-fab-mini btn-primary" id="linkShortenButton" ng-disabled="!linkInputForm.linkInput.$valid || stringEmpty(data.linkInput) || data.loading" ng-click="createShortlink(data.linkInput)">
-              <i ng-class="{'mdi-content-send' : !data.loading, 'mdi-notification-sync' : data.loading}"></i>
-            </button>
-          </span>
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-fab btn-fab-mini btn-primary" id="linkShortenButton"
+          ng-disabled="!linkInputForm.linkInput.$valid || stringEmpty(data.linkInput) || data.loading"
+          ng-click="createShortlink(data.linkInput)">
+          <i ng-class="{'mdi-content-send' : !data.loading, 'mdi-notification-sync' : data.loading}"></i>
+        </button>
+      </span>
     </div>
   </div>
 
   <div class="form-group label-floating" ng-repeat="sl in data.shortlinks">
     <div class="input-group">
-          <span class="input-group-addon">
-            <i class="mdi-action-done text-success"></i>
-          </span>
+      <span class="input-group-addon">
+        <i class="mdi-action-done text-success"></i>
+      </span>
       <label class="control-label" for="{{sl._id}}"><strong>Success!</strong> Here's your link:</label>
       <input type="text" id="{{sl._id}}" class="form-control" readonly value="{{sl.href}}">
-          <span class="input-group-btn">
-            <button type="button" class="btn btn-fab btn-fab-mini " ngclipboard data-clipboard-target="#{{sl._id}}" ng-click="snackbar.show('Link copied to clipboard.')">
-              <i class="mdi-content-content-copy"></i>
-            </button>
-          </span>
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-fab btn-fab-mini " ngclipboard data-clipboard-target="#{{sl._id}}"
+          ng-click="snackbar.show('Link copied to clipboard.')">
+          <i class="mdi-content-content-copy"></i>
+        </button>
+      </span>
     </div>
   </div>
 

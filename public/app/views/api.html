@@ -1,8 +1,10 @@
 <div class="content-box shadow-z-1">
     <h3 class="text-primary">Developer API</h3>
-    The Anchr.io backend provides a powerful REST API (even though not completely RESTful yet) to interact with the server and do all stuff the UI can do too.
+    The Anchr.io backend provides a powerful REST API (even though not completely RESTful yet) to interact with the
+    server and do all stuff the UI can do too.
     The intention is to encourage developers to make own applications based on the Anchr.io functionality.
-    The API supports resources <code>shortlink</code>, <code>image</code> and <code>collection</code> with the following routes.
+    The API supports resources <code>shortlink</code>, <code>image</code> and <code>collection</code> with the following
+    routes.
     <br><br>
     <table border="0" class="api-description table table-striped table-hover">
         <tr>
@@ -23,7 +25,8 @@
             <td>optional <code>?json=true</code> to get resource data instead of redirect</td>
         </tr>
         <tr>
-            <td><span class="label label-primary method-label">POST</span><span class="label label-default method-label">json</span></td>
+            <td><span class="label label-primary method-label">POST</span><span
+                    class="label label-default method-label">json</span></td>
             <td><code>/api/shortlink</code></td>
             <td><code>{ "url" : "http://your-destination.tld" }</code></td>
         </tr>
@@ -45,7 +48,8 @@
             <td>optional <code>?json=true</code> to get resource data instead of displaying the image</td>
         </tr>
         <tr>
-            <td><span class="label label-primary method-label">POST</span><span class="label label-default method-label">multipart</span></td>
+            <td><span class="label label-primary method-label">POST</span><span
+                    class="label label-default method-label">multipart</span></td>
             <td><code>/api/image</code></td>
             <td><code>uploadFile=@yourFileObjectHere</code></td>
         </tr>
@@ -67,7 +71,8 @@
             <td>Returns an array of all collections for the authenticated user.</td>
         </tr>
         <tr>
-            <td><span class="label label-primary method-label">POST</span><span class="label label-default method-label">json</span></td>
+            <td><span class="label label-primary method-label">POST</span><span
+                    class="label label-default method-label">json</span></td>
             <td><code>/api/collection</code></td>
             <td><code>{ "name" : "My new collection" }</code></td>
         </tr>
@@ -87,7 +92,8 @@
             <td></td>
         </tr>
         <tr>
-            <td><span class="label label-primary method-label">POST</span><span class="label label-default method-label">json</span></td>
+            <td><span class="label label-primary method-label">POST</span><span
+                    class="label label-default method-label">json</span></td>
             <td><code>/api/collection/:id/links</code></td>
             <td><code>{ "url" : "http://duckduckgo.com", "description" : "Search engine" }</code></td>
         </tr>
@@ -102,7 +108,8 @@
             <td></td>
         </tr>
         <tr>
-            <td><span class="label label-primary method-label">POST</span><span class="label label-default method-label">json</span></td>
+            <td><span class="label label-primary method-label">POST</span><span
+                    class="label label-default method-label">json</span></td>
             <td><code>/api/collection/:id/share</code></td>
             <td>Makes this collection publicly readable under <code>{{getClientUrl()}}collection/:id</code></td>
         </tr>
@@ -152,7 +159,9 @@
     </div>
 
     <h3 class="text-primary">Authentication / Authorization</h3>
-    To use the <code>/collection</code> endpoints users need to authenticate against the API. Authentication is based on <a href="http://jwt.io/introduction/" target="_blank">JSON web tokens (JWT)</a> and works as follows, assuming that a user account already exists:<br><br>
+    To use the <code>/collection</code> endpoints users need to authenticate against the API. Authentication is based on
+    <a href="http://jwt.io/introduction/" target="_blank">JSON web tokens (JWT)</a> and works as follows, assuming that
+    a user account already exists:<br><br>
     <ol>
         <li>
             <strong>Make a login request:</strong><br>
@@ -161,7 +170,8 @@
             <br><br>
         </li>
         <li>
-            <strong>Get the token</strong> from the response:<br> <code>{ "token" : "thisisareplacementforaverylongtoken" }</code>
+            <strong>Get the token</strong> from the response:<br>
+            <code>{ "token" : "thisisareplacementforaverylongtoken" }</code>
             <br><br>
         </li>
         <li>

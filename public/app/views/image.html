@@ -1,6 +1,7 @@
 <div class="content-box shadow-z-1">
   <div class="alert alert-warning" ng-if="files.loading">
-    <strong>Encryption in progress.</strong>This may take a few seconds - mainly depending on the CPU power of your device - while you can't interact with your browser.
+    <strong>Encryption in progress.</strong>This may take a few seconds - mainly depending on the CPU power of your
+    device - while you can't interact with your browser.
   </div>
   <h3 class="text-primary">Upload image</h3>
   <div class="row">
@@ -15,22 +16,32 @@
     <div class="col-md-6">
       <div class="togglebutton" style="float: right">
         <label>
-          Encrypt image? <input type="checkbox" ng-model="files.encrypt" ng-disabled="!loggedIn()" style="margin-left: 20px">
-          <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="You can encrypt images client-sided with a password so absolutely nobody without the password can see them. You can only upload one image at once and need to be logged in to your account. Note that the amount of data to upload will almost double."></span>
+          Encrypt image? <input type="checkbox" ng-model="files.encrypt" ng-disabled="!loggedIn()"
+            style="margin-left: 20px">
+          <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left"
+            title="You can encrypt images client-sided with a password so absolutely nobody without the password can see them. You can only upload one image at once and need to be logged in to your account. Note that the amount of data to upload will almost double."></span>
         </label>
       </div>
     </div>
   </div>
-  <div ng-if="!files.encrypt" class="file-drag" ngf-select="uploadFiles($files, $invalidFiles)" ngf-drop="uploadFiles($files, $invalidFiles)" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="false" accept="image/*" ngf-pattern="'image/*'"  ngf-max-size="5MB">
+  <div ng-if="!files.encrypt" class="file-drag" ngf-select="uploadFiles($files, $invalidFiles)"
+    ngf-drop="uploadFiles($files, $invalidFiles)" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="true"
+    ngf-allow-dir="false" accept="image/*" ngf-pattern="'image/*'" ngf-max-size="5MB">
     Drop images here or click to upload
   </div>
-  <div ng-if="files.encrypt" class="file-drag" ng-disabled="!files.password || files.password.length < 6" ngf-select="encryptAndUpload($files, $invalidFiles)" ngf-drop="uploadFiles($files, $invalidFiles)" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false" accept="image/*" ngf-pattern="'image/*'"  ngf-max-size="5MB">
+  <div ng-if="files.encrypt" class="file-drag" ng-disabled="!files.password || files.password.length < 6"
+    ngf-select="encryptAndUpload($files, $invalidFiles)" ngf-drop="uploadFiles($files, $invalidFiles)" class="drop-box"
+    ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false" accept="image/*" ngf-pattern="'image/*'"
+    ngf-max-size="5MB">
     Drop images here or click to upload
   </div>
-  <button ng-if="!files.encrypt" class="btn btn-block btn-primary" ngf-select="uploadFiles($files, $invalidFiles)" ngf-multiple="true"  accept="image/*" ngf-max-size="5MB">
+  <button ng-if="!files.encrypt" class="btn btn-block btn-primary" ngf-select="uploadFiles($files, $invalidFiles)"
+    ngf-multiple="true" accept="image/*" ngf-max-size="5MB">
     Select Files
   </button>
-  <button ng-if="files.encrypt" ng-disabled="!files.password || files.password.length < 6" class="btn btn-block btn-primary" ngf-select="encryptAndUpload($files, $invalidFiles)" ngf-multiple="false"  accept="image/*" ngf-max-size="5MB">
+  <button ng-if="files.encrypt" ng-disabled="!files.password || files.password.length < 6"
+    class="btn btn-block btn-primary" ngf-select="encryptAndUpload($files, $invalidFiles)" ngf-multiple="false"
+    accept="image/*" ngf-max-size="5MB">
     Select Files
   </button>
   <div ng-show="files.files.length || files.errFiles.length">
@@ -50,12 +61,15 @@
         <div class="form-group no-space" ng-if="f.result">
           <div class="input-group">
             <span class="input-group-addon"><i class="mdi-action-done text-success"></i></span>
-            <input type="text" id="{{removeChar(f.result._id, '.')}}" class="form-control" value="{{getClientUrl()}}image/{{f.result._id}}" readonly>
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#{{removeChar(f.result._id, '.')}}" ng-click="snackbar.show('Link copied to clipboard.')">
-                  <i class="mdi-content-content-copy"></i>
-                </button>
-              </span>
+            <input type="text" id="{{removeChar(f.result._id, '.')}}" class="form-control"
+              value="{{getClientUrl()}}image/{{f.result._id}}" readonly>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard
+                data-clipboard-target="#{{removeChar(f.result._id, '.')}}"
+                ng-click="snackbar.show('Link copied to clipboard.')">
+                <i class="mdi-content-content-copy"></i>
+              </button>
+            </span>
           </div>
         </div>
 
