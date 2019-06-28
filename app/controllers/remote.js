@@ -43,12 +43,13 @@ module.exports = function(app) {
                 var title = titleNode.children[0].data.trim();
                 title = title.replace(/&#(\d+);/g, function(match, dec) {
                     return String.fromCharCode(dec);
-                });
+                }).replace(/&.+;/g, '');
                 return res.send({ title: title });
             });
             var parser = new htmlparser.Parser(handler);
             parser.parseComplete(response.data);
         }).catch(function(err) {
+            console.error(err)
             return res.makeError(404, 'Not found');
         });
     });

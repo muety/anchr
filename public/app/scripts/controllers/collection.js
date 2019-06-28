@@ -92,7 +92,10 @@ angular.module('anchrClientApp')
         };
 
         $scope.onLinkChanged = function() {
-            if (!$scope.data.linkInput || !$scope.data.linkInput.length > 1 || $scope.data.descriptionInput.length) return;
+            if (!$scope.data.linkInput ||
+                !$scope.data.linkInput.length > 1 ||
+                !$scope.data.linkInput.length > 1 ||
+                ($scope.data.descriptionInput && $scope.data.descriptionInput.length)) return;
             if (fetchTitleDebounce != null) $timeout.cancel(fetchTitleDebounce);
             fetchTitleDebounce = $timeout(function() {
                 Remote.page.get({ url: $scope.data.linkInput }, function(result) {
