@@ -8,6 +8,7 @@ angular.module('anchrClientApp')
 
         /* Either id or index! */
         $scope.setActiveCollection = function(id, index) {
+            if ($scope.data.active === id) return;
             Collection.collection.get({ _id: id }, function(result) {
                 collections[findCollection(collections, id)] = result;
                 $scope.data.active = id;
@@ -81,14 +82,23 @@ angular.module('anchrClientApp')
         };
 
         $scope.shareCollection = function(collId) {
-            new Collection.shared({
-                _id: collId
-            }).$save(function(result) {
-                getCollection(collections, collId).shared = true;
+            Collection.collection.update({_id: collId, shared: true}, function(result) {
+                getCollection(collections, collId).sahred = true;
                 Snackbar.show('Collection shared.');
             }, function(err) {
                 Snackbar.show('Failed to share collection: ' + err.data.error);
-            });
+            })
+        };
+
+        $scope.renameCollection = function(collId) {
+            Collection.collection.update({_id: collId, name: $scope.data.editing.newName}, function(result) {
+                getCollection(collections, collId).name = $scope.data.editing.newName;
+                $scope.data.editing = null;
+                Snackbar.show('Collection updated.');
+                $('#modalRename').modal('toggle');
+            }, function(err) {
+                Snackbar.show('Failed to update collection: ' + err.data.error);
+            })
         };
 
         $scope.onLinkChanged = function() {

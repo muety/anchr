@@ -167,11 +167,17 @@ module.exports = function(app, passport) {
         });
     });
 
-    router.post('/:id/share', function(req, res) {
+    router.patch('/:id', function(req, res) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.');
 
-        Collection.update({ _id: _id, owner: req.user._id }, { shared: 1 }, function(err, num) {
+        var updateFields = {};
+        if (req.body.hasOwnProperty('shared')) updateFields.shared = req.body.shared;
+        if (req.body.hasOwnProperty('name')) updateFields.name = req.body.name;
+
+        if (!Object.keys(updateFields).length) return res.status(200).end();
+
+        Collection.update({ _id: _id, owner: req.user._id }, updateFields, function(err, num) {
             if (err) return res.makeError(500, err.message, err);
             if (!num || !num.nModified) return res.makeError(404, 'Collection not found or unauthorized.');
             res.status(200).end();

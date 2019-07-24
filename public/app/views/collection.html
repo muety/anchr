@@ -13,12 +13,16 @@
                 <li role="presentation" ng-class="{'active' : data.active == c._id}"
                     ng-repeat="c in data.collections | orderBy : 'name'" ng-mouseover="hover[c._id] = true"
                     ng-mouseleave="hover[c._id] = false">
-                    <a href="javascript:void(0)" ng-click="setActiveCollection(c._id)">
-                        {{c.name}}
-                        <i class="glyphicon glyphicon-trash" style="float:right" ng-if="hover[c._id]"
-                            ng-click="deleteCollection(c._id)"></i>
-                        <i class="glyphicon glyphicon-share" style="float:right; padding-right: 10px"
-                            ng-if="hover[c._id] && !c.shared" ng-click="shareCollection(c._id)"></i>
+                    <a href="javascript:void(0)" ng-click="setActiveCollection(c._id)" class="nowrap">
+                        <span>{{c.name}}</span>
+                        <div class="nowrap" style="float: right">
+                            <i class="glyphicon glyphicon-trash" style="float:right" ng-if="hover[c._id]"
+                                ng-click="deleteCollection(c._id); $event.stopPropagation();"></i>
+                            <i class="glyphicon glyphicon-share" style="float:right; padding-right: 10px"
+                                ng-if="hover[c._id] && !c.shared" ng-click="shareCollection(c._id); $event.stopPropagation();"></i>
+                            <i class="glyphicon glyphicon-pencil" style="float:right; padding-right: 10px" ng-if="hover[c._id]"
+                                data-target="#modalRename" data-toggle="modal" ng-click="data.editing = c; data.editing.newName = c.name"></i>
+                        </div>
                     </a>
                 </li>
                 <li role="presentation">
@@ -134,6 +138,29 @@
                 </table>
             </div>
 
+        </div>
+    </div>
+
+    <div id="modalRename" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title text-primary">Rename Collection</h3>
+            </div>
+            <form name="renameForm" ng-submit="renameCollection(data.editing._id)">
+            <div class="modal-body">
+                  <div class="form-group">
+                    <label for="inputName" class="col-md-2 control-label">New Name</label>
+                    <div class="col-md-10">
+                      <input type="text" name="name" class="form-control" id="inputName" ng-model="data.editing.newName" minlength="1" required autofocus>
+                    </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary"
+                  ng-disabled="!renameForm.name.$valid">Save</button>
+              </div>
+            </form>
         </div>
     </div>
 

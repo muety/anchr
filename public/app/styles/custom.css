@@ -64,6 +64,10 @@
     margin-right: 0 !important;
 }
 
+.nowrap {
+    white-space: nowrap;
+}
+
 .view-image {
     text-align: center;
     margin: auto;
@@ -140,6 +144,10 @@
 
 .modal-footer {
     margin-top: 40px;
+}
+
+.modal-dialog {
+    background-color: #fff;
 }
 
 .nav-pills>li.active>a,
