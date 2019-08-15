@@ -41,7 +41,7 @@ In order to host Anchr on your own, you need a few things.
 1. `$ source env.sh`
 2. `$ npm install -g bower`
 3. `$ npm install`
-4. `$ cd public && bower install && cd..`
+4. `$ cd public && bower install && cd ..`
    
 #### Option 1: Run Natively
 ##### For development
