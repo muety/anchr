@@ -22,7 +22,7 @@ module.exports = function(app, passport) {
         Shortlink.findOne({ _id: req.params.id }, { __v: 0 }, function(err, obj) {
             if (err || !obj) return res.makeError(404, "Not found.");
             if (!asJson && obj.url) res.redirect(obj.url);
-            else res.send(_.omit(obj.toObject(), '__v', 'id'));
+            else res.send(_.omit(obj.toObject(), '__v', 'id', 'createdBy'));
         });
     });
 
@@ -38,7 +38,9 @@ module.exports = function(app, passport) {
                 if (isMalicious) return res.makeError(400, 'The link you try to reference is not safe!');
                 var shortlink = new Shortlink({
                     url: req.body.url,
-                    _id: utils.generateUUID()
+                    _id: utils.generateUUID(),
+                    created: Date.now(),
+                    createdBy: req.user._id
                 });
                 shortlink.save(function(err, obj) {
                     if (err) return res.makeError(500, 'Unable to save shortlink to database.', err);

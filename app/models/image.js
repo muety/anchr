@@ -7,7 +7,11 @@ var ImageSchema = new Schema({
   created : Date,
   ip : String,
   encrypted : Boolean,
-  type : String
+  type : String,
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: "UserSchema"
+  }
 }, {
   toObject: {
     virtuals: true

@@ -4,7 +4,12 @@ var mongoose = require('mongoose'),
 
 var ShortlinkSchema = new Schema({
   url: String,
-  _id: String
+  _id: String,
+  created : Date,
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: "UserSchema"
+  }
 }, {
   toObject: {
     virtuals: true

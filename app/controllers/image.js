@@ -48,12 +48,13 @@ module.exports = function(app, passport) {
                     created: Date.now(),
                     ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip,
                     encrypted: req.body.encrypted || false,
-                    type: req.files[FILE_UPLOAD_FIELD].type
+                    type: req.files[FILE_UPLOAD_FIELD].type,
+                    createdBy: req.user._id
                 });
 
                 img.save(function(err, obj) {
                     if (err) return res.makeError(500, 'Unable to save file.', err);
-                    res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id'));
+                    res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy'));
                 });
             });
         });
