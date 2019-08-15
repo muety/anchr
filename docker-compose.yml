@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  
+  # TODO: Add MongoDB service (https://github.com/n1try/anchr/issues/10)
+
+  anchr:
+    image: anchr:latest
+    build: ./
+    ports:
+      - "$PORT:$PORT"
+    volumes:
+      - anchr_data:/app/data
+    env_file: .env
+
+volumes:
+  anchr_data:

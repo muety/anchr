@@ -22,9 +22,9 @@ In order to host Anchr on your own, you need a few things.
 * A MongoDB database (you can use [mlab.com](http://mlab.com) to get a free, hosted MongoDB)
 * Optionally, but recommended: A webserver as a reverse proxy (e.g. nginx) to enable compression and SSL encryption
 
-### Setup and configuration
+### Configuration
 1. `$ git clone https://github.com/n1try/anchr`
-2. Copy `env.sh.example` to `env.sh` and edit the contents to set environment variables:
+2. Copy `.env.example` to `.env` and edit the contents to set environment variables:
     * `PORT`: TCP port to start the server on (default: `3000`)
     * `ANCHR_DB_URL`: Connection URL to MongoDB (default: `mongodb://localhost:27017/anchr`)
     * `ANCHR_UPLOAD_DIR`: Absolute path to a file system directory (must exist!) to persist uploaded images to (default: `/var/data/anchr`)
@@ -35,17 +35,26 @@ In order to host Anchr on your own, you need a few things.
     * `ANCHR_FB_CLIENT_ID` and `ANCHR_FB_SECRET`: OAuth credentials for Facebook Login
     * `ANCHR_GOOGLE_SECRET` and `ANCHR_GOOGLE_API_KEY`: OAuth credentials for Google Login
     * `ANCHR_ALLOW_SIGNUP`: Whether or not to allow sign up of new users (default: `true`)
-3. `$ source env.sh`
-4. `$ npm install -g bower`
-5. `$ npm install`
-6. `$ cd public && bower install && cd..`
 
-#### Run for development
+### Run
+#### Setup
+1. `$ source env.sh`
+2. `$ npm install -g bower`
+3. `$ npm install`
+4. `$ cd public && bower install && cd..`
+   
+#### Option 1: Run Natively
+##### For development
 1. `$ npm start` (from root folder)
 
-#### Run in production
+##### In production
 1. `$ npm run build` (to build frontend)
 2. `$ npm run production`
 
+#### Option 2: Run with Docker
+1. `docker-compose up`
+
+**NOTE:** The current Docker Compose configuration does not include spinning up the MongoDB database (see [#10](https://github.com/n1try/anchr/issues/10)). It is assumed that a Mongo instance is already running and accessible publicly. 
+
 ## License
-GNU General Public License v3 (GPL-3) @ [Ferdinand Mütsch](https://ferdinand-muetsch.de)
+GNU General Public License v3 (GPL-3) @ [Ferdinand Mütsch](https://muetsch.io)
