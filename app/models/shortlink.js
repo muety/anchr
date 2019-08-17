@@ -16,7 +16,8 @@ var ShortlinkSchema = new Schema({
   },
   toJSON: {
     virtuals: true
-  }
+  },
+  usePushEach: true
 });
 
 ShortlinkSchema.virtual('href').get(function () {

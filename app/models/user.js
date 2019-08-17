@@ -20,6 +20,8 @@ var userSchema = mongoose.Schema({
     email : String,
     name : String
   }
+}, {
+  usePushEach: true
 });
 
 userSchema.methods.generateHash = function(password) {
