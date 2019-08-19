@@ -45,6 +45,11 @@
     color: #555 !important;
 }
 
+.text-small {
+    font-size: 0.8em;
+    line-height: 0.8em;
+}
+
 .list-unstyled {
     margin-left: 0;
     padding-left: 0;
@@ -217,9 +222,12 @@ td h4 {
     word-wrap: break-word;
 }
 
+.table-collection td, th {
+    padding: 5px 10px !important;
+}
+
 .td-link-container {
     overflow: hidden;
     text-overflow: ellipsis;
-    display: block;
     white-space: nowrap;
 }

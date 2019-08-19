@@ -117,17 +117,18 @@
                 <table class="table table-striped table-hover table-collection">
                     <thead>
                         <tr>
-                            <th class="col-md-4">Link</th>
-                            <th class="col-md-4">Description</th>
-                            <th class="col-md-2">Date</th>
+                            <th class="col-md-5">Link</th>
+                            <th class="col-md-6">Description</th>
                             <th class="col-md-1"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="l in getCollection(data.active).links | filter:search | orderBy:'-date'">
-                            <td class="td-link-container"><a href="{{l.url}}" target="_blank">{{l.url}}</a></td>
-                            <td>{{l.description}}</td>
-                            <td>{{l.date | date : 'MMM d, y h:mm a'}}</td>
+                            <td class="td-link-container">
+                                <a href="{{l.url}}" target="_blank">{{ l.url }}</a>
+                                <div class="text-small">({{ l.date | date : 'MMM d, y h:mm a' }})</div>
+                            </td>
+                            <td>{{ l.description || '–'}}</td>
                             <td>
                                 <a href="javascript:void(0)" ng-click="deleteLink(data.active, l._id)"
                                     class="btn btn-raised btn-danger btn-sm delete-button pull-right"><i
