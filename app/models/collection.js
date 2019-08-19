@@ -21,7 +21,8 @@ var CollectionSchema = new Schema({
   },
   toJSON: {
     virtuals: true
-  }
+  },
+  usePushEach: true
 });
 
 mongoose.model('Collection', CollectionSchema);

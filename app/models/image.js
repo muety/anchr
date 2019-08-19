@@ -18,7 +18,8 @@ var ImageSchema = new Schema({
   },
   toJSON: {
     virtuals: true
-  }
+  },
+  usePushEach: true
 });
 
 ImageSchema.virtual('href').get(function () {
