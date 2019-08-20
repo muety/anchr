@@ -35,28 +35,25 @@ module.exports = function(app, passport) {
         var FILE_UPLOAD_FIELD = "uploadFile";
 
         var tmpPath = req.files[FILE_UPLOAD_FIELD].path;
+        var newName = utils.generateUUID() + path.parse(tmpPath).ext;
+        var newPath = config.uploadDir + newName;
 
-        fs.readFile(tmpPath, function(err, data) {
-            var newName = utils.generateUUID() + path.parse(tmpPath).ext;
-            var newPath = config.uploadDir + newName;
+        fs.rename(tmpPath, newPath, function(err) {
+            if (err) return res.makeError(500, 'Unable to save file.', err);
 
-            fs.writeFile(newPath, data, function(err) {
-                if (err) return res.makeError(500, 'Unable to save file.', err);
-
-                var img = new Image({
-                    _id: newName,
-                    created: Date.now(),
-                    ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip,
-                    encrypted: req.body.encrypted || false,
-                    type: req.files[FILE_UPLOAD_FIELD].type,
-                    createdBy: req.user._id
-                });
-
-                img.save(function(err, obj) {
-                    if (err) return res.makeError(500, 'Unable to save file.', err);
-                    res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy'));
-                });
+            var img = new Image({
+                _id: newName,
+                created: Date.now(),
+                ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip,
+                encrypted: req.body.encrypted || false,
+                type: req.files[FILE_UPLOAD_FIELD].type,
+                createdBy: req.user._id
             });
-        });
+
+            img.save(function(err, obj) {
+                if (err) return res.makeError(500, 'Unable to save file.', err);
+                res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy'));
+            });
+        })
     });
 };
