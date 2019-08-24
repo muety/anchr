@@ -21,6 +21,7 @@
         "jade": "1.11.0",
         "jsonwebtoken": "5.4.1",
         "log4js": "0.6.29",
+        "memory-cache": "^0.2.0",
         "method-override": "2.3.0",
         "mongoose": "4.3.7",
         "morgan": "1.6.1",
