@@ -34,7 +34,9 @@ module.exports = function(passport) {
             if (user) return done({message : 'User already existing.'});
 
             else {
-              var newUser = new User();
+              var newUser = new User({
+                created: Date.now()
+              });
 
               newUser.local.email    = email;
               newUser.local.password = newUser.generateHash(password);
@@ -111,7 +113,9 @@ module.exports = function(passport) {
             if (err) return done(err);
             if (user) return done(null, user);
             else {
-              var newUser = new User();
+              var newUser = new User({
+                created: Date.now()
+              });
 
               newUser.facebook.id    = profile.id;
               newUser.facebook.token = token;
@@ -143,7 +147,9 @@ module.exports = function(passport) {
 
             if (user) return done(null, user);
             else {
-              var newUser = new User();
+              var newUser = new User({
+                created: Date.now()
+              });
 
               newUser.google.id    = profile.id;
               newUser.google.token = token;

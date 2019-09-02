@@ -4,6 +4,7 @@ var mongoose = require('mongoose')
   , config = require('./../../config/config');
 
 var userSchema = mongoose.Schema({
+  created : Date,
   local : {
     email : String,
     password : String,

@@ -1,6 +1,5 @@
 var express = require('express'),
     router = express.Router(),
-    jwt = require('jsonwebtoken'),
     config = require('./../../config/config'),
     log = require('./../../config/middlewares/log')(),
     jwtAuth = require('./../../config/middlewares/jwtauth'),
