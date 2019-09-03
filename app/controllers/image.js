@@ -7,6 +7,8 @@ var express = require('express'),
     log = require('./../../config/middlewares/log')(),
     _ = require('underscore'),
     jwtAuth = require('./../../config/middlewares/jwtauth'),
+    filetype = require('./../../config/middlewares/filetype'),
+    multipart = require('connect-multiparty'),
     mongoose = require('mongoose'),
     Image = mongoose.model('Image');
 
@@ -31,7 +33,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    router.post('/', jwtAuth(passport), function(req, res) {
+    router.post('/', jwtAuth(passport), multipart({maxFilesSize: config.maxFilesSize}), filetype(config.allowedFileTypes), function(req, res) {
         var FILE_UPLOAD_FIELD = "uploadFile";
 
         var tmpPath = req.files[FILE_UPLOAD_FIELD].path;

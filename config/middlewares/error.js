@@ -6,6 +6,8 @@ module.exports = function () {
       if (fullError) loggers.default.error('RES: ' + req.ip + ' ' + req.method + ' ' + req.originalUrl + (req.user ? ' ' + req.user._id : '') + ' ' + code + ' ' + fullError.message + ' ' + fullError.stack);
       else loggers.default.error('RES: ' + req.ip + ' ' + req.method + ' ' + req.originalUrl + (req.user ? ' ' + req.user._id : '') + ' ' + code + ' ' + message);
 
+      res.set('Connection', 'close');
+
       if (req.accepts('json') && !forceHtml) this.status(code).send({error:message, status:code});
       else this.status(code).render('error', {message:message, status:code});
     };

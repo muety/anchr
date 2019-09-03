@@ -17,7 +17,7 @@ angular.module('anchrClientApp')
         return false;
       }
 
-      reader.onload = function(e){
+      reader.onload = function(e) {
         var encrypted = CryptoJS.AES.encrypt(e.target.result, password);
         var blob = new Blob([encrypted], {type: file.type});
         blob.name = file.name;
@@ -52,10 +52,8 @@ angular.module('anchrClientApp')
                 $rootScope.init();
               });
             }, function (response) {
-              if (response.status > 0) {
-                file.err = response.data.error;
-                file.finished = true;
-              }
+              file.err = response.data && response.data.error ? response.data.error : 'Unknown error encountered during upload. Maybe unauthorized?';
+              file.finished = true;
             }, function (evt) {
               file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
             });

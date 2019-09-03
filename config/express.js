@@ -5,8 +5,6 @@ var express = require('express')
   , bodyParser = require('body-parser')
   , compress = require('compression')
   , methodOverride = require('method-override')
-  , multipart = require('connect-multiparty')
-  , filetype = require('./middlewares/filetype')
   , error = require('./middlewares/error')
   , passport = require('passport')
   , monitoring = require('express-status-monitor');
@@ -48,8 +46,6 @@ module.exports = function(app, config) {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(multipart({maxFilesSize : config.maxFilesSize}));
-  app.use(filetype(config.allowedFileTypes));
   app.use(compress());
   app.use(error());
 
