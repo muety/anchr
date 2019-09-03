@@ -22,7 +22,6 @@ module.exports = function(app, passport) {
     });
 
     router.post('/', function(req, res) {
-        console.log(req.user);
         var name = req.body.name;
         if (!name) return res.makeError(400, 'No collection name given.', err);
 
