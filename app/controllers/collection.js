@@ -29,6 +29,8 @@ module.exports = function(app, passport) {
         new Collection({
             _id: utils.generateUUID(),
             name: name,
+            created: new Date(),
+            modified: new Date(),
             links: [],
             owner: req.user._id,
             shared: false
@@ -78,6 +80,7 @@ module.exports = function(app, passport) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
 
+            obj.modified = new Date();
             obj.links.push(link);
             obj.save(function(err, obj) {
                 if (err || !obj) return res.makeError(500, err.message || 'Unable to save new link.', err);
@@ -105,6 +108,7 @@ module.exports = function(app, passport) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
 
+            obj.modified = new Date();
             obj.links.push(link);
             obj.save(function(err) {
                 if (err) return res.makeError(500, err.message, err);
@@ -171,7 +175,9 @@ module.exports = function(app, passport) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.');
 
-        var updateFields = {};
+        var updateFields = {
+            modified: new Date()
+        };
         if (req.body.hasOwnProperty('shared')) updateFields.shared = req.body.shared;
         if (req.body.hasOwnProperty('name')) updateFields.name = req.body.name;
 

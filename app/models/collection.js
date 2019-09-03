@@ -5,6 +5,8 @@ var mongoose = require('mongoose'),
 var CollectionSchema = new Schema({
   _id: String,
   name: String,
+  created : Date,
+  modified : Date,
   links: [{
     url: String,
     description: String,
