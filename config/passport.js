@@ -2,6 +2,7 @@ var LocalStrategy = require('passport-local').Strategy
     , JwtStrategy = require('passport-jwt').Strategy
     , FacebookStrategy = require('passport-facebook').Strategy
     , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
+    , ExtractJwt = require('passport-jwt').ExtractJwt
     , User = require('../app/models/user')
     , config = require('./config')
     , authConfig = require('./auth');
@@ -76,7 +77,7 @@ module.exports = function(passport) {
   // =========================================================================
   var opts = {
     secretOrKey : config.secret,
-    authScheme : 'Bearer'
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer')
   };
   passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
     var strategy = jwt_payload.strategy

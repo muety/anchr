@@ -28,7 +28,7 @@
         "passport": "0.3.2",
         "passport-facebook": "2.0.0",
         "passport-google-oauth": "0.2.0",
-        "passport-jwt": "1.2.1",
+        "passport-jwt": "2.1.0",
         "passport-local": "1.0.0",
         "safe-browse-url-lookup": "0.0.3",
         "serve-favicon": "2.3.0",
