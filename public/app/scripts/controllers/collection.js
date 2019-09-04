@@ -7,15 +7,24 @@ angular.module('anchrClientApp')
         var fetchTitleDebounce = null;
 
         /* Either id or index! */
-        $scope.setActiveCollection = function(id, index) {
+        $scope.setActiveCollection = function(id, cached) {
             if ($scope.data.active === id) return;
-            Collection.collection.get({ _id: id }, function(result) {
-                collections[findCollection(collections, id)] = result;
+
+            function setActive() {
                 $scope.data.active = id;
                 $window.localStorage.setItem('selectedCollectionId', id);
-            }, function(err) {
-                Snackbar.show("Failed to fetch collection " + getCollection(collections, id).name + " from server: " + err.data.error);
-            });
+            }
+
+            if (!cached) {
+                Collection.collection.get({ _id: id }, function(result) {
+                    collections[findCollection(collections, id)] = result;
+                    setActive();
+                }, function(err) {
+                    Snackbar.show("Failed to fetch collection " + getCollection(collections, id).name + " from server: " + err.data.error);
+                });
+            } else {
+                setActive();
+            }
         };
 
         $scope.getCollection = function(id) {
@@ -71,11 +80,11 @@ angular.module('anchrClientApp')
         $scope.addCollection = function(name) {
             new Collection.collection({
                 name: name,
-                link: []
+                links: []
             }).$save(function(result) {
+                collections.push(result);
                 $scope.toggleNewCollection();
-                $scope.setActiveCollection(result._id);
-                $scope.clear();
+                $scope.setActiveCollection(result._id, true);
             }, function(err) {
                 Snackbar.show('Failed to create new collection: ' + err.data.error);
             });
@@ -83,7 +92,7 @@ angular.module('anchrClientApp')
 
         $scope.shareCollection = function(collId) {
             Collection.collection.update({_id: collId, shared: true}, function(result) {
-                getCollection(collections, collId).sahred = true;
+                getCollection(collections, collId).shared = true;
                 Snackbar.show('Collection shared.');
             }, function(err) {
                 Snackbar.show('Failed to share collection: ' + err.data.error);
