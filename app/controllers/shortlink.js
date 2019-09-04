@@ -19,10 +19,10 @@ module.exports = function(app, passport) {
     router.get('/:id', function(req, res, next) {
         var asJson = req.query.json;
 
-        Shortlink.findOne({ _id: req.params.id }, { __v: 0 }, function(err, obj) {
+        Shortlink.findOne({ _id: req.params.id }, { __v: false, id: false, createdBy: false, created: false }, function(err, obj) {
             if (err || !obj) return res.makeError(404, "Not found.");
             if (!asJson && obj.url) res.redirect(obj.url);
-            else res.send(_.omit(obj.toObject(), '__v', 'id', 'createdBy'));
+            else res.send(obj.toObject());
         });
     });
 
@@ -44,7 +44,7 @@ module.exports = function(app, passport) {
                 });
                 shortlink.save(function(err, obj) {
                     if (err) return res.makeError(500, 'Unable to save shortlink to database.', err);
-                    res.status(201).send(_.omit(obj.toObject(), '__v', 'id'));
+                    res.status(201).send(_.omit(obj.toObject(), '__v', 'id', 'createdBy', 'created'));
                 });
             })
             .catch(err => {

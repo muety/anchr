@@ -9,6 +9,7 @@ angular.module('anchrClientApp')
         'update' : {method : 'PATCH', params: {_id : '@_id'}}
       }),
       links: $resource('/api/collection/:collId/links/:id', {collId : '@collId', id : '@_id'}),
-      shortlinks: $resource('/api/collection/shortlinks/:id', {id : '@_id'})
+      shortlinks: $resource('/api/collection/shortlinks/:id', {id : '@_id'}),
+      shared: $resource('/api/shared/:_id', null)
     };
   }]);

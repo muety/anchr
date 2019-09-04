@@ -14,7 +14,7 @@ module.exports = function(app, passport) {
     router.use(log);
 
     router.get('/', function(req, res) {
-        var selection = req.query.short ? '_id name' : { __v: 0 };
+        var selection = req.query.short ? '_id name' : { __v: false };
         Collection.find({ owner: req.user._id }, selection, function(err, result) {
             if (err) return res.makeError(500, err.message, err);
             res.send(result);
@@ -35,7 +35,7 @@ module.exports = function(app, passport) {
             shared: false
         }).save(function(err, obj) {
             if (err || !obj) return res.makeError(500, err.message || 'Unable to save new collection.', err);
-            res.status(201).send(_.omit(obj.toObject(), '__v'));
+            res.status(201).send(_.omit(obj.toObject(), '__v', 'created', 'modified'));
         });
     });
 
@@ -43,7 +43,7 @@ module.exports = function(app, passport) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.', err);
 
-        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: 0 }, function(err, obj) {
+        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: false, created: false, modified: false }, function(err, obj) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
             res.send(obj);
@@ -54,7 +54,7 @@ module.exports = function(app, passport) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.');
 
-        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: 0 }, function(err, obj) {
+        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: false }, function(err, obj) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
             res.send(obj.links);
@@ -131,7 +131,7 @@ module.exports = function(app, passport) {
             linkId = req.params.linkId;
         if (!_id || !linkId) return res.makeError(404, 'Not found. Please give an id.');
 
-        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: 0 }, function(err, obj) {
+        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: false }, function(err, obj) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
 
@@ -158,7 +158,7 @@ module.exports = function(app, passport) {
             linkId = req.params.linkId;
         if (!_id || !linkId) return res.makeError(404, 'Not found. Please give an id.');
 
-        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: 0 }, function(err, obj) {
+        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: false }, function(err, obj) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
 

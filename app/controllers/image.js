@@ -20,7 +20,7 @@ module.exports = function(app, passport) {
     router.get('/:id', function(req, res) {
         var asJson = req.query.json;
 
-        Image.findOne({ _id: req.params.id }, { __v: 0, ip: 0 }, function(err, obj) {
+        Image.findOne({ _id: req.params.id }, { __v: false, ip: false, created: false, createdBy: false }, function(err, obj) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Image not found.');
 
@@ -54,7 +54,7 @@ module.exports = function(app, passport) {
 
             img.save(function(err, obj) {
                 if (err) return res.makeError(500, 'Unable to save file.', err);
-                res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy'));
+                res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy', 'created'));
             });
         })
     });
