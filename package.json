@@ -23,7 +23,7 @@
         "log4js": "0.6.29",
         "memory-cache": "0.2.0",
         "method-override": "2.3.0",
-        "mongoose": "4.3.7",
+        "mongoose": "5.7.5",
         "morgan": "1.6.1",
         "passport": "0.3.2",
         "passport-facebook": "2.0.0",
