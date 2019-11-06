@@ -2,11 +2,13 @@
 
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoff.ee/n1try)
 
-Anchr is a useful little helper or toolbox or the like for common tasks on the internet. The official hosted version is available at [anchr.io](https://anchr.io). There's also an [Android App](https://github.com/n1try/anchr-android) for Anchr link collections.
+Anchr is a useful little helper or toolbox or the like for common tasks on the internet. It comes with an [Android App](https://github.com/n1try/anchr-android) for Anchr link collections.
+
+ℹ️ The official hosted version, formerly available at [anchr.io](https://anchr.io), has been **discontinued**. To use Anchr, you will need you own, self-hosted instance from now on.
 
 ![](https://anchr.io/i/9w5si.png)
 
-## What does it do?
+## 🗒 What does it do?
 The idea arised when someday I considered it useful to have a collection of web links or bookmarks – like those you have in Chrome or Firefox – accessible from everywhere without needing to synchronize your browser profile. Just like if you’re anywhere on an other PC, find a useful article on the internet and want to save it quickly for later at home. This is what Anchr’s __collections__ feature does. It saves links – with an optional description for easier search and separated into seperate categories / collections.
 
 The second feature is to __upload images__. You can easily upload one or more photos from your computer oder mobile device and send them to friends or include them into forum posts or the like. Special with Anchr’s image hosting is that users are given the opportunity to client-sided encrypt images with a password. As a result no one without the password will ever see their photos’ content.
@@ -15,7 +17,7 @@ The last feature are __shortlinks__ – actually not any different from those yo
 
 Anchr’s focus is on ease and quickness of use – short loading times, flat menu hierarchies, etc. There's also a Chrome extension out there, which you can use to save or shorten links directly from the website.
 
-## How to host it myself?
+## 📡 How to host it myself?
 ### Prerequisites
 In order to host Anchr on your own, you need a few things.
 * Node.js 8.x
@@ -36,7 +38,7 @@ In order to host Anchr on your own, you need a few things.
     * `ANCHR_GOOGLE_SECRET` and `ANCHR_GOOGLE_API_KEY`: OAuth credentials for Google Login
     * `ANCHR_ALLOW_SIGNUP`: Whether or not to allow sign up of new users (default: `true`)
 
-### Run
+### ⚙️ Run
 #### Setup
 1. `$ source env.sh`
 2. `$ npm install -g bower`
@@ -56,5 +58,5 @@ In order to host Anchr on your own, you need a few things.
 
 **NOTE:** The current Docker Compose configuration does not include spinning up the MongoDB database (see [#10](https://github.com/n1try/anchr/issues/10)). It is assumed that a Mongo instance is already running and accessible publicly. 
 
-## License
+## 📓 License
 GNU General Public License v3 (GPL-3) @ [Ferdinand Mütsch](https://muetsch.io)
