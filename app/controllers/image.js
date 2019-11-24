@@ -20,7 +20,7 @@ module.exports = function(app, passport) {
     router.get('/:id', function(req, res) {
         var asJson = req.query.json;
 
-        Image.findOne({ _id: req.params.id }, { __v: false, ip: false, created: false, createdBy: false }, function(err, obj) {
+        Image.findOne({ _id: req.params.id }, { __v: false, ip: false, createdBy: false }, function(err, obj) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Image not found.');
 
