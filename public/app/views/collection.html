@@ -103,7 +103,10 @@
             <div class="row" ng-if="getCollection(data.active).links.length">
                 <div class="row">
                     <div class="col-md-8">
-                        <h4 class="text-primary">My links</h4>
+                        <h4 class="text-primary">
+                            <span>My links</span>
+                            <i class="glyphicon glyphicon-repeat" style="margin-left: 10px; font-size: 14px; cursor: pointer" ng-click="setActiveCollection(data.active, false)"></i>
+                        </h4>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group search-form">

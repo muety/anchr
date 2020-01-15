@@ -8,7 +8,7 @@ angular.module('anchrClientApp')
 
         /* Either id or index! */
         $scope.setActiveCollection = function(id, cached) {
-            if ($scope.data.active === id) return;
+            if ($scope.data.active === id && cached) return;
 
             function setActive() {
                 $scope.data.active = id;
@@ -167,13 +167,6 @@ angular.module('anchrClientApp')
         function findCollection(colls, collId) {
             for (var i = 0; i < colls.length; i++) {
                 if (colls[i]._id == collId) return i;
-            }
-            return -1;
-        }
-
-        function findCollectionByName(colls, collName) {
-            for (var i = 0; i < colls.length; i++) {
-                if (colls[i].name == collName) return i;
             }
             return -1;
         }

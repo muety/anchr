@@ -6,6 +6,8 @@ Anchr is a useful little helper or toolbox or the like for common tasks on the i
 
 ℹ️ The official hosted version, formerly available at [anchr.io](https://anchr.io), has been **discontinued**. To use Anchr, you will need you own, self-hosted instance from now on.
 
+🛡 This software is not actively maintained anymore. Several dependencies are outdated and potentially vulnerable. We recommend to not expose your Anchr instance to the public internet.
+
 ![](https://anchr.io/i/9w5si.png)
 
 ## 🗒 What does it do?
@@ -47,7 +49,9 @@ In order to host Anchr on your own, you need a few things.
    
 #### Option 1: Run Natively
 ##### For development
-1. `$ npm start` (from root folder)
+1. Run backend `$ npm start` (from root folder)
+2. Run frontend `$ grunt serve` (from `public` folder)
+3. Go to http://localhost:9000 and enjoy live reload
 
 ##### In production
 1. `$ npm run build` (to build frontend)
