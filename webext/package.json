@@ -1,0 +1,20 @@
+{
+  "name": "anchr-webext",
+  "version": "0.1.0",
+  "description": "Firefox extension to save bookmarks to Anchr.io",
+  "main": "src/app.js",
+  "scripts": {
+    "run": "web-ext run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/n1try/anchr.git"
+  },
+  "author": "Ferdinand Mütsch",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/n1try/anchr/issues"
+  },
+  "homepage": "https://github.com/n1try/anchr"
+}
