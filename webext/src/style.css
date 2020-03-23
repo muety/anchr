@@ -69,6 +69,13 @@ input {
     padding: 6px;
 }
 
+select {
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 6px;
+    background-color: #fff;
+}
+
 button {
     padding: 8px 16px;
     border-radius: 2px;
