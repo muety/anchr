@@ -3,6 +3,9 @@ const serverInput = document.querySelector('#input-server')
 const usernameInput = document.querySelector('#input-username')
 const passwordInput = document.querySelector('#input-password')
 
+form.addEventListener('submit', saveSettings)
+browser.storage.local.get().then(updateUI, onError)
+
 function saveSettings(event) {
     event.preventDefault()
     browser.storage.local.set({
@@ -13,13 +16,13 @@ function saveSettings(event) {
         username: usernameInput.value,
         password: passwordInput.value
     })
+    .then(data => {
+        browser.storage.local.set({ token: data.token })
+        onSuccess('You are logged in.')
+    })
     .then(browser.storage.local.get)
     .then(updateUI)
     .catch(onError)
-}
-
-function storeToken(token) {
-    browser.storage.local.set({ token })
 }
 
 function fetchToken(server, credentials) {
@@ -32,21 +35,16 @@ function fetchToken(server, credentials) {
         body: JSON.stringify({
             'email': credentials.username,
             'password': credentials.password
+            })
         })
-    })
         .then(response => {
             if (response.ok && response.status === 200) {
-                return response.json().then((data) => {
-                    storeToken(data.token)
-                    onSuccess('You are logged in.')
-                })
+                return response.json()
             } else {
                 onError(response.statusText)
             }
         })
-        .catch(() => {
-            onError('Something weng wrong')
-        })
+        .catch(onError)
 }
 
 function updateUI(restoredSettings) {
@@ -58,8 +56,3 @@ function updateUI(restoredSettings) {
         passwordInput.placeholder = '<successfully saved>'
     }
 }
-
-const gettingStoredSettings = browser.storage.local.get()
-gettingStoredSettings.then(updateUI, onError)
-
-form.addEventListener('submit', saveSettings)

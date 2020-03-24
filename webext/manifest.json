@@ -25,6 +25,7 @@
     "permissions": [
         "https://anchr.io/*",
         "storage",
-        "activeTab"
+        "activeTab",
+        "tabs"
     ]
 }

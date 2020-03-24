@@ -27,7 +27,7 @@
                         <label for="input-link">Link: </label>
                     </div>
                     <div class="flex-grow text-grey">
-                        <input type="text" class="float-right" style="min-width: 275px;"
+                        <input type="text" id="input-link" class="text-grey float-right" style="min-width: 275px;"
                             placeholder="https://example.org">
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                         <label for="input-link">Description: </label>
                     </div>
                     <div class="flex-grow text-grey">
-                        <input type="text" class="float-right" style="min-width: 275px;"
+                        <input type="text" id="input-description" class="text-grey float-right" style="min-width: 275px;"
                             placeholder="Describe the link">
                     </div>
                 </div>
@@ -45,13 +45,11 @@
                         <label for="input-link">Collection: </label>
                     </div>
                     <div class="flex-grow text-grey">
-                        <select class="float-right text-grey" placeholder="collection" style="min-width: 289px;">
-                            <option>Read Later</option>
-                        </select>
+                        <select id="select-collection" class="float-right text-grey" placeholder="collection" style="min-width: 289px;"></select>
                     </div>
                 </div>
                 <div class="mt-4">
-                    <button type="submit" class="bg-anchr float-right text-white text-md">Save</button>
+                    <button id="btn-save" type="submit" class="bg-anchr float-right text-white text-md">Save</button>
                     <div class="clear"></div>
                 </div>
             </form>
