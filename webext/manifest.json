@@ -2,11 +2,11 @@
     "manifest_version": 2,
     "name": "Anchr Bookmarks Collector",
     "author": "Ferdinand Mütsch",
-    "homepage_url": "https://github.com/n1try/anchr",
+    "homepage_url": "https://github.com/n1try/anchr/tree/master/webext",
     "version": "0.1.0",
     "description": "Easily bookmark webpages to your Anchr collection",
     "options_ui": {
-        "page": "src/options.html",
+        "page": "src/options/options.html",
         "browser_style": true
     },
     "applications": {
@@ -15,15 +15,16 @@
         }
     },
     "icons": {
-        "48": "icon/icon.svg",
-        "128": "icon/icon.svg"
+        "48": "icons/logo-48.png"
     },
     "browser_action": {
         "default_icon": "icons/logo-48.png",
         "default_title": "Anchr.io",
-        "default_popup": "src/view.html"
+        "default_popup": "src/index.html"
     },
     "permissions": [
-        "storage"
+        "https://anchr.io/*",
+        "storage",
+        "activeTab"
     ]
 }

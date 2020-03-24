@@ -1,0 +1,10 @@
+body {
+    font-family: "Open Sans Light", sans-serif;
+    margin: 0;
+    color: #444;
+}
+
+#main {
+    border: 2px solid #009688;
+    width: 400px;
+}

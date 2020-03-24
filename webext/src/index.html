@@ -4,17 +4,24 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="app.css" />
 </head>
 
 <body>
     <div id="main">
-        <div id="title-container" class="bg-anchr flex p-2 text-xl text-white text-bold text-semibold">
-            <img src="logo.png">
-            <span class="ml-4">Anchr.io</span>
+        <div id="title-container" class="bg-anchr flex p-2 text-xl text-white text-bold text-semibold w-full flex justify-between">
+            <div class="flex">
+                <img src="logo.png">
+                <span class="ml-4">Anchr.io</span>    
+            </div>
+            <div id="btn-settings" class="pointer">⚙️</div>
         </div>
         <div id="content-container" class="p-2">
-            <form>
+            <div id="alert-container" class="hidden"></div>
+            <div id="error-container" class="hidden"></div>
+
+            <form id="form-main">
                 <div class="flex justify-between mt-4">
                     <div class="text-grey text-md">
                         <label for="input-link">Link: </label>
@@ -50,6 +57,7 @@
             </form>
         </div>
     </div>
+    <script src="common.js"></script>
     <script src="app.js"></script>
 </body>
 

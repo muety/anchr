@@ -39,6 +39,10 @@
     margin-top: 16px;
 }
 
+.mt-2 {
+    margin-top: 16px;
+}
+
 .p-2 {
     padding: 8px;
 }
@@ -59,19 +63,23 @@
     font-weight: 600;
 }
 
-body {
-    margin: 0;
+.hidden {
+    display: none;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 input {
     border: 1px solid gray;
-    border-radius: 5px;
+    border-radius: 2px;
     padding: 6px;
 }
 
 select {
     border: 1px solid gray;
-    border-radius: 5px;
+    border-radius: 2px;
     padding: 6px;
     background-color: #fff;
 }
@@ -83,8 +91,16 @@ button {
     cursor: pointer;
 }
 
-#main {
-    font-family: Roboto, Ubuntu, Arial, Helvetica, sans-serif;
-    border: 2px solid #009688;
-    width: 400px;
+#alert-container {
+    padding: 4px 8px;
+    background-color: #c5e1a5;
+    border-radius: 2px;
+    border: 1px solid #8bc34a;
+}
+
+#error-container {
+    padding: 4px 8px;
+    background-color: #ef9a9a;
+    border-radius: 2px;
+    border: 1px solid #f44336;
 }

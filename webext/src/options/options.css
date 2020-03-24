@@ -1,0 +1,21 @@
+body {
+    font-family: "Open Sans Light", sans-serif;
+    padding: 2px;
+    color: #444;
+}
+
+#content-container {
+    border: 2px solid #009688;
+    padding: 16px;
+}
+
+#form-container {
+    max-width: 400px;
+}
+
+.title {
+    color: #009688;
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 16px;
+}

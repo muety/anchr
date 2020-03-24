@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../common.css" />
+    <link rel="stylesheet" href="options.css" />
+</head>
+
+<body>
+
+    <section id="content-container" class="credentials">
+        <div class="title">Credentials</div>
+
+        <div id="alert-container" class="hidden"></div>
+        <div id="error-container" class="hidden"></div>
+
+        <div id="form-container">
+            <form id="form-credentials">
+                <div class="mt-2 flex justify-between">
+                    <label>Server:</label>
+                    <input id="input-server" type="text" pattern="^https?://.+\..+$"
+                        placeholder="E.g. https://anchr.yourserver.tld" required />
+                </div>
+                <div class="mt-2 flex justify-between">
+                    <label>Username:</label>
+                    <input id="input-username" type="text" placeholder="Username" required />
+                </div>
+                <div class="mt-2 flex justify-between">
+                    <label>Password:</label>
+                    <input id="input-password" type="password" placeholder="Password" required />
+                </div>
+                <div class="mt-4">
+                    <button id="btn-submit" type="submit" class="bg-anchr float-right text-white text-md">Save</button>
+                    <div class="clear"></div>
+                </div>
+            </form>
+        </div>
+
+    </section>
+
+    <script src="../common.js"></script>
+    <script src="options.js"></script>
+</body>
+
+</html>
