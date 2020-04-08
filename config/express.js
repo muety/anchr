@@ -7,6 +7,7 @@ var express = require('express')
   , methodOverride = require('method-override')
   , error = require('./middlewares/error')
   , passport = require('passport')
+  , mongoose = require('mongoose')
   , monitoring = require('express-status-monitor');
 
 module.exports = function(app, config) {
@@ -68,6 +69,11 @@ module.exports = function(app, config) {
       }
     }));
   }
+
+  app.get('/health', function(req, res) {
+    res.set('Content-Type', 'text/plain')
+    res.send('app=1\ndb=' + mongoose.connection.readyState)
+  })
 
   app.use(methodOverride());
 
