@@ -102,6 +102,9 @@ function postLink(data) {
                 return Promise.reject(response.statusText)
             }
         })
+        .then(() => {
+            return browser.storage.local.set({ lastSelected: data.collection })
+        })
 }
 
 function refreshToken() {
@@ -139,12 +142,15 @@ function resetForm() {
 }
 
 function updateCollectionList(collections) {
+    let selectId = restoredSettings.lastSelected
+
     collections
         .sort((a, b) => a.name < b.name ? -1 : (a.name === b.name ? 0 : 1))
         .forEach(c => {
             let el = document.createElement('option')
             el.value = c.id
             el.innerText = c.name
+            el.selected = c.id === selectId
 
             selectCollection.appendChild(el)
         })
