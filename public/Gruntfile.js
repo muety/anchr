@@ -15,9 +15,9 @@ module.exports = function (grunt) {
 
   // Automatically load required Grunt tasks
   require('jit-grunt')(grunt, {
-    useminPrepare: 'grunt-usemin',
+    useminPrepare: 'grunt-useminify',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn',
+    cdnify: 'grunt-google-cdn2',
     configureProxies: 'grunt-connect-proxy'
   });
 

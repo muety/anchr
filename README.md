@@ -43,19 +43,19 @@ In order to host Anchr on your own, you need a few things.
 ### ⚙️ Run
 #### Setup
 1. `$ source env.sh`
-2. `$ npm install -g bower`
-3. `$ npm install`
+2. `$ yarn global add bower`
+3. `$ yarn`
 4. `$ cd public && bower install && cd ..`
    
 #### Option 1: Run Natively
 ##### For development
-1. Run backend `$ npm start` (from root folder)
+1. Run backend `$ yarn start` (from root folder)
 2. Run frontend `$ grunt serve` (from `public` folder)
 3. Go to http://localhost:9000 and enjoy live reload
 
 ##### In production
-1. `$ npm run build` (to build frontend)
-2. `$ npm run production`
+1. `$ yarn run build` (to build frontend)
+2. `$ yarn run production`
 
 #### Option 2: Run with Docker
 1. `docker-compose up`
