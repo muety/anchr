@@ -10,7 +10,7 @@ angular
         'anchrClientApp.filters',
         'angular-jwt'
     ])
-    .config(['$routeProvider', function($routeProvider) {
+    .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
@@ -32,7 +32,7 @@ angular
                 controller: 'ViewImageCtrl',
                 controllerAs: 'viewImage',
                 resolve: {
-                    id: function($route) {
+                    id: function ($route) {
                         return $route.current.params.id;
                     }
                 }
@@ -57,7 +57,7 @@ angular
                 controller: 'ViewCollectionCtrl',
                 controllerAs: 'viewCollection',
                 resolve: {
-                    id: function($route) {
+                    id: function ($route) {
                         return $route.current.params.id;
                     }
                 }
@@ -72,7 +72,7 @@ angular
                 controller: 'AuthCtrl',
                 controllerAs: 'auth',
                 resolve: {
-                    token: function($route) {
+                    token: function ($route) {
                         return $route.current.params.token;
                     }
                 }
@@ -86,54 +86,57 @@ angular
                 redirectTo: '/'
             });
     }])
-    .config(['$httpProvider', 'jwtInterceptorProvider', function($httpProvider, jwtInterceptorProvider) {
+    .config(['$httpProvider', 'jwtInterceptorProvider', function ($httpProvider, jwtInterceptorProvider) {
         $httpProvider.defaults.withCredentials = true;
 
-        jwtInterceptorProvider.tokenGetter = ['Auth', function(Auth) {
+        jwtInterceptorProvider.tokenGetter = ['Auth', function (Auth) {
             return localStorage.getItem('token');
         }];
 
         $httpProvider.interceptors.push('jwtInterceptor');
     }])
-    .run(['$rootScope', function($rootScope) {
-        $rootScope.init = function() {
-            $(function() {
+    .config(['$locationProvider', function ($locationProvider) {
+        $locationProvider.hashPrefix('');
+    }])
+    .run(['$rootScope', function ($rootScope) {
+        $rootScope.init = function () {
+            $(function () {
                 $.material.init();
                 $('[data-toggle="tooltip"]').tooltip();
             });
         };
     }])
-    .run(['$rootScope', 'Snackbar', 'Auth', '$location', function($rootScope, Snackbar, Auth, $location) {
+    .run(['$rootScope', 'Snackbar', 'Auth', '$location', function ($rootScope, Snackbar, Auth, $location) {
         $rootScope.snackbar = Snackbar;
-        $rootScope.isActive = function(viewLocation) {
+        $rootScope.isActive = function (viewLocation) {
             return viewLocation === $location.path();
         };
         $rootScope.loggedIn = Auth.loggedin;
-        $rootScope.logout = function() {
+        $rootScope.logout = function () {
             Auth.logout();
             Snackbar.show('You were logged out.');
         };
-        $rootScope.stringEmpty = function(string) {
+        $rootScope.stringEmpty = function (string) {
             return (string === '');
         };
-        $rootScope.removeChar = function(string, char) {
+        $rootScope.removeChar = function (string, char) {
             if (!string || !char) return '';
             return string.replace(char, '');
         }
     }])
-    .run(['Auth', function(Auth) {
+    .run(['Auth', function (Auth) {
         if (Auth.loggedin()) Auth.renew();
     }])
-    .run(['$rootScope', '$location', function($rootScope, $location) {
-        $rootScope.getBaseUrl = function() {
+    .run(['$rootScope', '$location', function ($rootScope, $location) {
+        $rootScope.getBaseUrl = function () {
             return $location.protocol() + '://' + location.host + '/';
         };
 
-        $rootScope.getClientUrl = function() {
+        $rootScope.getClientUrl = function () {
             return $rootScope.getBaseUrl() + '#/';
         };
 
-        $rootScope.getApiUrl = function() {
+        $rootScope.getApiUrl = function () {
             return $rootScope.getBaseUrl() + 'api/';
         };
     }]);

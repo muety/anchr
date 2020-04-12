@@ -43,9 +43,8 @@ In order to host Anchr on your own, you need a few things.
 ### ⚙️ Run
 #### Setup
 1. `$ source env.sh`
-2. `$ yarn global add bower`
 3. `$ yarn`
-4. `$ cd public && bower install && cd ..`
+4. `$ cd public && ../node_modules/bower/bin/bower install && cd ..`
    
 #### Option 1: Run Natively
 ##### For development

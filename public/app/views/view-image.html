@@ -4,8 +4,8 @@
     <strong>Decryption in progress.</strong>This may take a few seconds - mainly depending on the CPU power of your
     device - while you can't interact with your browser.
   </div>
-  <p class="view-image"><img src="{{image.href}}" ng-if="!image.encrypted"></p>
-  <p class="view-image"><img src="{{data.imageSrc}}" ng-if="image.encrypted"></p>
+  <p class="view-image"><img ng-src="{{image.href}}" ng-if="!image.encrypted"></p>
+  <p class="view-image"><img ng-src="{{data.imageSrc}}" ng-if="image.encrypted"></p>
   <div class="row" ng-if="image.encrypted && !data.imageSrc">
     <div class="col-md-3"></div>
     <div class="col-md-6">
