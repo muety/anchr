@@ -16,17 +16,17 @@
         "cors": "2.8.5",
         "express": "4.17.1",
         "htmlparser2": "4.1.0",
-        "jsonwebtoken": "5.4.1",
+        "jsonwebtoken": "8.5.1",
         "memory-cache": "0.2.0",
         "method-override": "3.0.0",
         "mongoose": "4.3.7",
-        "passport": "0.3.2",
-        "passport-facebook": "2.0.0",
-        "passport-google-oauth": "0.2.0",
-        "passport-jwt": "2.1.0",
+        "passport": "0.4.1",
+        "passport-facebook": "3.0.0",
+        "passport-google-oauth": "2.0.0",
+        "passport-jwt": "4.0.0",
         "passport-local": "1.0.0",
         "safe-browse-url-lookup": "0.1.0",
-        "underscore": "1.8.3"
+        "underscore": "1.10.2"
     },
     "devDependencies": {
         "autoprefixer-core": "^5.2.1",

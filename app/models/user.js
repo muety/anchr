@@ -48,7 +48,7 @@ userSchema.methods.jwtSerialize = function(strategy) {
   payload[strategy] = self[strategy];
   payload.strategy = strategy;
 
-  return jwt.sign(payload, config.secret, {expiresIn : config.tokenExpire});
+  return jwt.sign(payload, config.secret, { expiresIn : config.tokenExpire });
 };
 
 module.exports = mongoose.model('User', userSchema);
