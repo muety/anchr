@@ -47,7 +47,7 @@ module.exports = function(app, passport) {
 
     router.get('/facebook/callback', function(req, res, next) {
         passport.authenticate('facebook', function(err, user) {
-            if (!user) return res.makeError(401, 'Unauthorized.', err, true);
+            if (!user) return res.makeError(401, 'Unauthorized.', err);
 
             res.redirect(config.clientUrl + 'auth/' + user.jwtSerialize('facebook'));
             initUser(user);
@@ -58,7 +58,7 @@ module.exports = function(app, passport) {
 
     router.get('/google/callback', function(req, res, next) {
         passport.authenticate('google', function(err, user) {
-            if (!user) return res.makeError(401, 'Unauthorized.', err, true);
+            if (!user) return res.makeError(401, 'Unauthorized.', err);
 
             res.redirect(config.clientUrl + 'auth/' + user.jwtSerialize('google'));
             initUser(user);

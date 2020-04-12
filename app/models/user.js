@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-  , bcrypt = require('bcrypt-nodejs')
+  , bcrypt = require('bcrypt')
   , jwt = require('jsonwebtoken')
   , config = require('./../../config/config');
 

@@ -1,7 +1,7 @@
 var express = require('express'),
     router = express.Router(),
     axios = require('axios'),
-    htmlparser = require('htmlparser'),
+    htmlparser = require('htmlparser2'),
     cache = require('memory-cache'),
     config = require('../../config/config'),
     log = require('./../../config/middlewares/log')(),
@@ -46,7 +46,7 @@ module.exports = function(app) {
             if (!response) return;
             var contentType = response.headers['content-type'];
             if (!contentType.startsWith('text/html')) return sendTitle(null);
-            var handler = new htmlparser.DefaultHandler(function (error, dom) {
+            var handler = new htmlparser.DomHandler(function (error, dom) {
                 if (error) return res.makeError(404, 'Not found');
                 var htmlNode = dom.filter(function(n) { return n.type === 'tag' && n.name === 'html' })[0];
                 var headNode = htmlNode.children.filter(function(n) { return n.type === 'tag' && n.name === 'head' })[0];

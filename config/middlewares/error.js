@@ -1,15 +1,14 @@
-var loggers = require('./../log')();
+var log = require('./../log')();
 
 module.exports = function () {
   return function (req, res, next) {
-    res.makeError = function (code, message, fullError, forceHtml) {
-      if (fullError) loggers.default.error('RES: ' + req.ip + ' ' + req.method + ' ' + req.originalUrl + (req.user ? ' ' + req.user._id : '') + ' ' + code + ' ' + fullError.message + ' ' + fullError.stack);
-      else loggers.default.error('RES: ' + req.ip + ' ' + req.method + ' ' + req.originalUrl + (req.user ? ' ' + req.user._id : '') + ' ' + code + ' ' + message);
+    res.makeError = function (code, message, fullError) {
+      if (fullError) log.default('req: %s %s %s %s %s %s %s', req.ip, req.method, req.originalUrl, (req.user ? ' ' + req.user._id : ''), code, fullError.message, fullError.stack);
+      else log.default('res: ', req.ip, req.method, req.originalUrl, (req.user ? ' ' + req.user._id : ''), code, message);
 
       res.set('Connection', 'close');
 
-      if (req.accepts('json') && !forceHtml) this.status(code).send({error:message, status:code});
-      else this.status(code).render('error', {message:message, status:code});
+      this.status(code).send({ error:message, status:code });
     };
     next();
   };

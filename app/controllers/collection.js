@@ -1,6 +1,5 @@
 var express = require('express'),
     router = express.Router(),
-    config = require('../../config/config'),
     utils = require('../../utils'),
     log = require('./../../config/middlewares/log')(),
     _ = require('underscore'),

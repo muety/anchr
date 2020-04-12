@@ -1,8 +1,8 @@
 var express = require('express')
   , config = require('./config/config')
-  , glob = require('glob')
+  , fs = require('fs')
   , mongoose = require('mongoose')
-  , loggers = require('./config/log')();
+  , log = require('./config/log')();
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
@@ -10,15 +10,17 @@ db.on('error', function () {
   throw new Error('unable to connect to database at ' + config.db);
 });
 
-var models = glob.sync(config.root + '/app/models/*.js');
+var models = fs.readdirSync(config.root + '/app/models').filter(function(f) {
+  return f.endsWith('.js')
+});
 models.forEach(function (model) {
-  require(model);
+  require(config.root + '/app/models/' + model);
 });
 var app = express();
 
 require('./config/express')(app, config);
 
 app.listen(config.port, 'localhost', function () {
- loggers.default.info('Express server listening on port ' + config.port);
+ log.default('Express server listening on port ' + config.port);
 });
 
