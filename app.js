@@ -4,7 +4,7 @@ var express = require('express')
   , mongoose = require('mongoose')
   , log = require('./config/log')();
 
-mongoose.connect(config.db);
+mongoose.connect(config.db, { useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
 db.on('error', function () {
   throw new Error('unable to connect to database at ' + config.db);
