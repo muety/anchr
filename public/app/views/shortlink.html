@@ -5,10 +5,10 @@
       <span class="input-group-addon">
         <i class="mdi-editor-insert-link"></i>
       </span>
-      <label class="control-label" for="linkInput" ng-if="!data.loading">Paste a link here.</label>
-      <label class="control-label" for="linkInput" ng-if="data.loading">Saving ...</label>
+      <label class="control-label" for="shortlinkLinkInput" ng-if="!data.loading">Paste a link here.</label>
+      <label class="control-label" for="shortlinkLinkInput" ng-if="data.loading">Saving ...</label>
       <form name="linkInputForm">
-        <input type="url" id="linkInput" name="linkInput" class="form-control" ng-model="data.linkInput"
+        <input type="url" id="shortlinkLinkInput" name="linkInput" class="form-control" ng-model="data.linkInput"
           ng-disabled="data.loading" my-enter="createShortlink(data.linkInput)">
       </form>
       <p class="help-block">Paste a link which you want to be shortened.</p>

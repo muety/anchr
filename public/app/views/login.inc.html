@@ -9,16 +9,16 @@
         <p ng-if="isNewUser">✔️ Welcome! You have signed up successfully. Now you are ready to go ahead and log in.</p>
         <form name="loginForm">
           <div class="form-group">
-            <label for="inputEmail" class="col-md-2 control-label">Email</label>
+            <label for="loginInputEmail" class="col-md-2 control-label">Email</label>
             <div class="col-md-10">
-              <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email"
+              <input type="email" name="email" class="form-control" id="loginInputEmail" placeholder="Email"
                 ng-model="data.email">
             </div>
           </div>
           <div class="form-group">
-            <label for="inputPassword" class="col-md-2 control-label">Password</label>
+            <label for="loginInputPassword" class="col-md-2 control-label">Password</label>
             <div class="col-md-10">
-              <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password"
+              <input type="password" name="password" class="form-control" id="loginInputPassword" placeholder="Password"
                 ng-model="data.password" my-enter="login()">
             </div>
           </div>
