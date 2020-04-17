@@ -26,6 +26,9 @@
         "dist/css/bootstrap.css",
         "dist/js/bootstrap.js"
       ]
+    },
+    "crypto-js": {
+      "main": "crypto-js.js"
     }
   },
   "resolutions": {
