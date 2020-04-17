@@ -4,7 +4,6 @@ angular.module('anchrClientApp')
   .controller('ImageCtrl', ['$rootScope', '$scope', 'Upload', '$timeout', function ($rootScope, $scope, Upload, $timeout) {
     var allowedTypes = ['image/'];
 
-    /* Depends on http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js to be included */
     $scope.encryptAndUpload = function (files, errFiles) {
       $scope.files.loading = true;
       var password = $scope.files.password;

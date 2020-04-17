@@ -125,6 +125,20 @@ module.exports = function (grunt) {
         port: 3000,
         https: false,
         xforward: false,
+      },
+      {
+        context: '/i',
+        host: 'localhost',
+        port: 3000,
+        https: false,
+        xforward: false,
+      },
+      {
+        context: '/s',
+        host: 'localhost',
+        port: 3000,
+        https: false,
+        xforward: false,
       }]
     },
     // Empties folders to start fresh

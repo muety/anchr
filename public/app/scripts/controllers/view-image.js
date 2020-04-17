@@ -18,8 +18,9 @@ angular.module('anchrClientApp')
     });
 
     $scope.decrypt = function () {
+      var relativeHref = new URL($scope.image.href).pathname
       $scope.data.loading = true;
-      $http.get($scope.image.href).then(function (result) {
+      $http.get(relativeHref).then(function (result) {
         var password = $scope.data.password;
         var reader = new FileReader();
         var blob = new Blob([result.data], { type: $scope.image.type });
@@ -43,6 +44,8 @@ angular.module('anchrClientApp')
 
         reader.readAsText(blob);
 
-      }, function (err) {});
+      }, function (err) {
+        console.log(err)
+      });
     };
   }]);
