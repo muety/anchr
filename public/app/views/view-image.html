@@ -12,8 +12,8 @@
       <div class="form-group" style="padding: 0; margin: 0;">
         <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-          <input type="text" ng-model="data.password" class="form-control"
-            placeholder="Enter passphrase to encrypt image ..." ng-disabled="data.loading">
+          <input type="password" ng-model="data.password" class="form-control"
+            placeholder="Enter passphrase to encrypt image ..." ng-disabled="data.loading" my-enter="decrypt()">
           <span class="input-group-btn">
             <button type="button" class="btn btn-fab btn-fab-mini btn-primary"
               ng-disabled="!data.password || data.password.length < 6" ng-click="decrypt()">
