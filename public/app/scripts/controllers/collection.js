@@ -11,6 +11,7 @@ angular.module('anchrClientApp')
             if ($scope.data.active === id && cached) return;
 
             function setActive() {
+                $scope.data.search = ''
                 $scope.data.active = id;
                 $window.localStorage.setItem('selectedCollectionId', id);
             }
@@ -127,7 +128,8 @@ angular.module('anchrClientApp')
         $scope.clear = function() {
             $scope.data = {
                 collections: collections,
-                active: 0
+                active: 0,
+                search: ''
             };
 
             Collection.collection.query(function(result) {

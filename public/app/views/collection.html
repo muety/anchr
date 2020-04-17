@@ -112,7 +112,7 @@
                         <div class="form-group search-form">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                                <input class="form-control" ng-model="search" placeholder="Search ...">
+                                <input class="form-control" ng-model="data.search" placeholder="Search ...">
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="l in getCollection(data.active).links | filter:search | orderBy:'-date'">
+                        <tr ng-repeat="l in getCollection(data.active).links | filter:data.search | orderBy:'-date'">
                             <td class="td-link-container">
                                 <a href="{{l.url}}" target="_blank">{{ l.url }}</a>
                                 <div class="text-small">({{ l.date | date : 'MMM d, y h:mm a' }})</div>
