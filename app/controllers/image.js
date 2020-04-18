@@ -28,10 +28,13 @@ module.exports = function(app, passport) {
      *        - ApiKeyAuth: []
      *      parameters:
      *        - $ref: '#/parameters/imageId'
-     *        - $ref: '#/parameters/imageJson'
      *      produces:
      *        - application/json
-     *        - image/*
+     *        - image/jpeg
+     *        - image/png
+     *        - image/gif
+     *        - image/bmp
+     *        - image/svg+xml
      *      responses:
      *          200:
      *            description: The image's meta data object
