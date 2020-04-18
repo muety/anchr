@@ -11,7 +11,7 @@ angular.module('anchrClientApp')
       loading: false
     };
 
-    Image.json.get({id : id}, function(result) {
+    Image.get.get({id: id}, function(result) {
       $scope.image = result;
       $scope.image.created = Date.parse($scope.image.created);
       $scope.image.link = $location.absUrl();
