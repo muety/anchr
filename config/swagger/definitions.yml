@@ -1,0 +1,79 @@
+definitions:
+  Image:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: The image's ID
+      created:
+        type: string
+        format: 'date-time'
+        description: Created date of this image object
+      encrypted:
+        type: boolean
+        description: Whether or not this image is encrypted
+      type:
+        type: string
+        description: Mime-type of the image, e.g. 'image/png'
+      href:
+        type: string
+        format: url
+        description: URL of the actual image
+
+  User:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: The user's ID
+      created:
+        type: string
+        format: 'date-time'
+        description: Created date of this user object
+      local:
+        type: object
+        description: User authentication information if signed up using e-mail address and password
+        properties:
+          email:
+            type: string
+            description: The user's e-mail address
+      facebook:
+        type: object
+        description: User authentication information if signed up using Facebook
+        properties:
+          id:
+            type: string
+            description: The user's Facebook ID
+          email:
+            type: string
+            description: The user's e-mail address
+          name:
+            type: string
+            description: The user's name
+      google:
+        type: object
+        description: User authentication information if signed up using Google
+        properties:
+          id:
+            type: string
+            description: The user's Google ID
+          email:
+            type: string
+            description: The user's e-mail address
+          name:
+            type: string
+            description: The user's name
+
+  UserSignup:
+    type: object
+    description: User signup / login object
+    properties:
+      email:
+        type: string
+        description: The user's e-mail address to sign up with
+        format: email
+        required: true
+      password:
+        type: string
+        description: The user's plain text password to sign up with
+        required: true

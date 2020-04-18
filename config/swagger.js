@@ -2,12 +2,13 @@ var swaggerJsdoc = require('swagger-jsdoc')
     , config = require('./config')
     , package = require('../package.json');
 
+// Swagger 2.0 specification: https://swagger.io/docs/specification/2-0/basic-structure/
+
 var apiPath = new URL(config.publicUrl)
 var baseUrl = config.publicUrl.substring(0, config.publicUrl.lastIndexOf(apiPath) + 1)
 
 var options = {
-    swaggerDefinition: {
-        version: '2.0',
+    definition: {
         info: {
             title: 'Anchr.io API',
             version: package.version,
@@ -16,7 +17,7 @@ var options = {
         host: baseUrl,
         basePath: apiPath
     },
-    apis: ['./app/controllers/*.js', './config/swagger/*.yml'],
+    apis: ['./config/swagger/*.yml', './app/controllers/*.js'],
 };
 
 module.exports = {

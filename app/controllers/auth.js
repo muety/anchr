@@ -17,6 +17,26 @@ module.exports = function(app, passport) {
 
     router.use(log);
 
+    /**
+     * @swagger
+     * /auth/signup:
+     *    post:
+     *      summary: Sign up as a new user
+     *      tags:
+     *        - authentication
+     *      parameters:
+     *        - in: body
+     *          name: user
+     *          description: The user to create
+     *          schema:
+     *              $ref: '#/definitions/UserSignup'
+     *      consumes:
+     *        - application/json
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          201:
+     */
     router.post('/signup', checkSignup, function(req, res, next) {
         passport.authenticate('local-signup', function(err, user) {
             if (err || !user) return res.makeError(400, err.message || 'Unknown error during signup.', err);
@@ -25,6 +45,32 @@ module.exports = function(app, passport) {
         })(req, res, next);
     });
 
+    /**
+     * @swagger
+     * /auth/token:
+     *    post:
+     *      summary: Log in as an existing user and get a token
+     *      tags:
+     *        - authentication
+     *      parameters:
+     *        - in: body
+     *          name: user
+     *          description: The user to log in
+     *          schema:
+     *              $ref: '#/definitions/UserSignup'
+     *      consumes:
+     *        - application/json
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: A new access token
+     *            schema:
+     *              type: object
+     *              properties:
+     *                token:
+     *                  type: string
+     */
     router.post('/token', function(req, res, next) {
         passport.authenticate('local-login', function(err, user) {
             if (err || !user) return res.makeError(400, err.message || 'Unknown error during login.', err);
@@ -34,6 +80,26 @@ module.exports = function(app, passport) {
         })(req, res, next);
     });
 
+    /**
+     * @swagger
+     * /auth/renew:
+     *    post:
+     *      summary: Renew the current user's token
+     *      tags:
+     *        - authentication
+     *      security:
+     *        - ApiKeyAuth: []
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: A new access token
+     *            schema:
+     *              type: object
+     *              properties:
+     *                token:
+     *                  type: string
+     */
     router.post('/renew', jwtAuth(passport), function(req, res, next) {
         passport.authenticate('jwt', function(err, user) {
             if (err || !user) return res.makeError(400, err.message || 'Unknown error during login.', err);

@@ -22,8 +22,21 @@ module.exports = function(app, passport) {
      * /image/{id}:
      *    get:
      *      summary: Get an image by ID
+     *      tags:
+     *        - image
+     *      security:
+     *        - ApiKeyAuth: []
      *      parameters:
-     *      - $ref: '#/parameters/imageId'
+     *        - $ref: '#/parameters/imageId'
+     *        - $ref: '#/parameters/imageJson'
+     *      produces:
+     *        - application/json
+     *        - image/*
+     *      responses:
+     *          200:
+     *            description: The image's meta data object
+     *            schema:
+     *              $ref: '#/definitions/Image'
      */
     router.get('/:id', function(req, res) {
         var asJson = req.query.json;
@@ -41,6 +54,28 @@ module.exports = function(app, passport) {
         });
     });
 
+    /**
+     * @swagger
+     * /image:
+     *    post:
+     *      summary: Add a new image
+     *      tags:
+     *        - image
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/imageFile'
+     *        - $ref: '#/parameters/imageEncrypted'
+     *      consumes:
+     *        - multipart/form-data
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: The image's meta data object
+     *            schema:
+     *              $ref: '#/definitions/Image'
+     */
     router.post('/', jwtAuth(passport), multipart({maxFilesSize: config.maxFilesSize}), filetype(config.allowedFileTypes), function(req, res) {
         var FILE_UPLOAD_FIELD = "uploadFile";
 

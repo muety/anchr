@@ -1,8 +1,30 @@
 parameters:
-    imageId:
-      in: path
-      name: id
-      schema:
-        type: integer
-      required: true
-      description: ID of the image to get
+  imageId:
+    in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: ID of the image to get
+
+  imageJson:
+    in: query
+    name: json
+    schema:
+      type: boolean
+    required: false
+    description: Whether to return JSON meta data about the image instead of the actual file
+
+  imageFile:
+    in: formData
+    name: uploadFile
+    type: file
+    required: true
+    description: The image file to upload
+
+  imageEncrypted:
+    in: formData
+    name: encrypted
+    type: boolean
+    required: false
+    description: Whether or not the currently uploading image is encrypted
