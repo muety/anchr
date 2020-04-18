@@ -6,7 +6,9 @@ var express = require('express')
   , methodOverride = require('method-override')
   , error = require('./middlewares/error')
   , passport = require('passport')
-  , mongoose = require('mongoose');
+  , mongoose = require('mongoose')
+  , swaggerSpec = require('./swagger').specs
+  , swaggerUi = require('swagger-ui-express');
 
 module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
@@ -50,9 +52,12 @@ module.exports = function(app, config) {
   }
 
   app.get('/health', function(req, res) {
-    res.set('Content-Type', 'text/plain')
-    res.send('app=1\ndb=' + mongoose.connection.readyState)
+    res.set('Content-Type', 'text/plain');
+    res.send('app=1\ndb=' + mongoose.connection.readyState);
   })
+
+  // Swagger
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   app.use(methodOverride());
 

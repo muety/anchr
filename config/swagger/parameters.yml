@@ -1,0 +1,8 @@
+parameters:
+    imageId:
+      in: path
+      name: id
+      schema:
+        type: integer
+      required: true
+      description: ID of the image to get

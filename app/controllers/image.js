@@ -17,6 +17,14 @@ module.exports = function(app, passport) {
     app.use('/i', router);
     router.use(log);
 
+    /**
+     * @swagger
+     * /image/{id}:
+     *    get:
+     *      summary: Get an image by ID
+     *      parameters:
+     *      - $ref: '#/parameters/imageId'
+     */
     router.get('/:id', function(req, res) {
         var asJson = req.query.json;
 
