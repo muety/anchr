@@ -13,7 +13,7 @@ angular.module('anchrClientApp')
         Snackbar.show("Login successful.");
       };
       var onError = function (result) {
-        Snackbar.show("Sorry, there was an error while logging in" + result.data.error ? ' :' + result.data.error : '.');
+        Snackbar.show('Sorry, there was an error while logging in' + (result.data.error ? (': ' + result.data.error) : '.'));
         $scope.data.loading = false;
       }
 
