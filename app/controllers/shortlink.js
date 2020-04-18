@@ -17,7 +17,7 @@ module.exports = function(app, passport) {
     router.use(log);
 
     router.get('/:id', function(req, res, next) {
-        var asJson = req.query.json;
+        var asJson = req.get('accept') === 'application/json';
 
         Shortlink.findOne({ _id: req.params.id }, { __v: false, id: false, createdBy: false, created: false }, function(err, obj) {
             if (err || !obj) return res.makeError(404, "Not found.");

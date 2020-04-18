@@ -22,7 +22,7 @@
         <tr>
             <td><span class="label label-primary method-label">GET</span></td>
             <td><code>/api/shortlink/:id</code></td>
-            <td>optional <code>?json=true</code> to get resource data instead of redirect</td>
+            <td>pass <code>Accept: application/json</code> header to get resource meta data or <code>Accept: */*</code> to execute the actual redirection</td>
         </tr>
         <tr>
             <td><span class="label label-primary method-label">POST</span><span
@@ -45,7 +45,7 @@
         <tr>
             <td><span class="label label-primary method-label">GET</span></td>
             <td><code>/api/image/:id</code></td>
-            <td>optional <code>?json=true</code> to get resource data instead of displaying the image</td>
+            <td>pass <code>Accept: application/json</code> header to get resource meta data or <code>Accept: */*</code> to get the actual image</td>
         </tr>
         <tr>
             <td><span class="label label-primary method-label">POST</span><span

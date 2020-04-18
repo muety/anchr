@@ -39,7 +39,7 @@ module.exports = function(app, passport) {
      *              $ref: '#/definitions/Image'
      */
     router.get('/:id', function(req, res) {
-        var asJson = req.query.json;
+        var asJson = req.get('accept') === 'application/json';
 
         Image.findOne({ _id: req.params.id }, { __v: false, ip: false, createdBy: false }, function(err, obj) {
             if (err) return res.makeError(500, err.message, err);
