@@ -13,8 +13,7 @@ module.exports = function(app, passport) {
     router.use(log);
 
     router.get('/', function(req, res) {
-        var selection = req.query.short ? '_id name' : { __v: false };
-        Collection.find({ owner: req.user._id }, selection, function(err, result) {
+        Collection.find({ owner: req.user._id }, '_id name', function(err, result) {
             if (err) return res.makeError(500, err.message, err);
             res.send(result);
         });

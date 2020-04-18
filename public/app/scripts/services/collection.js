@@ -4,7 +4,7 @@ angular.module('anchrClientApp')
   .factory('Collection', ['$resource', function ($resource) {
     return {
       collection: $resource('/api/collection/:_id', null, {
-        'query' : {method : 'GET', isArray : true, params: {'short' : true}},
+        'query' : {method : 'GET', isArray : true},
         'delete' : {method : 'DELETE', params: {_id : '@_id'}},
         'update' : {method : 'PATCH', params: {_id : '@_id'}}
       }),
