@@ -23,8 +23,6 @@ module.exports = function(app, passport) {
      *      summary: Get or resolve a shortlink
      *      tags:
      *        - shortlink
-     *      security:
-     *        - ApiKeyAuth: []
      *      parameters:
      *        - $ref: '#/parameters/shortlinkId'
      *      produces:

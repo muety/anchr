@@ -20,8 +20,6 @@ module.exports = function(app) {
      *      summary: Get a remote HTML website's title
      *      tags:
      *        - remote
-     *      security:
-     *        - ApiKeyAuth: []
      *      parameters:
      *        - $ref: '#/parameters/remoteUrl'
      *      produces:

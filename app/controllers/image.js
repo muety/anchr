@@ -24,8 +24,6 @@ module.exports = function(app, passport) {
      *      summary: Get an image by ID
      *      tags:
      *        - image
-     *      security:
-     *        - ApiKeyAuth: []
      *      parameters:
      *        - $ref: '#/parameters/imageId'
      *      produces:
