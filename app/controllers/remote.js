@@ -13,6 +13,29 @@ module.exports = function(app) {
     app.use('/api/remote', router);
     router.use(log);
 
+    /**
+     * @swagger
+     * /remote/page:
+     *    get:
+     *      summary: Get a remote HTML website's title
+     *      tags:
+     *        - remote
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/remoteUrl'
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: The target website's title
+     *            schema:
+     *              type: object
+     *              properties:
+     *                title:
+     *                  type: string
+     *                  description: Website title
+     */
     router.get('/page', function(req, res, next) {
         var url = req.query.url;
 

@@ -1,6 +1,7 @@
 definitions:
   Image:
     type: object
+    description: Meta data about an image
     properties:
       _id:
         type: string
@@ -12,6 +13,7 @@ definitions:
       encrypted:
         type: boolean
         description: Whether or not this image is encrypted
+        required: true
       type:
         type: string
         description: Mime-type of the image, e.g. 'image/png'
@@ -19,9 +21,11 @@ definitions:
         type: string
         format: url
         description: URL of the actual image
+        required: true
 
   User:
     type: object
+    description: A registered user
     properties:
       _id:
         type: string
@@ -76,4 +80,98 @@ definitions:
       password:
         type: string
         description: The user's plain text password to sign up with
+        required: true
+
+  Link:
+    type: object
+    description: A bookmarked link as part of a collection
+    properties:
+      _id:
+        type: string
+        description: The link's unique ID
+      url:
+        type: string
+        format: url
+        description: The link's target address
+        required: true
+      description:
+        type: string
+        description: The link's user-given description
+        required: true
+      date:
+        type: string
+        format: data-time
+        description: Date at which the link was collected
+
+  LinkList:
+    type: array
+    description: A list of links as part of a collection
+    items:
+      $ref: '#/definitions/Link'
+
+  Collection:
+    type: object
+    description: A collection of links
+    properties:
+      _id:
+        type: string
+        description: The collection's unique ID
+      name:
+        type: string
+        description: The collection's user-given name
+        required: true
+
+  CollectionDetails:
+    type: object
+    description: A collection of links including details
+    properties:
+      _id:
+        type: string
+        description: The collection's unique ID
+      name:
+        type: string
+        description: The collection's user-given name
+      owner:
+        type: string
+        description: ID of the collection's owner
+      shared:
+        type: boolean
+        description: Whether or not this collection is shared by a public link
+      modified:
+        type: string
+        format: date-time
+        description: Date when the collection was last updated
+      links:
+        $ref: '#/definitions/LinkList'
+
+  CollectionList:
+    type: array
+    items:
+      $ref: '#/definitions/Collection'
+
+  Shortlink:
+    type: object
+    description: Meta data about a shortlink#
+    properties:
+      _id:
+        type: string
+        description: The shortlink's ID
+      url:
+        type: string
+        format: url
+        description: The shortlink's target URL
+        required: true
+      created:
+        type: string
+        format: date-time
+        description: The shortlink's creation date
+
+  ShortlinkShort:
+    type: object
+    description: Meta data about a shortlink
+    properties:
+      url:
+        type: string
+        format: url
+        description: The shortlink's target URL
         required: true

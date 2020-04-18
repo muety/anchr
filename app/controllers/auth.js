@@ -25,17 +25,14 @@ module.exports = function(app, passport) {
      *      tags:
      *        - authentication
      *      parameters:
-     *        - in: body
-     *          name: user
-     *          description: The user to create
-     *          schema:
-     *              $ref: '#/definitions/UserSignup'
+     *        - $ref: '#/parameters/userSignup'
      *      consumes:
      *        - application/json
      *      produces:
      *        - application/json
      *      responses:
      *          201:
+     *            description: Successful
      */
     router.post('/signup', checkSignup, function(req, res, next) {
         passport.authenticate('local-signup', function(err, user) {
@@ -53,11 +50,7 @@ module.exports = function(app, passport) {
      *      tags:
      *        - authentication
      *      parameters:
-     *        - in: body
-     *          name: user
-     *          description: The user to log in
-     *          schema:
-     *              $ref: '#/definitions/UserSignup'
+     *        - $ref: '#/parameters/userLogin'
      *      consumes:
      *        - application/json
      *      produces:

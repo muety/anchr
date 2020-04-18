@@ -12,13 +12,51 @@ module.exports = function(app, passport) {
     router.use(jwtAuth(passport));
     router.use(log);
 
+    /**
+     * @swagger
+     * /collection:
+     *    get:
+     *      summary: List all available collections for the current user
+     *      tags:
+     *        - collection
+     *      security:
+     *        - ApiKeyAuth: []
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: A list of available collections
+     *            schema:
+     *              $ref: '#/definitions/CollectionList'
+     */
     router.get('/', function(req, res) {
-        Collection.find({ owner: req.user._id }, '_id name', function(err, result) {
+        Collection.find({ owner: req.user._id }, '_id name shared', function(err, result) {
             if (err) return res.makeError(500, err.message, err);
             res.send(result);
         });
     });
 
+    /**
+     * @swagger
+     * /collection:
+     *    post:
+     *      summary: Create a new collection
+     *      tags:
+     *        - collection
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/collection'
+     *      consumes:
+     *        - application/json
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: The newly created collection
+     *            schema:
+     *              $ref: '#/definitions/Collection'
+     */
     router.post('/', function(req, res) {
         var name = req.body.name;
         if (!name) return res.makeError(400, 'No collection name given.', err);
@@ -37,6 +75,25 @@ module.exports = function(app, passport) {
         });
     });
 
+    /**
+     * @swagger
+     * /collection/{id}:
+     *    get:
+     *      summary: Get details about a collection including all links
+     *      tags:
+     *        - collection
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/collectionId'
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: Details about the requested collection
+     *            schema:
+     *              $ref: '#/definitions/CollectionDetails'
+     */
     router.get('/:id', function(req, res) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.', err);
@@ -48,6 +105,25 @@ module.exports = function(app, passport) {
         });
     });
 
+    /**
+     * @swagger
+     * /collection/{id}/links:
+     *    get:
+     *      summary: Get links contained in a collection
+     *      tags:
+     *        - collection
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/collectionId'
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: List of links in the collection
+     *            schema:
+     *              $ref: '#/definitions/LinkList'
+     */
     router.get('/:id/links', function(req, res) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.');
@@ -59,6 +135,28 @@ module.exports = function(app, passport) {
         });
     });
 
+    /**
+     * @swagger
+     * /collection/{id}/links:
+     *    post:
+     *      summary: Add a new link to a collection
+     *      tags:
+     *        - collection
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/collectionId'
+     *        - $ref: '#/parameters/link'
+     *      consumes:
+     *        - application/json
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: The newly added link
+     *            schema:
+     *              $ref: '#/definitions/Link'
+     */
     router.post('/:id/links', function(req, res) {
         var _id = req.params.id,
             url = req.body.url,
@@ -114,6 +212,23 @@ module.exports = function(app, passport) {
         });
     });
 
+    /**
+     * @swagger
+     * /collection/{id}:
+     *    delete:
+     *      summary: Delete a given collection
+     *      tags:
+     *        - collection
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/collectionId'
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: Successful
+     */
     router.delete('/:id', function(req, res) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.');
@@ -124,6 +239,24 @@ module.exports = function(app, passport) {
         });
     });
 
+    /**
+     * @swagger
+     * /collection/{id}/links/{linkId}:
+     *    delete:
+     *      summary: Delete a link from a given collection
+     *      tags:
+     *        - collection
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/collectionId'
+     *        - $ref: '#/parameters/linkId'
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: Successful
+     */
     router.delete('/:id/links/:linkId', function(req, res) {
         var _id = req.params.id,
             linkId = req.params.linkId;
@@ -151,6 +284,26 @@ module.exports = function(app, passport) {
         });
     });
 
+    /**
+     * @swagger
+     * /collection/{id}/links/{linkId}:
+     *    get:
+     *      summary: Get details about a link in a collection
+     *      tags:
+     *        - collection
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/collectionId'
+     *        - $ref: '#/parameters/linkId'
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: Details about the requested link
+     *            schema:
+     *              $ref: '#/definitions/Link'
+     */
     router.get('/:id/links/:linkId', function(req, res) {
         var _id = req.params.id,
             linkId = req.params.linkId;
@@ -168,6 +321,26 @@ module.exports = function(app, passport) {
         });
     });
 
+    /**
+     * @swagger
+     * /collection/{id}:
+     *    patch:
+     *      summary: Incrementally update details of a given collection
+     *      tags:
+     *        - collection
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/collectionId'
+     *        - $ref: '#/parameters/collectionDetails'
+     *      consumes:
+     *        - application/json
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: Successful
+     */
     router.patch('/:id', function(req, res) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.');

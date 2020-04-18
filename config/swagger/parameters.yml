@@ -1,9 +1,23 @@
 parameters:
+  userSignup:
+    in: body
+    description: The user to create
+    schema:
+      $ref: '#/definitions/UserSignup'
+    required: true
+
+  userLogin:
+    in: body
+    description: The user to log in
+    schema:
+      $ref: '#/definitions/UserSignup'
+    required: true
+
   imageId:
     in: path
     name: id
     schema:
-      type: integer
+      type: string
     required: true
     description: ID of the image to get
 
@@ -20,3 +34,63 @@ parameters:
     type: boolean
     required: false
     description: Whether or not the currently uploading image is encrypted
+
+  collectionId:
+    in: path
+    name: id
+    schema:
+      type: string
+    required: true
+    description: ID of the collection to get
+
+  collection:
+    in: body
+    description: The collection to create
+    schema:
+      $ref: '#/definitions/Collection'
+    required: true
+
+  collectionDetails:
+    in: body
+    description: The collection to update
+    schema:
+      $ref: '#/definitions/CollectionDetails'
+    required: true
+
+  link:
+    in: body
+    description: The new link to add
+    schema:
+      $ref: '#/definitions/Link'
+    required: true
+
+  linkId:
+    in: path
+    name: linkId
+    schema:
+      type: string
+    required: true
+    description: ID of the link to get
+
+  remoteUrl:
+    in: query
+    name: url
+    schema:
+      type: string
+    required: true
+    description: URL of the website to parse
+
+  shortlinkId:
+    in: path
+    name: id
+    schema:
+      type: string
+    required: true
+    description: ID of the shortlink to resolve
+
+  shortlink:
+    in: body
+    description: The new shortlink to create
+    schema:
+      $ref: '#/definitions/Shortlink'
+    required: true

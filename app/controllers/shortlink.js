@@ -16,6 +16,27 @@ module.exports = function(app, passport) {
     app.use('/s', router);
     router.use(log);
 
+    /**
+     * @swagger
+     * /shortlink/{id}:
+     *    get:
+     *      summary: Get or resolve a shortlink
+     *      tags:
+     *        - shortlink
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/shortlinkId'
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: The shortlink's meta data object
+     *            schema:
+     *              $ref: '#/definitions/Shortlink'
+     *          302:
+     *            description: Redirect to the shortlinks target URL (returned if `Accept` header is NOT `application/json`)
+     */
     router.get('/:id', function(req, res, next) {
         var asJson = req.get('accept') === 'application/json';
 
@@ -26,6 +47,27 @@ module.exports = function(app, passport) {
         });
     });
 
+    /**
+     * @swagger
+     * /shortlink:
+     *    post:
+     *      summary: Create a new shortlink
+     *      tags:
+     *        - shortlink
+     *      security:
+     *        - ApiKeyAuth: []
+     *      parameters:
+     *        - $ref: '#/parameters/shortlink'
+     *      consumes:
+     *        - application/json
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          201:
+     *            description: The newly created shortlink's meta data object
+     *            schema:
+     *              $ref: '#/definitions/ShortlinkShort'
+     */
     router.post('/', jwtAuth(passport), function(req, res, next) {
         if (!req.body.url) return res.makeError(400, 'Malformed request: You need to pass a url attribute.');
 

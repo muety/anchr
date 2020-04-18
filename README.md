@@ -4,10 +4,6 @@
 
 Anchr is a useful little helper or toolbox or the like for common tasks on the internet. It comes with an [Android App](https://github.com/n1try/anchr-android) for Anchr link collections.
 
-ℹ️ The official hosted version, formerly available at [anchr.io](https://anchr.io), has been **discontinued**. To use Anchr, you will need you own, self-hosted instance from now on.
-
-🛡 This software is not actively maintained anymore. Several dependencies are outdated and potentially vulnerable. We recommend to not expose your Anchr instance to the public internet.
-
 ![](https://anchr.io/i/9w5si.png)
 
 ## 🗒 What does it do?
@@ -60,6 +56,9 @@ In order to host Anchr on your own, you need a few things.
 1. `docker-compose up`
 
 **NOTE:** The current Docker Compose configuration does not include spinning up the MongoDB database (see [#10](https://github.com/n1try/anchr/issues/10)). It is assumed that a Mongo instance is already running and accessible publicly. 
+
+## 🧩 Project State
+This project is still maintained, but considered feature-complete. Dependencies are updated occasionally. Since the project started in 2014, the out-dated JavaScript ES5 syntax is used alongside tools like Grunt and Bower, which are not considered state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. Please don't use `const` and `let`, template string, arrow functions, `async / await` etc.
 
 ## 📓 License
 GNU General Public License v3 (GPL-3) @ [Ferdinand Mütsch](https://muetsch.io)
