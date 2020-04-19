@@ -1,6 +1,7 @@
 parameters:
   userSignup:
     in: body
+    name: user
     description: The user to create
     schema:
       $ref: '#/definitions/UserSignup'
@@ -8,6 +9,7 @@ parameters:
 
   userLogin:
     in: body
+    name: user
     description: The user to log in
     schema:
       $ref: '#/definitions/UserSignup'
@@ -16,8 +18,7 @@ parameters:
   imageId:
     in: path
     name: id
-    schema:
-      type: string
+    type: string
     required: true
     description: ID of the image to get
 
@@ -38,13 +39,13 @@ parameters:
   collectionId:
     in: path
     name: id
-    schema:
-      type: string
+    type: string
     required: true
     description: ID of the collection to get
 
   collection:
     in: body
+    name: collection
     description: The collection to create
     schema:
       $ref: '#/definitions/Collection'
@@ -52,6 +53,7 @@ parameters:
 
   collectionDetails:
     in: body
+    name: collection
     description: The collection to update
     schema:
       $ref: '#/definitions/CollectionDetails'
@@ -59,6 +61,7 @@ parameters:
 
   link:
     in: body
+    name: link
     description: The new link to add
     schema:
       $ref: '#/definitions/Link'
@@ -67,29 +70,27 @@ parameters:
   linkId:
     in: path
     name: linkId
-    schema:
-      type: string
+    type: string
     required: true
     description: ID of the link to get
 
   remoteUrl:
     in: query
     name: url
-    schema:
-      type: string
+    type: string
     required: true
     description: URL of the website to parse
 
   shortlinkId:
     in: path
     name: id
-    schema:
-      type: string
+    type: string
     required: true
     description: ID of the shortlink to resolve
 
   shortlink:
     in: body
+    name: shortlink
     description: The new shortlink to create
     schema:
       $ref: '#/definitions/Shortlink'

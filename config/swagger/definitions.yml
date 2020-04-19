@@ -13,7 +13,6 @@ definitions:
       encrypted:
         type: boolean
         description: Whether or not this image is encrypted
-        required: true
       type:
         type: string
         description: Mime-type of the image, e.g. 'image/png'
@@ -21,7 +20,9 @@ definitions:
         type: string
         format: url
         description: URL of the actual image
-        required: true
+    required:
+      - encrypted
+      - href
 
   User:
     type: object
@@ -76,11 +77,12 @@ definitions:
         type: string
         description: The user's e-mail address to sign up with
         format: email
-        required: true
       password:
         type: string
         description: The user's plain text password to sign up with
-        required: true
+    required:
+      - email
+      - password
 
   Link:
     type: object
@@ -93,15 +95,16 @@ definitions:
         type: string
         format: url
         description: The link's target address
-        required: true
       description:
         type: string
         description: The link's user-given description
-        required: true
       date:
         type: string
         format: data-time
         description: Date at which the link was collected
+    required:
+      - url
+      - description
 
   LinkList:
     type: array
@@ -119,7 +122,8 @@ definitions:
       name:
         type: string
         description: The collection's user-given name
-        required: true
+    required:
+      - name
 
   CollectionDetails:
     type: object
@@ -160,11 +164,12 @@ definitions:
         type: string
         format: url
         description: The shortlink's target URL
-        required: true
       created:
         type: string
         format: date-time
         description: The shortlink's creation date
+    required:
+      - url
 
   ShortlinkShort:
     type: object
@@ -174,4 +179,5 @@ definitions:
         type: string
         format: url
         description: The shortlink's target URL
-        required: true
+    required:
+      - url

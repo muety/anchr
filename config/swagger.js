@@ -4,18 +4,21 @@ var swaggerJsdoc = require('swagger-jsdoc')
 
 // Swagger 2.0 specification: https://swagger.io/docs/specification/2-0/basic-structure/
 
-var apiPath = new URL(config.publicUrl)
-var baseUrl = config.publicUrl.substring(0, config.publicUrl.lastIndexOf(apiPath) + 1)
+var url = new URL(config.publicUrl)
 
 var options = {
     definition: {
         info: {
             title: 'Anchr.io API',
             version: package.version,
-            description: package.description,
+            description: package.description
         },
-        host: baseUrl,
-        basePath: apiPath
+        host: url.host,
+        basePath: url.pathname,
+        consumes: [
+            'application/json',
+            'multipart/form-data'
+        ]
     },
     apis: ['./config/swagger/*.yml', './app/controllers/*.js'],
 };
