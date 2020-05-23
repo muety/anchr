@@ -1,6 +1,14 @@
 # Anchr - Image uploads, bookmarks and shortlink service
 
+![GitHub package.json version](https://img.shields.io/github/package-json/v/muety/anchr?style=flat-square)
+[![](http://img.shields.io/liberapay/receives/muety.svg?logo=liberapay&style=flat-square)](https://liberapay.com/muety/)
+[![Say thanks](https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg?style=flat-square)](https://saythanks.io/to/n1try)
+![](https://img.shields.io/github/license/muety/anchr?style=flat-square)
+[![](https://img.shields.io/website.svg?url=https%3A%2F%anchr.io%2Fhealth&style=flat-square)](https://anchr.io)
+
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoff.ee/n1try)
+
+---
 
 Anchr is a useful little helper or toolbox or the like for common tasks on the internet. It comes with an [Android App](https://github.com/n1try/anchr-android) for Anchr link collections.
 
