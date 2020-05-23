@@ -12,7 +12,7 @@
 
 Anchr is a useful little helper or toolbox or the like for common tasks on the internet. It comes with an [Android App](https://github.com/n1try/anchr-android) for Anchr link collections.
 
-![](https://anchr.io/i/9w5si.png)
+<img src="https://anchr.io/images/logo.png" height="128px">
 
 ## 🗒 What does it do?
 The idea arised when someday I considered it useful to have a collection of web links or bookmarks – like those you have in Chrome or Firefox – accessible from everywhere without needing to synchronize your browser profile. Just like if you’re anywhere on an other PC, find a useful article on the internet and want to save it quickly for later at home. This is what Anchr’s __collections__ feature does. It saves links – with an optional description for easier search and separated into seperate categories / collections.
