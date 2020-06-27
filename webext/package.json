@@ -1,11 +1,11 @@
 {
   "name": "anchr-webext",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Firefox extension to save bookmarks to Anchr.io",
   "main": "src/app.js",
   "scripts": {
-    "dev": "web-ext run",
-    "build": "web-ext build",
+    "dev": "node_modules/.bin/web-ext run",
+    "build": "node_modules/.bin/web-ext build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/n1try/anchr/issues"
   },
-  "homepage": "https://github.com/n1try/anchr/tree/master/webext"
+  "homepage": "https://github.com/n1try/anchr/tree/master/webext",
+  "devDependencies": {
+    "web-ext": "^4.3.0"
+  }
 }

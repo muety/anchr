@@ -38,7 +38,7 @@ formMain.addEventListener('submit', event => {
 })
 
 function readTab() {
-    return browser.tabs.query({ active: true })
+    return browser.tabs.query({ active: true, windowId: browser.windows.WINDOW_ID_CURRENT })
         .then(tabs => {
             if (!tabs || !tabs.length) {
                 return Promise.reject('Could not read current tab')
@@ -48,6 +48,7 @@ function readTab() {
                 title: tabs[0].title
             }
         })
+        .catch(err => console.error(JSON.stringify(err)))
 }
 
 function readForm() {
