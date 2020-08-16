@@ -1,6 +1,6 @@
 {
   "name": "anchr-webext",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Firefox extension to save bookmarks to Anchr.io",
   "main": "src/app.js",
   "scripts": {
@@ -10,15 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/n1try/anchr.git"
+    "url": "git+https://github.com/muety/anchr.git"
   },
   "author": "Ferdinand Mütsch",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/n1try/anchr/issues"
+    "url": "https://github.com/muety/anchr/issues"
   },
-  "homepage": "https://github.com/n1try/anchr/tree/master/webext",
+  "homepage": "https://github.com/muety/anchr/tree/master/webext",
   "devDependencies": {
-    "web-ext": "^4.3.0"
+    "web-ext": "^4.3.0",
+    "webextension-polyfill": "^0.6.0"
   }
 }

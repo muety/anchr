@@ -66,7 +66,7 @@ module.exports = function(app, passport) {
      */
     router.post('/token', function(req, res, next) {
         passport.authenticate('local-login', function(err, user) {
-            if (err || !user) return res.makeError(400, err.message || 'Unknown error during login.', err);
+            if (err || !user) return res.makeError(401, err.message || 'Unknown error during login.', err);
 
             res.status(200).send({ token: user.jwtSerialize('local') });
             initUser(user);
@@ -95,7 +95,7 @@ module.exports = function(app, passport) {
      */
     router.post('/renew', jwtAuth(passport), function(req, res, next) {
         passport.authenticate('jwt', function(err, user) {
-            if (err || !user) return res.makeError(400, err.message || 'Unknown error during login.', err);
+            if (err || !user) return res.makeError(401, err.message || 'Unknown error during login.', err);
 
             res.status(200).send({ token: user.jwtSerialize('local') });
             initUser(user);

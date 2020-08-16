@@ -2,8 +2,8 @@
     "manifest_version": 2,
     "name": "Anchr Bookmarks Collector",
     "author": "Ferdinand Mütsch",
-    "homepage_url": "https://github.com/n1try/anchr/tree/master/webext",
-    "version": "0.2.1",
+    "homepage_url": "https://github.com/muety/anchr/tree/master/webext",
+    "version": "0.2.2",
     "description": "Easily bookmark webpages to your Anchr collection",
     "options_ui": {
         "page": "src/options/options.html",
@@ -24,7 +24,6 @@
     },
     "permissions": [
         "https://anchr.io/*",
-        "https://anchr.muetsch.io/*",
         "storage",
         "activeTab",
         "tabs"
