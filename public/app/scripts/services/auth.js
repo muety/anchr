@@ -39,7 +39,7 @@ angular.module('anchrClientApp')
             },
 
             logout: function() {
-                localStorage.removeItem('token');
+                localStorage.clear();
             },
 
             loggedin: function() {
