@@ -1,6 +1,6 @@
 {
     "name": "anchr-multi-webservice",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "⚓️ Anchr provides you with a toolbox for tiny tasks on the internet, especially bookmark collections",
     "private": true,
     "scripts": {
@@ -69,6 +69,7 @@
     },
     "resolutions": {
         "grunt-connect-proxy/**/lodash": "4.17.15",
+        "grunt-connect-proxy/**/http-proxy": "1.18.1",
         "grunt-wiredep/**/minimist": "1.2.5",
         "grunt-ng-annotate/**/minimist": "1.2.5"
     }
