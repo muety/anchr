@@ -1,17 +1,34 @@
-version: "3"
+version: "3.6"
 
 services:
   
-  # TODO: Add MongoDB service (https://github.com/n1try/anchr/issues/10)
-
   anchr:
     image: anchr:latest
     build: ./
     ports:
-      - "$PORT:$PORT"
+      - "${PORT}:${PORT}"
     volumes:
       - anchr_data:/app/data
     env_file: .env
+    environment:
+      - ANCHR_DB_HOST=mongo
+      - ANCHR_DB_PORT=27017
+      - LISTEN_ADDR=0.0.0.0
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:3.4
+    volumes:
+      - anchr_db_data:/data/db
+      - ./scripts/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${ANCHR_DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${ANCHR_DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${ANCHR_DB_NAME}
+      - DB_USER=${ANCHR_DB_USER}
+      - DB_PASSWORD=${ANCHR_DB_PASSWORD}
 
 volumes:
   anchr_data:
+  anchr_db_data:
