@@ -15,7 +15,8 @@ var config = {
             name: 'anchr-multi-webservice'
         },
         port: parseInt(process.env.PORT) || 3000,
-        db: process.env.ANCHR_DB_URL || '   ',
+        addr: process.env.LISTEN_ADDR || 'localhost',
+        db: mongoConnectionString(),
         uploadDir: path.normalize((process.env.ANCHR_UPLOAD_DIR || '/var/data/anchr') + '/'),
         maxFileSize: 1000000 * 10,
         maxHtmlSizeKb: 1024,
@@ -39,5 +40,10 @@ var config = {
 
 var resolvedConfig = {};
 _.extend(resolvedConfig, config.root, config[env]);
+
+function mongoConnectionString() {
+    if (process.env.ANCHR_DB_URL) return process.env.ANCHR_DB_URL
+    return `mongodb://${process.env.ANCHR_DB_USER}:${process.env.ANCHR_DB_PASSWORD}@${process.env.ANCHR_DB_HOST}:${process.env.ANCHR_DB_PORT}/${process.env.ANCHR_DB_NAME}`
+}
 
 module.exports = resolvedConfig;

@@ -20,7 +20,7 @@ var app = express();
 
 require('./config/express')(app, config);
 
-app.listen(config.port, 'localhost', function () {
- log.default('Express server listening on port ' + config.port);
+app.listen(config.port, config.addr, function () {
+ log.default('Express server listening on ' + config.addr + ':' + config.port);
 });
 

@@ -1,6 +1,6 @@
 {
     "name": "anchr-multi-webservice",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "description": "⚓️ Anchr provides you with a toolbox for tiny tasks on the internet, especially bookmark collections",
     "private": true,
     "scripts": {

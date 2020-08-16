@@ -34,12 +34,17 @@ In order to host Anchr on your own, you need a few things.
 1. `$ git clone https://github.com/n1try/anchr`
 2. Copy `.env.example` to `.env` and edit the contents to set environment variables:
     * `PORT`: TCP port to start the server on (default: `3000`)
-    * `ANCHR_DB_URL`: Connection URL to MongoDB (default: `mongodb://localhost:27017/anchr`)
+    * `LISTEN_ADDR`: IPv4 address to make the server listen on (default: `127.0.0.1`)
+    * `ANCHR_DB_USER`: MongoDB user name (default: `anchr`)
+    * `ANCHR_DB_PASSWORD`: MongoDB password (**required**)
+    * `ANCHR_DB_HOST`: MongoDB host name (default: `localhost`)
+    * `ANCHR_DB_PORT`: MongoDB port (default: `27017`)
+    * `ANCHR_DB_NAME`: MongoDB database name (default: `anchr`)
     * `ANCHR_UPLOAD_DIR`: Absolute path to a file system directory (must exist!) to persist uploaded images to (default: `/var/data/anchr`)
     * `ANCHR_SECRET`: A (preferably long), random character sequence to be used for the JSON Web Token (default: `shhh`)
     * `ANCHR_LOG_PATH`: Absolute file path for access logs (directory must exist!) (default:  `/var/log/anchr/access.log`)
     * `ANCHR_ERROR_LOG_PATH`: Absolute file path for error logs (directory must exist!) (default: `/var/log/anchr/error.log`)
-    * `ANCHR_GOOGLE_API_KEY`: Your API key for Google APIs (required for safe browse checking incoming shortlinks), which you get at the [Developers Console](https://console.developers.google.com/apis/)
+    * `ANCHR_GOOGLE_API_KEY`: Your API key for Google APIs (required for safe browse checking incoming shortlinks), which you get from the [Developers Console](https://console.developers.google.com/apis/)
     * `ANCHR_FB_CLIENT_ID` and `ANCHR_FB_SECRET`: OAuth credentials for Facebook Login
     * `ANCHR_GOOGLE_SECRET` and `ANCHR_GOOGLE_API_KEY`: OAuth credentials for Google Login
     * `ANCHR_ALLOW_SIGNUP`: Whether or not to allow sign up of new users (default: `true`)
