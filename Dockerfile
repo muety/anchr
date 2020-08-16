@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:12-alpine
 
 MAINTAINER Ferdinand Mütsch <ferdinand@muetsch.io>
 
