@@ -2,14 +2,23 @@ var express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
     config = require('../../config/config'),
-    lookup = require('safe-browse-url-lookup')({ apiKey: config.googleApiKey, clientId: 'anchr.io' }),
+    safeBrowseLookup = require('safe-browse-url-lookup'),
     Shortlink = mongoose.model('Shortlink'),
     utils = require('../../utils'),
     log = require('./../../config/middlewares/log')(),
+    logger = require('./../../config/log')()
     _ = require('underscore'),
     jwtAuth = require('./../../config/middlewares/jwtauth');
 
 var blacklist = [/.*bit\.ly.*/gi, /.*goo\.gl.*/gi, /.*confirm.*/gi, /.*verif.*/gi, /.*account.*/gi, /.*secur.*/gi];
+
+var lookup = config.googleApiKey
+    ? safeBrowseLookup({ apiKey: config.googleApiKey, clientId: 'anchr.io' })
+    : { checkSingle: function() { return Promise.resolve(false) } }
+
+if (!config.googleApiKey) {
+    logger.default('[WARN] Disabling safe browse lookups for shortlinks as "ANCHR_GOOGLE_API_KEY" config variable is missing.');
+}
 
 module.exports = function(app, passport) {
     app.use('/api/shortlink', router);
