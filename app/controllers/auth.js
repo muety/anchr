@@ -1,6 +1,7 @@
 var express = require('express'),
     router = express.Router(),
     config = require('./../../config/config'),
+    authConfig = require('./../../config/auth'),
     log = require('./../../config/middlewares/log')(),
     jwtAuth = require('./../../config/middlewares/jwtauth'),
     utils = require('../../utils'),
@@ -102,27 +103,31 @@ module.exports = function(app, passport) {
         })(req, res, next);
     });
 
-    router.get('/facebook', checkSignup, passport.authenticate('facebook', { scope: ['email'] }));
+    if (authConfig.with('facebookAuth')) {
+        router.get('/facebook', checkSignup, passport.authenticate('facebook', { scope: ['email'] }));
 
-    router.get('/facebook/callback', function(req, res, next) {
-        passport.authenticate('facebook', function(err, user) {
-            if (!user) return res.makeError(401, 'Unauthorized.', err);
+        router.get('/facebook/callback', function(req, res, next) {
+            passport.authenticate('facebook', function(err, user) {
+                if (!user) return res.makeError(401, 'Unauthorized.', err);
 
-            res.redirect(config.clientUrl + 'auth/' + user.jwtSerialize('facebook'));
-            initUser(user);
-        })(req, res, next);
-    });
+                res.redirect(config.clientUrl + 'auth/' + user.jwtSerialize('facebook'));
+                initUser(user);
+            })(req, res, next);
+        });
+    }
 
-    router.get('/google', checkSignup, passport.authenticate('google', { scope: ['profile', 'email'] }));
+    if (authConfig.with('googleAuth')) {
+        router.get('/google', checkSignup, passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-    router.get('/google/callback', function(req, res, next) {
-        passport.authenticate('google', function(err, user) {
-            if (!user) return res.makeError(401, 'Unauthorized.', err);
+        router.get('/google/callback', function(req, res, next) {
+            passport.authenticate('google', function(err, user) {
+                if (!user) return res.makeError(401, 'Unauthorized.', err);
 
-            res.redirect(config.clientUrl + 'auth/' + user.jwtSerialize('google'));
-            initUser(user);
-        })(req, res, next);
-    });
+                res.redirect(config.clientUrl + 'auth/' + user.jwtSerialize('google'));
+                initUser(user);
+            })(req, res, next);
+        });
+    }
 };
 
 function initUser(user) {

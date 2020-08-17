@@ -5,7 +5,8 @@ var LocalStrategy = require('passport-local').Strategy
     , ExtractJwt = require('passport-jwt').ExtractJwt
     , User = require('../app/models/user')
     , config = require('./config')
-    , authConfig = require('./auth');
+    , authConfig = require('./auth')
+    , log = require('./log')();
 
 module.exports = function(passport) {
 
@@ -100,7 +101,9 @@ module.exports = function(passport) {
   // =========================================================================
   // FACEBOOK  ===============================================================
   // =========================================================================
-  passport.use(new FacebookStrategy({
+
+  if (authConfig.with('facebookAuth')) {
+    passport.use(new FacebookStrategy({
         clientID        : authConfig.facebookAuth.clientID,
         clientSecret    : authConfig.facebookAuth.clientSecret,
         callbackURL     : authConfig.facebookAuth.callbackURL,
@@ -128,15 +131,19 @@ module.exports = function(passport) {
                 return done(null, newUser);
               });
             }
-
           });
         });
-      }));
+      })
+    );
+  } else {
+    log.default('[WARN] Disabling Facebook OAuth as "ANCHR_FB_*" config variables are missing.');
+  }
 
   // =========================================================================
   // GOOGLE ==================================================================
   // =========================================================================
-  passport.use(new GoogleStrategy({
+  if (authConfig.with('googleAuth')) {
+    passport.use(new GoogleStrategy({
         clientID        : authConfig.googleAuth.clientID,
         clientSecret    : authConfig.googleAuth.clientSecret,
         callbackURL     : authConfig.googleAuth.callbackURL
@@ -164,5 +171,9 @@ module.exports = function(passport) {
             }
           });
         });
-      }));
+      })
+    );
+  } else {
+    log.default('[WARN] Disabling Google OAuth as "ANCHR_GOOGLE_*" config variables are missing.');
+  }
 };
