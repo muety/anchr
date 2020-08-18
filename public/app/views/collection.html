@@ -142,6 +142,10 @@
                 </table>
             </div>
 
+            <div class="row placeholder-sketch" ng-if="!getCollection(data.active).links.length">
+                <img src="images/undraw_no_data_qbuo.svg">
+                <span>This collection is empty</span>
+            </div>
         </div>
     </div>
 

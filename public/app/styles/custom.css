@@ -231,3 +231,20 @@ td h4 {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.placeholder-sketch {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+    margin-bottom: 20px;
+}
+
+.placeholder-sketch img {
+    width: 128px;
+}
+
+.placeholder-sketch span {
+    margin-top: 20px;
+}
