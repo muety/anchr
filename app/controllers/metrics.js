@@ -15,7 +15,7 @@ var PREFIX = 'anchr_';
 function initPromClient() {
     prom.collectDefaultMetrics({
         gcDurationBuckets: [0.001, 0.01, 0.1, 1, 2, 5],
-        PREFIX,
+        prefix: PREFIX,
     });
 
     var gTotalUsers = new prom.Gauge({
