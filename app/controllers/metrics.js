@@ -39,7 +39,7 @@ function initPromClient() {
         labelNames: []
     });
 
-    gTotalCollections.collection = function() {
+    gTotalCollections.collect = function() {
         return new Promise(function (resolve, reject) {
             count('collection', null, function (count) {
                 gTotalCollections.set(count);
@@ -54,7 +54,7 @@ function initPromClient() {
         labelNames: []
     });
 
-    gTotalShortlinks.collection = function() {
+    gTotalShortlinks.collect = function() {
         return new Promise(function (resolve, reject) {
             count('shortlink', null, function (count) {
                 gTotalShortlinks.set(count)
