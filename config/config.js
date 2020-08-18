@@ -25,7 +25,8 @@ var config = {
         tokenExpire: '7d',
         workers: 2,
         googleApiKey: process.env.ANCHR_GOOGLE_API_KEY || '',
-        allowSignUp: process.env.ANCHR_ALLOW_SIGNUP !== 'false'
+        allowSignUp: process.env.ANCHR_ALLOW_SIGNUP !== 'false',
+        exposeMetrics: process.env.ANCHR_EXPOSE_METRICS === 'true'
     },
     development: {
     },

@@ -48,6 +48,7 @@ In order to host Anchr on your own, you need a few things.
     * `ANCHR_FB_CLIENT_ID` and `ANCHR_FB_SECRET`: OAuth credentials for Facebook Login (default: `''`, leave blank to disable Facebook login)
     * `ANCHR_GOOGLE_CLIENT_ID` and `ANCHR_GOOGLE_SECRET`: OAuth credentials for Google Login (default: `''`, leave blank to disable Google login)
     * `ANCHR_ALLOW_SIGNUP`: Whether or not to allow sign up of new users (default: `true`)
+    * `ANCHR_EXPOSE_METRICS`: Whether or not to expose [Prometheus](https://prometheus.io) metrics under the public `/api/metrics` endpoint (default: `false`)
 
 ### ⚙️ Run
 #### Setup
