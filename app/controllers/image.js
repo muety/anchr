@@ -5,6 +5,7 @@ var express = require('express'),
     config = require('../../config/config'),
     utils = require('../../utils'),
     log = require('./../../config/middlewares/log')(),
+    logger = require('./../../config/log')(),
     _ = require('underscore'),
     jwtAuth = require('./../../config/middlewares/jwtauth'),
     filetype = require('./../../config/middlewares/filetype'),
@@ -12,7 +13,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     Image = mongoose.model('Image');
 
-module.exports = function(app, passport) {
+module.exports = function (app, passport) {
     app.use('/api/image', router);
     app.use('/i', router);
     router.use(log);
@@ -39,15 +40,15 @@ module.exports = function(app, passport) {
      *            schema:
      *              $ref: '#/definitions/Image'
      */
-    router.get('/:id', function(req, res) {
+    router.get('/:id', function (req, res) {
         var asJson = req.get('accept') === 'application/json';
 
-        Image.findOne({ _id: req.params.id }, { __v: false, ip: false, createdBy: false }, function(err, obj) {
+        Image.findOne({ _id: req.params.id }, { __v: false, ip: false, createdBy: false }, function (err, obj) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Image not found.');
 
             var filePath = config.uploadDir + obj._id;
-            fs.exists(filePath, function(exists) {
+            fs.exists(filePath, function (exists) {
                 if (!exists) return res.makeError(404, "File not found.");
                 if (asJson) res.send(_.omit(obj.toObject(), 'id'));
                 else res.sendFile(filePath);
@@ -77,29 +78,45 @@ module.exports = function(app, passport) {
      *            schema:
      *              $ref: '#/definitions/Image'
      */
-    router.post('/', jwtAuth(passport), multipart({maxFilesSize: config.maxFilesSize}), filetype(config.allowedFileTypes), function(req, res) {
+    router.post('/', jwtAuth(passport), multipart({ maxFilesSize: config.maxFilesSize }), filetype(config.allowedFileTypes), function (req, res) {
         var FILE_UPLOAD_FIELD = "uploadFile";
 
         var tmpPath = req.files[FILE_UPLOAD_FIELD].path;
         var newName = utils.generateUUID() + path.parse(tmpPath).ext;
         var newPath = config.uploadDir + newName;
 
-        fs.rename(tmpPath, newPath, function(err) {
-            if (err) return res.makeError(500, 'Unable to save file.', err);
+        function onSuccess() {
+            fs.unlink(tmpPath, function(err) {
+                if (err) logger.default('[WARN] Failed to unlink file ' + tmpPath);
 
-            var img = new Image({
-                _id: newName,
-                created: Date.now(),
-                ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip,
-                encrypted: req.body.encrypted || false,
-                type: req.files[FILE_UPLOAD_FIELD].type,
-                createdBy: req.user._id
-            });
+                var img = new Image({
+                    _id: newName,
+                    created: Date.now(),
+                    ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip,
+                    encrypted: req.body.encrypted || false,
+                    type: req.files[FILE_UPLOAD_FIELD].type,
+                    createdBy: req.user._id
+                });
+    
+                img.save(function (err, obj) {
+                    if (err) return res.makeError(500, 'Unable to save file.', err);
+                    res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy', 'created'));
+                });
+            })
+        }
 
-            img.save(function(err, obj) {
-                if (err) return res.makeError(500, 'Unable to save file.', err);
-                res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy', 'created'));
-            });
+        fs.rename(tmpPath, newPath, function (err) {
+            if (!err) return onSuccess();
+            switch (err.code) {
+                case 'EXDEV':
+                    fs.copyFile(tmpPath, newPath, function (err) {
+                        if (err) return res.makeError(500, 'Unable to save file.', err);
+                        onSuccess();
+                    })
+                    break;
+                default:
+                    return res.makeError(500, 'Unable to save file.', err);
+            }
         })
     });
 };
