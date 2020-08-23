@@ -86,23 +86,19 @@ module.exports = function (app, passport) {
         var newPath = config.uploadDir + newName;
 
         function onSuccess() {
-            fs.unlink(tmpPath, function(err) {
-                if (err) logger.default('[WARN] Failed to unlink file ' + tmpPath);
+            var img = new Image({
+                _id: newName,
+                created: Date.now(),
+                ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip,
+                encrypted: req.body.encrypted || false,
+                type: req.files[FILE_UPLOAD_FIELD].type,
+                createdBy: req.user._id
+            });
 
-                var img = new Image({
-                    _id: newName,
-                    created: Date.now(),
-                    ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip,
-                    encrypted: req.body.encrypted || false,
-                    type: req.files[FILE_UPLOAD_FIELD].type,
-                    createdBy: req.user._id
-                });
-    
-                img.save(function (err, obj) {
-                    if (err) return res.makeError(500, 'Unable to save file.', err);
-                    res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy', 'created'));
-                });
-            })
+            img.save(function (err, obj) {
+                if (err) return res.makeError(500, 'Unable to save file.', err);
+                res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy', 'created'));
+            });
         }
 
         fs.rename(tmpPath, newPath, function (err) {
@@ -111,8 +107,12 @@ module.exports = function (app, passport) {
                 case 'EXDEV':
                     fs.copyFile(tmpPath, newPath, function (err) {
                         if (err) return res.makeError(500, 'Unable to save file.', err);
-                        onSuccess();
-                    })
+
+                        fs.unlink(tmpPath, function (err) {
+                            if (err) logger.default('[WARN] Failed to unlink file ' + tmpPath);
+                            onSuccess();
+                        });
+                    });
                     break;
                 default:
                     return res.makeError(500, 'Unable to save file.', err);
