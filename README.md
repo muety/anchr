@@ -4,7 +4,7 @@
 [![](http://img.shields.io/liberapay/receives/muety.svg?logo=liberapay&style=flat-square)](https://liberapay.com/muety/)
 [![Say thanks](https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg?style=flat-square)](https://saythanks.io/to/n1try)
 ![](https://img.shields.io/github/license/muety/anchr?style=flat-square)
-[![](https://img.shields.io/website.svg?url=https%3A%2F%anchr.io%2Fhealth&style=flat-square)](https://anchr.io)
+[![](https://img.shields.io/website?style=flat-square&url=https%3A%2F%2Fanchr.io/health)](https://anchr.io)
 
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoff.ee/n1try)
 
