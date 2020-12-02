@@ -1,10 +1,10 @@
 # Anchr - Image uploads, bookmarks and shortlink service
 
-![GitHub package.json version](https://img.shields.io/github/package-json/v/muety/anchr?style=flat-square)
-[![](http://img.shields.io/liberapay/receives/muety.svg?logo=liberapay&style=flat-square)](https://liberapay.com/muety/)
-[![Say thanks](https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg?style=flat-square)](https://saythanks.io/to/n1try)
-![](https://img.shields.io/github/license/muety/anchr?style=flat-square)
-[![](https://img.shields.io/website.svg?url=https%3A%2F%anchr.io%2Fhealth&style=flat-square)](https://anchr.io)
+![GitHub package.json version](https://badges.fw-web.space/github/package-json/v/muety/anchr?style=flat-square)
+[![](http://badges.fw-web.space/liberapay/receives/muety.svg?logo=liberapay&style=flat-square)](https://liberapay.com/muety/)
+[![Say thanks](https://badges.fw-web.space/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg?style=flat-square)](https://saythanks.io/to/n1try)
+![](https://badges.fw-web.space/github/license/muety/anchr?style=flat-square)
+[![](https://badges.fw-web.space/website.svg?url=https%3A%2F%anchr.io%2Fhealth&style=flat-square)](https://anchr.io)
 
 [![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoff.ee/n1try)
 
@@ -54,12 +54,12 @@ In order to host Anchr on your own, you need a few things.
 #### Setup
 1. `$ source env.sh`
 3. `$ yarn`
-4. `$ cd public && ../node_modules/bower/bin/bower install && cd ..`
+4. `$ cd public && ../node_modules/.bin/bower install && cd ..`
    
 #### Option 1: Run Natively
 ##### For development
 1. Run backend `$ yarn start` (from root folder)
-2. Run frontend `$ grunt serve` (from `public` folder)
+2. Run frontend `$ ../node_modules/.bin/grunt serve` (from `public` folder)
 3. Go to http://localhost:9000 and enjoy live reload
 
 ##### In production
