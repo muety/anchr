@@ -248,3 +248,15 @@ td h4 {
 .placeholder-sketch span {
     margin-top: 20px;
 }
+
+.flex {
+    display: flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.items-center {
+    align-items: center;
+}

@@ -10,7 +10,7 @@
 
 ---
 
-Anchr is a useful little helper or toolbox or the like for common tasks on the internet. It comes with an [Android App](https://github.com/n1try/anchr-android) for Anchr link collections.
+Anchr is a useful little helper or toolbox or the like for common tasks on the internet. It comes with an [Android App](https://github.com/muety/anchr-android) for Anchr link collections.
 
 <img src="https://anchr.io/images/logo.png" height="128px">
 
@@ -31,7 +31,7 @@ In order to host Anchr on your own, you need a few things.
 * Optionally, but recommended: A webserver as a reverse proxy (e.g. nginx) to enable compression and SSL encryption
 
 ### Configuration
-1. `$ git clone https://github.com/n1try/anchr`
+1. `$ git clone https://github.com/muety/anchr`
 2. Copy `.env.example` to `.env` and edit the contents to set environment variables:
     * `PORT`: TCP port to start the server on (default: `3000`)
     * `LISTEN_ADDR`: IPv4 address to make the server listen on (default: `127.0.0.1`)

@@ -105,7 +105,7 @@
                     <div class="col-md-8">
                         <h4 class="text-primary">
                             <span>My links</span>
-                            <i class="glyphicon glyphicon-repeat" style="margin-left: 10px; font-size: 14px; cursor: pointer" ng-click="setActiveCollection(data.active, false)"></i>
+                            <i title="Refresh" class="glyphicon glyphicon-repeat" style="margin-left: 10px; font-size: 14px; cursor: pointer" ng-click="setActiveCollection(data.active, false)"></i>
                         </h4>
                     </div>
                     <div class="col-md-4">
@@ -144,7 +144,10 @@
 
             <div class="row placeholder-sketch" ng-if="!getCollection(data.active).links.length">
                 <img src="images/undraw_no_data_qbuo.svg">
-                <span>This collection is empty</span>
+                <div class="flex items-center" style="margin-top: 20px">
+                    <span style="margin: 0">This collection is empty</span>
+                    <i title="Refresh" class="glyphicon glyphicon-repeat text-primary" style="margin-left: 10px; font-size: 14px; cursor: pointer" ng-click="setActiveCollection(data.active, false)"></i>
+                </div>
             </div>
         </div>
     </div>
