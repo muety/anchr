@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/muety/anchr/tree/master/webext",
   "devDependencies": {
-    "web-ext": "^4.3.0",
-    "webextension-polyfill": "^0.6.0"
+    "web-ext": "^5.4.1",
+    "webextension-polyfill": "^0.7.0"
   }
 }
