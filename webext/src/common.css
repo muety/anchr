@@ -31,6 +31,10 @@
     clear: both;
 }
 
+.ml-2 {
+    margin-left: 8px;
+}
+
 .ml-4 {
     margin-left: 16px;
 }
@@ -45,6 +49,10 @@
 
 .p-2 {
     padding: 8px;
+}
+
+.w-1_4 {
+    width: 25%;
 }
 
 .text-xl {

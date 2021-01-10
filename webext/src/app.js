@@ -1,10 +1,14 @@
 const btnSettings = document.querySelector('#btn-settings')
+const btnShorten = document.querySelector('#btn-shorten')
 const selectCollection = document.querySelector('#select-collection')
 const inputLink = document.querySelector('#input-link')
 const inputDescription = document.querySelector('#input-description')
 const formMain = document.querySelector('#form-main')
 
 btnSettings.addEventListener('click', () => browser.runtime.openOptionsPage())
+btnShorten.addEventListener('click', () => shortenLink(readForm())
+    .then(data => updateLinkInformation({ url: data.href }))
+    .catch(console.error))
 
 let restoredSettings = {}
 
@@ -57,6 +61,34 @@ function readForm() {
         description: inputDescription.value.trim(),
         collection: selectCollection.value
     }
+}
+
+function shortenLink(data) {
+    const server = restoredSettings.server
+    const token = restoredSettings.token
+
+    return fetch(`${server}/api/shortlink`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            url: data.url
+        })
+    })
+        .then(response => {
+            if (response.ok && response.status >= 200 && response.status <= 299) {
+                return response.json()
+            } else if (response.status === 401) {
+                // Clear token, because expired
+                browser.storage.local.remove('token')
+                return Promise.reject(response.statusText)
+            } else {
+                return Promise.reject(response.statusText)
+            }
+        })
 }
 
 function fetchCollections() {
@@ -158,7 +190,7 @@ function updateCollectionList(collections) {
 }
 
 function updateLinkInformation(data) {
-    inputLink.value = data.url
-    inputDescription.value = data.title
+    if (data.url !== undefined) inputLink.value = data.url
+    if (data.title !== undefined) inputDescription.value = data.title
     return Promise.resolve(data)
 }

@@ -3,7 +3,7 @@
     "name": "Anchr Bookmarks Collector",
     "author": "Ferdinand Mütsch",
     "homepage_url": "https://github.com/muety/anchr/tree/master/webext",
-    "version": "0.2.2",
+    "version": "0.3.0",
     "description": "Easily bookmark webpages to your Anchr collection",
     "options_ui": {
         "page": "src/options/options.html",
