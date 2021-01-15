@@ -9,7 +9,7 @@ var express = require('express')
   , mongoose = require('mongoose')
   , swaggerSpec = require('./swagger').specs
   , swaggerUi = require('swagger-ui-express')
-  , version = require('../../package.json').version;
+  , version = require('../package.json').version;
 
 module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
