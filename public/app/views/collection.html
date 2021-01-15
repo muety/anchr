@@ -84,7 +84,7 @@
                             <label for="descriptionInput" class="col-md-2 control-label">Description</label>
                             <div class="col-md-10" style="padding-left: 25px">
                                 <input type="text" name="descriptionInput" class="form-control" id="descriptionInput"
-                                    placeholder="Describe your link" ng-model="data.descriptionInput"
+                                    placeholder="{{ data.loading ? 'Loading ...' : 'Describe your link' }}" ng-model="data.descriptionInput"
                                     my-enter="saveLink(data.active, data.linkInput, data.descriptionInput)">
                             </div>
                             <span class="input-group-btn">
