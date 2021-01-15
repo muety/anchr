@@ -8,7 +8,8 @@ var express = require('express')
   , passport = require('passport')
   , mongoose = require('mongoose')
   , swaggerSpec = require('./swagger').specs
-  , swaggerUi = require('swagger-ui-express');
+  , swaggerUi = require('swagger-ui-express')
+  , version = require('../../package.json').version;
 
 module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
@@ -52,8 +53,12 @@ module.exports = function(app, config) {
   }
 
   app.get('/health', function(req, res) {
+    var text = 'app=1\n';
+    text += 'db=' + mongoose.connection.readyState + '\n';
+    text += 'v=' + version;
+
     res.set('Content-Type', 'text/plain');
-    res.send('app=1\ndb=' + mongoose.connection.readyState);
+    res.send(text);
   })
 
   // Swagger
