@@ -3,13 +3,13 @@ var express = require('express'),
     utils = require('../../utils'),
     log = require('./../../config/middlewares/log')(),
     _ = require('underscore'),
-    jwtAuth = require('./../../config/middlewares/jwtauth'),
+    auth = require('./../../config/middlewares/auth'),
     mongoose = require('mongoose'),
     Collection = mongoose.model('Collection');
 
 module.exports = function(app, passport) {
     app.use('/api/collection', router);
-    router.use(jwtAuth(passport));
+    router.use(auth(passport));
     router.use(log);
 
     /**

@@ -47,8 +47,9 @@ In order to host Anchr on your own, you need a few things.
     * `ANCHR_GOOGLE_API_KEY`: Your API key for Google APIs (required for safe browse checking incoming shortlinks), which you get from the [Developers Console](https://console.developers.google.com/apis/) (default: `''`, leave blank to disable safe browse checking)
     * `ANCHR_FB_CLIENT_ID` and `ANCHR_FB_SECRET`: OAuth credentials for Facebook Login (default: `''`, leave blank to disable Facebook login)
     * `ANCHR_GOOGLE_CLIENT_ID` and `ANCHR_GOOGLE_SECRET`: OAuth credentials for Google Login (default: `''`, leave blank to disable Google login)
-    * `ANCHR_ALLOW_SIGNUP`: Whether or not to allow sign up of new users (default: `true`)
-    * `ANCHR_EXPOSE_METRICS`: Whether or not to expose [Prometheus](https://prometheus.io) metrics under the public `/api/metrics` endpoint (default: `false`)
+    * `ANCHR_ALLOW_SIGNUP`: Whether to allow sign up of new users (default: `true`)
+    * `ANCHR_BASIC_AUTH`: Whether to allow authenticating using [HTTP Basic Auth](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes) (default: `true`)
+    * `ANCHR_EXPOSE_METRICS`: Whether to expose [Prometheus](https://prometheus.io) metrics under the public `/api/metrics` endpoint (default: `false`)
 
 ### ⚙️ Run
 #### Setup

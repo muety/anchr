@@ -3,7 +3,7 @@ var express = require('express'),
     config = require('./../../config/config'),
     authConfig = require('./../../config/auth'),
     log = require('./../../config/middlewares/log')(),
-    jwtAuth = require('./../../config/middlewares/jwtauth'),
+    auth = require('./../../config/middlewares/auth'),
     utils = require('../../utils'),
     mongoose = require('mongoose'),
     Collection = mongoose.model('Collection');
@@ -94,7 +94,7 @@ module.exports = function(app, passport) {
      *                token:
      *                  type: string
      */
-    router.post('/renew', jwtAuth(passport), function(req, res, next) {
+    router.post('/renew', auth(passport), function(req, res, next) {
         passport.authenticate('jwt', function(err, user) {
             if (err || !user) return res.makeError(401, err.message || 'Unknown error during login.', err);
 

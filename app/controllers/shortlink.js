@@ -8,7 +8,7 @@ var express = require('express'),
     log = require('./../../config/middlewares/log')(),
     logger = require('./../../config/log')()
     _ = require('underscore'),
-    jwtAuth = require('./../../config/middlewares/jwtauth');
+    auth = require('./../../config/middlewares/auth');
 
 var blacklist = [/.*bit\.ly.*/gi, /.*goo\.gl.*/gi, /.*confirm.*/gi, /.*verif.*/gi, /.*account.*/gi, /.*secur.*/gi];
 
@@ -75,7 +75,7 @@ module.exports = function(app, passport) {
      *            schema:
      *              $ref: '#/definitions/ShortlinkShort'
      */
-    router.post('/', jwtAuth(passport), function(req, res, next) {
+    router.post('/', auth(passport), function(req, res, next) {
         if (!req.body.url) return res.makeError(400, 'Malformed request: You need to pass a url attribute.');
 
         for (var i = 0; i < blacklist.length; i++) {

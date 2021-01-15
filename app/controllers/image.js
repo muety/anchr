@@ -7,7 +7,7 @@ var express = require('express'),
     log = require('./../../config/middlewares/log')(),
     logger = require('./../../config/log')(),
     _ = require('underscore'),
-    jwtAuth = require('./../../config/middlewares/jwtauth'),
+    auth = require('./../../config/middlewares/auth'),
     filetype = require('./../../config/middlewares/filetype'),
     multipart = require('connect-multiparty'),
     mongoose = require('mongoose'),
@@ -78,7 +78,7 @@ module.exports = function (app, passport) {
      *            schema:
      *              $ref: '#/definitions/Image'
      */
-    router.post('/', jwtAuth(passport), multipart({ maxFilesSize: config.maxFilesSize }), filetype(config.allowedFileTypes), function (req, res) {
+    router.post('/', auth(passport), multipart({ maxFilesSize: config.maxFilesSize }), filetype(config.allowedFileTypes), function (req, res) {
         var FILE_UPLOAD_FIELD = "uploadFile";
 
         var tmpPath = req.files[FILE_UPLOAD_FIELD].path;
