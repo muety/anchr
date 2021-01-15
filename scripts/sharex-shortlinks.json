@@ -1,0 +1,13 @@
+{
+    "Version": "13.4.0",
+    "Name": "Anchr (Shortlinks)",
+    "DestinationType": "URLShortener",
+    "RequestMethod": "POST",
+    "RequestURL": "https://anchr.io/api/shortlink",
+    "Headers": {
+      "Authorization": "Basic <YOUR_BASIC_AUTH_HASH>"
+    },
+    "Body": "JSON",
+    "Data": "{\n  \"url\": \"$input$\"\n}",
+    "URL": "$json:href$"
+}

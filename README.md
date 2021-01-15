@@ -71,6 +71,17 @@ In order to host Anchr on your own, you need a few things.
 1. `source env.sh`
 1. `docker-compose up`
 
+## 🧰 Tooling
+### [ShareX](https://github.com/ShareX/ShareX) (Windows only)
+You can integrate Anchr with [ShareX](https://github.com/ShareX/ShareX) on Windows and make it be used as a custom target for **image uploads** and **shortlinks**.
+1. Generate an HTTP basic auth hash Base64 hash of `youremail@example.org:yourpassword`
+    * **Option 1 (Linux):** `echo "youremail@example.org:yourpassword" | base64`
+    * **Option 2:** Use an [online tool](https://www.base64encode.net/)
+1. Insert your newly generated hash in
+    * [`sharex-images.json`](scripts/sharex-images.json) and
+    * [`sharex-shortlinks.json`](scripts/sharex-shortlinks.json)
+1. Import both files as custom uploaders in ShareX
+
 ## 🧩 Project State
 This project is still maintained, but considered feature-complete. Dependencies are updated occasionally. Since the project started in 2014, the out-dated JavaScript ES5 syntax is used alongside tools like Grunt and Bower, which are not considered state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. Please don't use `const` and `let`, template string, arrow functions, `async / await` etc.
 

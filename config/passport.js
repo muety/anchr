@@ -110,7 +110,7 @@ module.exports = function (passport) {
 
         if (!user) return done({ message: 'User not found.' });
 
-        password = password.trim().replaceAll('\n', '')
+        password = (password || '').trim()
         if (!user.validPassword(password)) return done({ message: 'Wrong password.' });
 
         return done(null, user);
