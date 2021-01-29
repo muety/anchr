@@ -137,8 +137,8 @@
     height: 40px;
 }
 
-.modal-body {
-    margin-top: -40px;
+.modal-header h3 {
+    padding: 0;
 }
 
 .modal-body p {

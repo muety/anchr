@@ -27,6 +27,10 @@
         "dist/js/bootstrap.js"
       ]
     },
+    "bootstrap-sass": {
+      "main": [
+      ]
+    },
     "crypto-js": {
       "main": "crypto-js.js"
     }
