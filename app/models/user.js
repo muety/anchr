@@ -43,10 +43,12 @@ userSchema.methods.validFacebook = function (token) {
 
 userSchema.methods.jwtSerialize = function(strategy) {
   var self = this.toObject()
-    , payload = {};
-
+  var payload = {}
   payload[strategy] = self[strategy];
   payload.strategy = strategy;
+
+  if (payload[strategy].token) delete payload[strategy].token;
+  if (payload[strategy].password) delete payload[strategy].password;
 
   return jwt.sign(payload, config.secret, { expiresIn : config.tokenExpire });
 };

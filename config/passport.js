@@ -88,13 +88,6 @@ module.exports = function (passport) {
 
     User.findOne(query, function (err, user) {
       if (err || !user) return done(err || { message: 'Unable to authenticate.' }, false);
-      switch (strategy) {
-        case 'facebook':
-          if (!user.validFacebook(jwt_payload[strategy].token)) return done({ message: 'Wrong facebook token.' }, false);
-          break;
-        default:
-          if (!user.validHash(jwt_payload[strategy].password)) return done({ message: 'Wrong password.' }, false);
-      }
       done(null, user);
     });
   }));
