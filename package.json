@@ -74,6 +74,7 @@
         "grunt-connect-proxy/**/lodash": "4.17.15",
         "grunt-connect-proxy/**/http-proxy": "1.18.1",
         "grunt-wiredep/**/minimist": "1.2.5",
-        "grunt-ng-annotate/**/minimist": "1.2.5"
+        "grunt-ng-annotate/**/minimist": "1.2.5",
+        "multiparty": "4.2.2"
     }
 }
