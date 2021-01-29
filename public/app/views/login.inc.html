@@ -2,7 +2,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" onclick="$('#modalLogin').toggle()" aria-hidden="true">×</button>
+        <button type="button" class="close" data-target="#modalLogin" data-toggle="modal" aria-hidden="true">×</button>
         <h3 class="modal-title text-primary">Log In</h3>
       </div>
       <div class="modal-body">
@@ -37,7 +37,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" onclick="$('#modalLogin').toggle()">Close</button>
+        <button type="button" class="btn btn-default" data-target="#modalLogin" data-toggle="modal">Close</button>
         <button type="button" class="btn btn-primary" ng-click="login()"
           ng-disabled="!loginForm.email.$valid || !loginForm.password.$valid || stringEmpty(data.email) || stringEmpty(data.password) || data.loading">Send</button>
       </div>

@@ -38,6 +38,20 @@ angular.module('anchrClientApp')
                 }, function() {});
             },
 
+            updatePassword: function(oldPassword, newPassword, onSuccess, onError) {
+                $http({
+                    method: 'PUT',
+                    url: '/api/auth/password',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    data: {
+                        old: oldPassword,
+                        new: newPassword
+                    }
+                }).then(onSuccess, onError)
+            },
+
             logout: function() {
                 localStorage.clear();
             },
@@ -49,6 +63,12 @@ angular.module('anchrClientApp')
 
             saveToken: function(token) {
                 localStorage.token = token;
+            },
+
+            tokenData: function() {
+                var token = localStorage.getItem('token');
+                if (!token) return null;
+                return jwtHelper.decodeToken(token);
             }
         }
     }]);

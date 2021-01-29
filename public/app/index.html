@@ -69,10 +69,12 @@
                                     class="glyphicon glyphicon-menu-right"></i> API</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/#/" onclick="$('#modalSignup').toggle()" ng-if="!loggedIn()"><i
+                        <li><a href="/#/" data-target="#modalSignup" data-toggle="modal" ng-if="!loggedIn()"><i
                                     class="glyphicon glyphicon-new-window"></i> Sign Up</a></li>
-                        <li><a href="/#/" onclick="$('#modalLogin').toggle()" ng-if="!loggedIn()"><i
+                        <li><a href="/#/" data-target="#modalLogin" data-toggle="modal" ng-if="!loggedIn()"><i
                                     class="glyphicon glyphicon-log-in"></i> Log In</a></li>
+                        <li><a href="/#/" data-target="#modalSettings" data-toggle="modal" ng-if="loggedIn()"><i
+                                    class="glyphicon glyphicon-cog"></i> Settings</a></li>
                         <li><a href="/#/" ng-if="loggedIn()" ng-click="logout()"><i
                                     class="glyphicon glyphicon-log-out"></i> Logout</a></li>
                     </ul>
@@ -97,6 +99,7 @@
 
                 <ng-include src="'views/signup.inc.html'" ng-controller="SignupCtrl" onload="init()"></ng-include>
                 <ng-include src="'views/login.inc.html'" ng-controller="LoginCtrl" onload="init()"></ng-include>
+                <ng-include src="'views/settings.inc.html'" ng-controller="SettingsCtrl" onload="init()"></ng-include>
 
             </div>
         </div>
@@ -106,11 +109,11 @@
         function onControllerEvent(e) {
             switch (e) {
                 case 'signup':
-                    $('#modalSignup').toggle();
-                    $('#modalLogin').toggle();
+                    $('#modalSignup').modal('hide');
+                    $('#modalLogin').modal('hide');
                     break;
                 case 'login':
-                    $('#modalLogin').toggle();
+                    $('#modalLogin').modal('hide');
                     break;
                 case 'newCollection':
                     $('#inputNewName').focus();
@@ -140,25 +143,26 @@
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/services/snackbar.js"></script>
+    <script src="scripts/services/auth.js"></script>
     <script src="scripts/services/shortlink.js"></script>
     <script src="scripts/services/remote.js"></script>
-    <script src="scripts/services/snackbar.js"></script>
+    <script src="scripts/services/image.js"></script>
+    <script src="scripts/services/collection.js"></script>
+    <script src="scripts/filters/imageLinkFilters.js"></script>
+    <script src="scripts/directives/myenter.js"></script>
+    <script src="scripts/directives/apicall.js"></script>
+    <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/image.js"></script>
     <script src="scripts/controllers/shortlink.js"></script>
     <script src="scripts/controllers/view-image.js"></script>
     <script src="scripts/controllers/view-collection.js"></script>
-    <script src="scripts/services/image.js"></script>
-    <script src="scripts/filters/imageLinkFilters.js"></script>
     <script src="scripts/controllers/signup.js"></script>
-    <script src="scripts/services/auth.js"></script>
     <script src="scripts/controllers/login.js"></script>
     <script src="scripts/controllers/collection.js"></script>
-    <script src="scripts/services/collection.js"></script>
-    <script src="scripts/directives/myenter.js"></script>
     <script src="scripts/controllers/api.js"></script>
-    <script src="scripts/directives/apicall.js"></script>
     <script src="scripts/controllers/auth.js"></script>
+    <script src="scripts/controllers/settings.js"></script>
     <script src="scripts/controllers/terms.js"></script>
     <!-- endbuild -->
 

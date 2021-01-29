@@ -42,11 +42,6 @@ angular
                 controller: 'ShortlinkCtrl',
                 controllerAs: 'shortlink'
             })
-            .when('/login', {
-                templateUrl: 'views/login.html',
-                controller: 'LoginCtrl',
-                controllerAs: 'login'
-            })
             .when('/collection', {
                 templateUrl: 'views/collection.html',
                 controller: 'CollectionCtrl',

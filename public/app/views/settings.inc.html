@@ -1,0 +1,40 @@
+<div class="modal" id="modalSettings">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="$('#modalSettings').toggle()" aria-hidden="true">×</button>
+                <h3 class="modal-title text-primary">Settings</h3>
+            </div>
+            <div class="modal-body">
+                <section id="changePasswordSection" ng-if="data.authStrategy == 'local'" style="margin-top: -20px;">
+                    <h4 class="text-primary">Change Password</h4>
+                    <form role="form" name="changePasswordForm" ng-submit="updatePassword()" novalidate>
+                        <div class="form-group">
+                            <label for="loginInputOld" class="col-md-2 control-label">Old</label>
+                            <div class="col-md-10">
+                                <input type="password" name="oldPassword" class="form-control" id="settingsOldPassword"
+                                    placeholder="Old password" ng-model="data.oldPassword" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginInputNew" class="col-md-2 control-label">New</label>
+                            <div class="col-md-10">
+                                <input type="password" name="newPassword" class="form-control" id="settingsNewPassword"
+                                    placeholder="New password" ng-model="data.newPassword" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary pull-right" ng-disabled="changePasswordForm.$invalid" style="margin-right: 15px;">Save</button>
+                        </div>
+                    </form>
+                </section>
+                <section id="deleteAccountSection">
+                    <h4 class="text-primary">Delete Account</h4>
+                    <p>You can delete your account and all related data stored in Anchr. But be careful as his action is irreversible. If you hit the big, red button below, there is no turning back.</p>
+                    <button ng-click="" class="btn btn-raised btn-danger"><i
+                            class="glyphicon glyphicon-trash"></i> &nbsp;Delete Account</button>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

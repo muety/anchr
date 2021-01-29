@@ -1,3 +1,8 @@
+section {
+    padding: 20px 0;
+    color: #555;
+}
+
 .container {
     color: #555;
 }
@@ -14,6 +19,14 @@
 
 .navbar-collapse {
     background-color: #009688;
+}
+
+.spacer-x {
+    margin: 20px 0;
+}
+
+.spacer-y {
+    margin: 0 20px;
 }
 
 .content-box {
@@ -141,8 +154,7 @@
     padding: 0;
 }
 
-.modal-body p {
-    color: rgba(0, 0, 0, 0.84);
+.modal-body {
     margin-top: 10px;
     margin-bottom: 0;
 }
