@@ -102,7 +102,7 @@ module.exports = function(app, passport) {
         })(req, res, next);
     });
 
-        /**
+    /**
      * @swagger
      * /auth/password:
      *    put:
@@ -126,18 +126,16 @@ module.exports = function(app, passport) {
      *                token:
      *                  type: string
      */
-    router.put('/password', auth(passport), function(req, res, next) {
-        passport.authenticate('jwt', function(err, user) {
-            if (!user || !user.local) return res.makeError(404, 'User not found');
-            if (err) return res.makeError(401, err.message, err);
-            if (!user.validPassword(req.body.old)) return res.makeError(401, 'Password wrong.', err);
+    router.put('/password', auth(passport), function(req, res) {
+        var user = req.userObj
+        if (!user || !user.local) return res.makeError(404, 'User not found');
+        if (!user.validPassword(req.body.old)) return res.makeError(401, 'Password wrong.');
 
-            user.local.password = user.generateHash(req.body.new);
-            user.save(function(err) {
-                if (err) return res.makeError(500, err.message);
-                res.status(200).send({ token: user.jwtSerialize('local') });
-            })
-        })(req, res, next);
+        user.local.password = user.generateHash(req.body.new);
+        user.save(function(err) {
+            if (err) return res.makeError(500, err.message);
+            res.status(200).send({ token: user.jwtSerialize('local') });
+        })
     });
 
     if (authConfig.with('facebookAuth')) {

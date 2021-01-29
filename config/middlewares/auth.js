@@ -8,6 +8,7 @@ module.exports = function (passport) {
     passport.authenticate(strategies, { session: false }, function (err, user) {
       if (err || !user) return res.makeError(401, err ? err.message : 'Unable to authenticate');
       req.user = user.toObject();
+      req.userObj = user;
       next();
     })(req, res, next);
   };
