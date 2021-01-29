@@ -49,7 +49,10 @@ angular.module('anchrClientApp')
                         old: oldPassword,
                         new: newPassword
                     }
-                }).then(onSuccess, onError)
+                }).then(function(result) {
+                    if (result.data && result.data.token) localStorage.token = result.data.token;
+                    onSuccess(result);
+                }, onError)
             },
 
             logout: function() {

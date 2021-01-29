@@ -9,10 +9,12 @@ angular.module('anchrClientApp')
         function () {
           Snackbar.show("Successfully updated password!");
           $('#modalSettings').modal('toggle');
+          $scope.clear();
         },
         function () {
           Snackbar.show("Failed to update password");
           $('#modalSettings').modal('toggle');
+          $scope.clear();
         } 
       )
     };

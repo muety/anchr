@@ -15,6 +15,14 @@ parameters:
       $ref: '#/definitions/UserSignup'
     required: true
 
+  passwordUpdate:
+    in: body
+    name: passwordUpdate
+    description: Combination of old and new password
+    schema:
+      $ref: '#/definitions/PasswordUpdate'
+    required: true
+
   imageId:
     in: path
     name: id

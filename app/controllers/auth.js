@@ -99,7 +99,44 @@ module.exports = function(app, passport) {
             if (err || !user) return res.makeError(401, err.message || 'Unknown error during login.', err);
 
             res.status(200).send({ token: user.jwtSerialize('local') });
-            initUser(user);
+        })(req, res, next);
+    });
+
+        /**
+     * @swagger
+     * /auth/password:
+     *    put:
+     *      summary: Update the current user's password
+     *      tags:
+     *        - authentication
+     *      parameters:
+     *        - $ref: '#/parameters/passwordUpdate'
+     *      consumes:
+     *        - application/json
+     *      security:
+     *        - ApiKeyAuth: []
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          200:
+     *            description: A new access token
+     *            schema:
+     *              type: object
+     *              properties:
+     *                token:
+     *                  type: string
+     */
+    router.put('/password', auth(passport), function(req, res, next) {
+        passport.authenticate('jwt', function(err, user) {
+            if (!user || !user.local) return res.makeError(404, 'User not found');
+            if (err) return res.makeError(401, err.message, err);
+            if (!user.validPassword(req.body.old)) return res.makeError(401, 'Password wrong.', err);
+
+            user.local.password = user.generateHash(req.body.new);
+            user.save(function(err) {
+                if (err) return res.makeError(500, err.message);
+                res.status(200).send({ token: user.jwtSerialize('local') });
+            })
         })(req, res, next);
     });
 

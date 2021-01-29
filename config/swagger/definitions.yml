@@ -84,6 +84,20 @@ definitions:
       - email
       - password
 
+  PasswordUpdate:
+    type: object
+    description: Password update object
+    properties:
+      old:
+        type: string
+        description: The user's old password for verification
+      new:
+        type: string
+        description: The user's new password
+    required:
+      - old
+      - new
+
   Link:
     type: object
     description: A bookmarked link as part of a collection
