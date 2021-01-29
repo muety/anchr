@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('anchrClientApp')
-  .controller('SettingsCtrl', ['$scope', '$rootScope', '$window', 'Auth', 'Snackbar', function ($scope, $rootScope, $window, Auth, Snackbar) {
+  .controller('SettingsCtrl', ['$scope', '$rootScope', 'Auth', 'Snackbar', function ($scope, $rootScope, Auth, Snackbar) {
     $scope.updatePassword = function () {
       Auth.updatePassword(
         $scope.data.oldPassword,
@@ -15,12 +15,27 @@ angular.module('anchrClientApp')
           Snackbar.show("Failed to update password");
           $('#modalSettings').modal('toggle');
           $scope.clear();
-        } 
+        }
       )
     };
 
+    $scope.deleteAccount = function () {
+      Auth.deleteAccount(
+        function () {
+          $rootScope.logout();
+          $scope.clear();
+        },
+        function (err) {
+          Snackbar.show('Failed to delete account, something went wrong.');
+          $scope.clear();
+        }
+      );
+    }
+
     $scope.clear = function () {
-      $scope.data = {};
+      $scope.data = {
+        deleting: false
+      };
     };
 
     // RUN
@@ -29,6 +44,7 @@ angular.module('anchrClientApp')
     function init() {
       $scope.clear();
 
-      $scope.data.authStrategy = Auth.tokenData().strategy;
+      var tokenData = Auth.tokenData();
+      $scope.data.authStrategy = tokenData ? tokenData.strategy : '';
     }
   }]);

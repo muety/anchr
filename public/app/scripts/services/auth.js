@@ -72,6 +72,13 @@ angular.module('anchrClientApp')
                 var token = localStorage.getItem('token');
                 if (!token) return null;
                 return jwtHelper.decodeToken(token);
+            },
+
+            deleteAccount: function(onSuccess, onError) {
+                $http({
+                    method: 'DELETE',
+                    url: '/api/auth/me'
+                }).then(onSuccess, onError);
             }
         }
     }]);

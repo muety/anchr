@@ -3,17 +3,21 @@ var express = require('express'),
     config = require('./../../config/config'),
     authConfig = require('./../../config/auth'),
     log = require('./../../config/middlewares/log')(),
+    logger = require('./../../config/log')(),
     auth = require('./../../config/middlewares/auth'),
     utils = require('../../utils'),
     mongoose = require('mongoose'),
-    Collection = mongoose.model('Collection');
+    fs = require('fs'),
+    Collection = mongoose.model('Collection'),
+    Shortlink = mongoose.model('Shortlink'),
+    Image = mongoose.model('Image');
 
 function checkSignup(req, res, next) {
-  if (!config.allowSignUp) return res.makeError(403, 'User registration is disabled by the server.')
-  next()
+    if (!config.allowSignUp) return res.makeError(403, 'User registration is disabled by the server.')
+    next()
 }
 
-module.exports = function(app, passport) {
+module.exports = function (app, passport) {
     app.use('/api/auth', router);
 
     router.use(log);
@@ -35,8 +39,8 @@ module.exports = function(app, passport) {
      *          201:
      *            description: Successful
      */
-    router.post('/signup', checkSignup, function(req, res, next) {
-        passport.authenticate('local-signup', function(err, user) {
+    router.post('/signup', checkSignup, function (req, res, next) {
+        passport.authenticate('local-signup', function (err, user) {
             if (err || !user) return res.makeError(400, err.message || 'Unknown error during signup.', err);
 
             res.status(201).end();
@@ -65,8 +69,8 @@ module.exports = function(app, passport) {
      *                token:
      *                  type: string
      */
-    router.post('/token', function(req, res, next) {
-        passport.authenticate('local-login', function(err, user) {
+    router.post('/token', function (req, res, next) {
+        passport.authenticate('local-login', function (err, user) {
             if (err || !user) return res.makeError(401, err.message || 'Unknown error during login.', err);
 
             res.status(200).send({ token: user.jwtSerialize('local') });
@@ -94,12 +98,30 @@ module.exports = function(app, passport) {
      *                token:
      *                  type: string
      */
-    router.post('/renew', auth(passport), function(req, res, next) {
-        passport.authenticate('jwt', function(err, user) {
-            if (err || !user) return res.makeError(401, err.message || 'Unknown error during login.', err);
+    router.post('/renew', auth(passport), function (req, res) {
+        if (!req.user) return res.makeError(404, 'User not found');
+        res.status(200).send({ token: req.userObj.jwtSerialize('local') });
+    });
 
-            res.status(200).send({ token: user.jwtSerialize('local') });
-        })(req, res, next);
+    /**
+     * @swagger
+     * /auth/me:
+     *    delete:
+     *      summary: Delete the current user's account
+     *      tags:
+     *        - authentication
+     *      security:
+     *        - ApiKeyAuth: []
+     *      produces:
+     *        - application/json
+     *      responses:
+     *          204:
+     *            description: Account deletion process successfully started
+     */
+    router.delete('/me', auth(passport), function (req, res) {
+        if (!req.user) return res.makeError(404, 'User not found');
+        deleteUserInBackground(req.userObj);
+        res.status(204).end();
     });
 
     /**
@@ -126,13 +148,13 @@ module.exports = function(app, passport) {
      *                token:
      *                  type: string
      */
-    router.put('/password', auth(passport), function(req, res) {
+    router.put('/password', auth(passport), function (req, res) {
         var user = req.userObj
         if (!user || !user.local) return res.makeError(404, 'User not found');
         if (!user.validPassword(req.body.old)) return res.makeError(401, 'Password wrong.');
 
         user.local.password = user.generateHash(req.body.new);
-        user.save(function(err) {
+        user.save(function (err) {
             if (err) return res.makeError(500, err.message);
             res.status(200).send({ token: user.jwtSerialize('local') });
         })
@@ -141,8 +163,8 @@ module.exports = function(app, passport) {
     if (authConfig.with('facebookAuth')) {
         router.get('/facebook', checkSignup, passport.authenticate('facebook', { scope: ['email'] }));
 
-        router.get('/facebook/callback', function(req, res, next) {
-            passport.authenticate('facebook', function(err, user) {
+        router.get('/facebook/callback', function (req, res, next) {
+            passport.authenticate('facebook', function (err, user) {
                 if (!user) return res.makeError(401, 'Unauthorized.', err);
 
                 res.redirect(config.clientUrl + 'auth/' + user.jwtSerialize('facebook'));
@@ -154,8 +176,8 @@ module.exports = function(app, passport) {
     if (authConfig.with('googleAuth')) {
         router.get('/google', checkSignup, passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-        router.get('/google/callback', function(req, res, next) {
-            passport.authenticate('google', function(err, user) {
+        router.get('/google/callback', function (req, res, next) {
+            passport.authenticate('google', function (err, user) {
                 if (!user) return res.makeError(401, 'Unauthorized.', err);
 
                 res.redirect(config.clientUrl + 'auth/' + user.jwtSerialize('google'));
@@ -166,7 +188,7 @@ module.exports = function(app, passport) {
 };
 
 function initUser(user) {
-    Collection.findOne({ name: 'My shortlinks', owner: user._id }, function(err, result) {
+    Collection.findOne({ name: 'My shortlinks', owner: user._id }, function (err, result) {
         if (err) return res.makeError(500, err.message, err);
         if (result) return true;
         else {
@@ -178,5 +200,37 @@ function initUser(user) {
                 shared: false
             }).save();
         }
+    });
+}
+
+function deleteUserInBackground(user) {
+    user.delete(function (err) {
+        if (err) return logger.error('Failed to delete user "' + user._id + '" – ' + err);
+        logger.default('Deleted user ' + user._id);
+
+        Collection.deleteMany({ owner: user._id }, function (err) {
+            if (err) return logger.error('Failed to delete collections user "' + user._id + '" – ' + err);
+            logger.default('Deleted collections of user ' + user._id);
+        });
+
+        Shortlink.deleteMany({ createdBy: user._id }, function (err) {
+            if (err) return logger.error('Failed to delete shortlinks user "' + user._id + '" – ' + err);
+            logger.default('Deleted shortlinks of user ' + user._id);
+        });
+
+        Image.find({ createdBy: user._id }, function (err, results) {
+            if (err) return logger.error('Failed to fetch images user "' + user._id + '" – ' + err);
+            results.forEach(function (file) {
+                var filePath = config.uploadDir + file._id;
+                fs.unlink(filePath, function (err) {
+                    if (err) logger.error('Failed to unlink file ' + filePath);
+                });
+            });
+
+            Image.deleteMany({ createdBy: user._id }, function (err) {
+                if (err) return logger.error('Failed to delete images user "' + user._id + '" – ' + err);
+                logger.default('Deleted images of user ' + user._id);
+            });
+        });
     });
 }

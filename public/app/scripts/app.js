@@ -101,7 +101,7 @@ angular
             });
         };
     }])
-    .run(['$rootScope', 'Snackbar', 'Auth', '$location', function ($rootScope, Snackbar, Auth, $location) {
+    .run(['$rootScope', 'Snackbar', 'Auth', '$location', '$window', function ($rootScope, Snackbar, Auth, $location, $window) {
         $rootScope.snackbar = Snackbar;
         $rootScope.isActive = function (viewLocation) {
             return viewLocation === $location.path();
@@ -110,6 +110,7 @@ angular
         $rootScope.logout = function () {
             Auth.logout();
             Snackbar.show('You were logged out.');
+            $window.onControllerEvent('logout');
         };
         $rootScope.stringEmpty = function (string) {
             return (string === '');

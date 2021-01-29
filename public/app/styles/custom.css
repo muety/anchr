@@ -157,6 +157,7 @@ section {
 .modal-body {
     margin-top: 10px;
     margin-bottom: 0;
+    color: #555;
 }
 
 .modal-footer {

@@ -31,8 +31,8 @@
                 <section id="deleteAccountSection">
                     <h4 class="text-primary">Delete Account</h4>
                     <p>You can delete your account and all related data stored in Anchr. But be careful as his action is irreversible. If you hit the big, red button below, there is no turning back.</p>
-                    <button ng-click="" class="btn btn-raised btn-danger"><i
-                            class="glyphicon glyphicon-trash"></i> &nbsp;Delete Account</button>
+                    <button ng-if="!data.deleting" ng-click="data.deleting = true" class="btn btn-raised btn-danger"><i class="glyphicon glyphicon-trash"></i> &nbsp;Delete Account</button>
+                    <button ng-if="data.deleting" ng-click="deleteAccount()" class="btn btn-raised btn-danger"><i class="glyphicon glyphicon-trash"></i> &nbsp;Are you sure?</button>
                 </section>
             </div>
         </div>

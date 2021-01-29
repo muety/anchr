@@ -82,7 +82,7 @@ module.exports = function (app, passport) {
         var FILE_UPLOAD_FIELD = "uploadFile";
 
         var tmpPath = req.files[FILE_UPLOAD_FIELD].path;
-        var newName = utils.generateUUID() + path.parse(tmpPath).ext;
+        var newName = utils.generateUUID() + path.parse(tmpPath).ext.toLowerCase();
         var newPath = config.uploadDir + newName;
 
         function onSuccess() {
