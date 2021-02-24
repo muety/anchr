@@ -62,7 +62,7 @@
                         <li ng-class="{ active: isActive('/collection')}"><a href="#/collection" ng-if="loggedIn()"><i
                                     class="glyphicon glyphicon-list"></i> My collection</a></li>
                         <li ng-class="{ active: isActive('/collection')}"><a href="#/"
-                                onclick="$('#modalLogin').toggle()" ng-if="!loggedIn()"><i
+                                    data-target="#modalLogin" data-toggle="modal" ng-if="!loggedIn()"><i
                                     class="glyphicon glyphicon-list"></i> My collection</a></li>
                         <li ng-class="{ active: isActive('/api')}"><a href="#/api"><i
                                     class="glyphicon glyphicon-menu-left"></i><i
