@@ -10,7 +10,7 @@ var express = require('express'),
     utils = require('../../utils'),
     mongoose = require('mongoose'),
     fs = require('fs'),
-    mail = require('../services/mail')(config.smtp),
+    mailService = require('../services/mail'),
     User = mongoose.model('User'),
     Collection = mongoose.model('Collection'),
     Shortlink = mongoose.model('Shortlink'),
@@ -20,6 +20,13 @@ function checkSignup(req, res, next) {
     if (!config.allowSignUp) return res.makeError(403, 'User registration is disabled by the server.')
     next()
 }
+
+// Set up mailing
+var mail = function() {
+    if (config.smtp.host) return mailService('smtp', config.smtp);
+    if (config.mailwhale.clientId) return mailService('mailwhale', config.mailwhale);
+    return mailService(); // noop mail service
+}()
 
 module.exports = function (app, passport) {
     app.use('/api/auth', router);
@@ -250,7 +257,7 @@ function sendConfirmationMail(user) {
         to: user.local.email,
         subject: 'Confirm your Anchr.io account',
         text: text
-    }).then(function (info) {
+    }).then(function (res) {
         console.log('Successfully sent confirmation mail to ' + user.local.email);
         return true;
     })

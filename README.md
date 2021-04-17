@@ -48,8 +48,18 @@ In order to host Anchr on your own, you need a few things.
     * `ANCHR_FB_CLIENT_ID` and `ANCHR_FB_SECRET`: OAuth credentials for Facebook Login (default: `''`, leave blank to disable Facebook login)
     * `ANCHR_GOOGLE_CLIENT_ID` and `ANCHR_GOOGLE_SECRET`: OAuth credentials for Google Login (default: `''`, leave blank to disable Google login)
     * `ANCHR_ALLOW_SIGNUP`: Whether to allow sign up of new users (default: `true`)
+    * `ANCHR_VERIFY_USERS`: Whether require new users to activate their accounts with an e-mail link (requires mailing) (default: `true`)
     * `ANCHR_BASIC_AUTH`: Whether to allow authenticating using [HTTP Basic Auth](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes) (default: `true`)
     * `ANCHR_EXPOSE_METRICS`: Whether to expose [Prometheus](https://prometheus.io) metrics under the public `/api/metrics` endpoint (default: `false`)
+    * `ANCHR_MAIL_SENDER`: Sender address in mails from Anchr.io (default: `Anchr.io <noreply@anchr.io>`)
+    * `ANCHR_SMTP_HOST`: SMTP server host for sending mails (leave empty to disable mailing)
+    * `ANCHR_SMTP_PORT`: SMTP server port (default: `587`)
+    * `ANCHR_SMTP_TLS`: Whether to establish a TLS connection with the SMTP server (not to be confused with STARTTLS) (default: `false`)
+    * `ANCHR_SMTP_USER`: SMTP server login username
+    * `ANCHR_SMTP_PASS`: SMTP server login password
+    * `ANCHR_MAILWHALE_URL`: Public URL of your [MailWhale](https://github.com/muety/mailwhale) instance when using it for mails instead of SMTP (default: `https://mailwhale.dev`)
+    * `ANCHR_MAILWHALE_CLIENT_ID`: MailWhale client ID for authentication
+    * `ANCHR_MAILWHALE_CLIENT_SECRET`: MailWhale client secret for authentication
 
 ### ⚙️ Run
 #### Setup

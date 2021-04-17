@@ -29,6 +29,7 @@ var config = {
         basicAuth: process.env.ANCHR_BASIC_AUTH !== 'false',
         exposeMetrics: process.env.ANCHR_EXPOSE_METRICS === 'true',
         verifyUsers: process.env.ANCHR_VERIFY_USERS === 'true' || false,
+        mailSender: process.env.ANCHR_MAIL_SENDER || 'Anchr.io <noreply@anchr.io>',
         smtp: {
             host: process.env.ANCHR_SMTP_HOST || '',
             port: process.env.ANCHR_SMTP_PORT || 587,
@@ -38,7 +39,11 @@ var config = {
                 pass: process.env.ANCHR_SMTP_PASS || '',
             }
         },
-        mailSender: process.env.ANCHR_MAIL_SENDER || 'Anchr.io <noreply@anchr.io>'
+        mailwhale: {
+            url: process.env.ANCHR_MAILWHALE_URL || 'https://mailwhale.dev',
+            clientId: process.env.ANCHR_MAILWHALE_CLIENT_ID || '',
+            clientSecret: process.env.ANCHR_MAILWHALE_CLIENT_SECRET,
+        }
     },
     development: {
     },
