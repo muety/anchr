@@ -6,7 +6,7 @@ angular.module('anchrClientApp')
       var e = $scope.data.email;
       var p = $scope.data.password;
       var onSuccess = function (result) {
-        Snackbar.show("You have signed up successfully.");
+        Snackbar.show("Account create successfully. Check your inbox to activate it.");
         $scope.data.loading = false;
         $rootScope.isNewUser = true;
         $window.onControllerEvent('signup');

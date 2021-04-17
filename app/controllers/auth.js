@@ -1,3 +1,5 @@
+const user = require('../models/user');
+
 var express = require('express'),
     router = express.Router(),
     config = require('./../../config/config'),
@@ -8,6 +10,8 @@ var express = require('express'),
     utils = require('../../utils'),
     mongoose = require('mongoose'),
     fs = require('fs'),
+    mail = require('../services/mail')(config.smtp),
+    User = mongoose.model('User'),
     Collection = mongoose.model('Collection'),
     Shortlink = mongoose.model('Shortlink'),
     Image = mongoose.model('Image');
@@ -43,7 +47,24 @@ module.exports = function (app, passport) {
         passport.authenticate('local-signup', function (err, user) {
             if (err || !user) return res.makeError(400, err.message || 'Unknown error during signup.', err);
 
-            res.status(201).end();
+            if (!config.verifyUsers) {
+                return res.status(201).end();
+            }
+
+            user.generateToken();
+            user.save(function () {
+                sendConfirmationMail(user)
+                    .then(function () {
+                        res.status(201).end();
+                    })
+                    .catch(function (err) {
+                        console.error(err);
+                        res.makeError(500, 'Failed to send confirmation mail.');
+                    });
+            }, function (err) {
+                res.makeError(500, err.message);
+            })
+
         })(req, res, next);
     });
 
@@ -160,6 +181,21 @@ module.exports = function (app, passport) {
         })
     });
 
+    router.get('/verify', function (req, res) {
+        if (!req.query.token) return res.makeError(400, 'Missing token.', err);
+
+        User.findOne({ verificationToken: req.query.token }, function (err, user) {
+            if (err || !user) return res.makeError(401, 'Invalid token.');
+            user.verificationToken = null;
+            user.save(function () {
+                res.redirect(config.clientUrl);
+            }, function(err) {
+                console.error(err);
+                res.makeError(500, 'Failed to activate user');
+            });
+        });
+    });
+
     if (authConfig.with('facebookAuth')) {
         router.get('/facebook', checkSignup, passport.authenticate('facebook', { scope: ['email'] }));
 
@@ -201,6 +237,23 @@ function initUser(user) {
             }).save();
         }
     });
+}
+
+function sendConfirmationMail(user) {
+    var text = 'Welcome to Anchr.io!\n\n';
+    text += 'Please confirm your e-mail address by clicking the following link:\n\n';
+    text += config.publicUrl + '/auth/verify?token=' + user.verificationToken + '\n\n';
+    text += 'Thank you!';
+
+    return mail.send({
+        from: config.mailSender,
+        to: user.local.email,
+        subject: 'Confirm your Anchr.io account',
+        text: text
+    }).then(function (info) {
+        console.log('Successfully sent confirmation mail to ' + user.local.email);
+        return true;
+    })
 }
 
 function deleteUserInBackground(user) {

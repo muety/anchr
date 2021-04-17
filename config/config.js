@@ -27,7 +27,18 @@ var config = {
         googleApiKey: process.env.ANCHR_GOOGLE_API_KEY || '',
         allowSignUp: process.env.ANCHR_ALLOW_SIGNUP !== 'false',
         basicAuth: process.env.ANCHR_BASIC_AUTH !== 'false',
-        exposeMetrics: process.env.ANCHR_EXPOSE_METRICS === 'true'
+        exposeMetrics: process.env.ANCHR_EXPOSE_METRICS === 'true',
+        verifyUsers: process.env.ANCHR_VERIFY_USERS === 'true' || false,
+        smtp: {
+            host: process.env.ANCHR_SMTP_HOST || '',
+            port: process.env.ANCHR_SMTP_PORT || 587,
+            secure: process.env.ANCHR_SMTP_TLS === 'true' || false, // not to be confused with STARTTLS
+            auth: {
+                user: process.env.ANCHR_SMTP_USER || '',
+                pass: process.env.ANCHR_SMTP_PASS || '',
+            }
+        },
+        mailSender: process.env.ANCHR_MAIL_SENDER || 'Anchr.io <noreply@anchr.io>'
     },
     development: {
     },

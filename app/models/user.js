@@ -1,7 +1,8 @@
 var mongoose = require('mongoose')
   , bcrypt = require('bcrypt')
   , jwt = require('jsonwebtoken')
-  , config = require('./../../config/config');
+  , config = require('./../../config/config')
+  , utils = require('../../utils');
 
 var userSchema = mongoose.Schema({
   created : Date,
@@ -20,7 +21,8 @@ var userSchema = mongoose.Schema({
     token : String,
     email : String,
     name : String
-  }
+  },
+  verificationToken : String
 }, {
   usePushEach: true
 });
@@ -52,5 +54,14 @@ userSchema.methods.jwtSerialize = function(strategy) {
 
   return jwt.sign(payload, config.secret, { expiresIn : config.tokenExpire });
 };
+
+userSchema.methods.generateToken = function() {
+  this.verificationToken = utils.generateUUID(16);
+  return this.verificationToken;
+};
+
+userSchema.methods.clearToken = function() {
+  this.verificationToken = '';
+}
 
 module.exports = mongoose.model('User', userSchema);

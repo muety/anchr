@@ -67,6 +67,9 @@ module.exports = function (passport) {
 
         if (!user) return done({ message: 'User not found.' });
 
+        // if token is still present, user is not yet activated
+        if (config.verifyUsers && user.verificationToken) return done({ message: 'User not active.' });
+
         if (!user.validPassword(password)) return done({ message: 'Wrong password.' });
 
         return done(null, user);

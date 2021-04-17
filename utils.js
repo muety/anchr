@@ -7,8 +7,8 @@ var utils = {
   shortlinkUrl : function (id) {
     return config.publicShortlinkUrl + '/' + id;
   },
-  generateUUID : function () {
-    var len = 5;
+  generateUUID : function (maxLen) {
+    var len = maxLen || 5;
     var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
       out = '';
     for(var i=0, clen=chars.length; i<len; i++){
