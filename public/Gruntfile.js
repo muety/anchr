@@ -17,7 +17,6 @@ module.exports = function (grunt) {
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-useminify',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn2',
     configureProxies: 'grunt-connect-proxy'
   });
 
@@ -285,13 +284,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // Replace Google CDN references
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
-      }
-    },
-
     // Copies remaining files to places other tasks can use
     copy: {
       dist: {
@@ -401,7 +393,6 @@ module.exports = function (grunt) {
     'concat',
     'copy:dist',
     'copy:fonts',
-    'cdnify',
     'cssmin',
     'uglify',
     'usemin'

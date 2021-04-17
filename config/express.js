@@ -5,13 +5,14 @@ var express = require('express')
   , compress = require('compression')
   , methodOverride = require('method-override')
   , error = require('./middlewares/error')
+  , security = require('./middlewares/security')
   , passport = require('passport')
   , mongoose = require('mongoose')
   , swaggerSpec = require('./swagger').specs
   , swaggerUi = require('swagger-ui-express')
   , version = require('../package.json').version;
 
-module.exports = function(app, config) {
+module.exports = function (app, config) {
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
@@ -34,14 +35,15 @@ module.exports = function(app, config) {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(compress());
   app.use(error());
+  app.use(security());
 
   // Passport
   app.use(passport.initialize());
   require('./passport')(passport);
 
   if (env === 'development') {
-    app.use('/', express.static(config.root + '/public/app', {redirect: false}));
-    app.use('/bower_components', express.static(config.root + '/public/bower_components', {redirect: false}));
+    app.use('/', express.static(config.root + '/public/app', { redirect: false }));
+    app.use('/bower_components', express.static(config.root + '/public/bower_components', { redirect: false }));
   }
   else {
     app.use('/', express.static(config.root + '/public/dist', {
@@ -52,7 +54,7 @@ module.exports = function(app, config) {
     }));
   }
 
-  app.get('/health', function(req, res) {
+  app.get('/health', function (req, res) {
     var text = 'app=1\n';
     text += 'db=' + mongoose.connection.readyState + '\n';
     text += 'v=' + version;
@@ -63,14 +65,14 @@ module.exports = function(app, config) {
 
   // Swagger
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  app.get('/api-docs.json', function(req, res) {
+  app.get('/api-docs.json', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });
 
   app.use(methodOverride());
 
-  var controllers = fs.readdirSync(config.root + '/app/controllers').filter(function(f) {
+  var controllers = fs.readdirSync(config.root + '/app/controllers').filter(function (f) {
     return f.endsWith('.js')
   });
   controllers.forEach(function (controller) {
