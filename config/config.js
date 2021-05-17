@@ -20,6 +20,7 @@ var config = {
         uploadDir: path.normalize((process.env.ANCHR_UPLOAD_DIR || '/var/data/anchr') + '/'),
         maxFileSize: 1000000 * 10,
         maxHtmlSizeKb: 1024,
+        imageProxyUrlTpl: process.env.ANCHR_IMAGE_PROXY_URL_TPL,
         allowedFileTypes: ['image/'],
         secret: process.env.ANCHR_SECRET || 'shhh',
         tokenExpire: '7d',

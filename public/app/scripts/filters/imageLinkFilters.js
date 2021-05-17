@@ -10,4 +10,9 @@ angular.module('anchrClientApp.filters', [])
     return function (input) {
       return "<a href='" + input + "'><img src='" + input + "'\></a>";
     };
+  })
+  .filter('imageMarkdownLink', function () {
+    return function (input) {
+      return "![](" + input + ")";
+    };
   });

@@ -40,10 +40,10 @@
 
       <div class="form-group has-success no-space">
         <div class="input-group">
-          <label class="control-label" for="link">Link</label>
-          <input type="text" class="form-control" id="link" value="{{image.link}}" readonly>
+          <label class="control-label" for="link">Direct link</label>
+          <input type="text" class="form-control" id="directLink" value="{{image.href}}" readonly>
           <span class="input-group-btn">
-            <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#link"
+            <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#directLink"
               ng-click="snackbar.show('Link copied to clipboard.')">
               <i class="mdi-content-content-copy"></i>
             </button>
@@ -57,10 +57,10 @@
 
       <div class="form-group has-success no-space">
         <div class="input-group">
-          <label class="control-label" for="link">Direct link</label>
-          <input type="text" class="form-control" id="directLink" value="{{image.href}}" readonly>
+          <label class="control-label" for="link">Link for Markdown</label>
+          <input type="text" class="form-control" id="markdownLink" value="{{image.href | imageMarkdownLink}}" readonly>
           <span class="input-group-btn">
-            <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#directLink"
+            <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#markdownLink"
               ng-click="snackbar.show('Link copied to clipboard.')">
               <i class="mdi-content-content-copy"></i>
             </button>
@@ -99,6 +99,27 @@
           <input type="text" class="form-control" id="forumsLink" value="{{image.href | imageForumLink}}" readonly>
           <span class="input-group-btn">
             <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#forumsLink"
+              ng-click="snackbar.show('Link copied to clipboard.')">
+              <i class="mdi-content-content-copy"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-md-6">
+
+      <div class="form-group has-success no-space" ng-if="image.hrefProxied">
+        <div class="input-group">
+          <label class="control-label" for="link">Image proxy link</label>
+          <input type="text" class="form-control" id="proxiedLink" value="{{image.hrefProxied}}" readonly>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard data-clipboard-target="#proxiedLink"
               ng-click="snackbar.show('Link copied to clipboard.')">
               <i class="mdi-content-content-copy"></i>
             </button>

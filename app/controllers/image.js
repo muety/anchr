@@ -47,10 +47,13 @@ module.exports = function (app, passport) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Image not found.');
 
+            var image = _.omit(obj.toObject(), 'id')
+            image.hrefProxied = config.imageProxyUrlTpl ? config.imageProxyUrlTpl.replace('{0}', image.href) : null
+
             var filePath = config.uploadDir + obj._id;
             fs.exists(filePath, function (exists) {
                 if (!exists) return res.makeError(404, "File not found.");
-                if (asJson) res.send(_.omit(obj.toObject(), 'id'));
+                if (asJson) res.send(image);
                 else res.sendFile(filePath);
             });
         });
