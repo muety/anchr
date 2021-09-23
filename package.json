@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "axios": "^0.21.1",
-        "bcrypt": "^4.0.1",
+        "bcrypt": "^5.0.1",
         "body-parser": "1.19.0",
         "compression": "1.7.4",
         "connect-multiparty": "2.2.0",
@@ -22,7 +22,7 @@
         "jsonwebtoken": "8.5.1",
         "memory-cache": "0.2.0",
         "method-override": "3.0.0",
-        "mongoose": "5.10.9",
+        "mongoose": "5.13.9",
         "nodemailer": "^6.5.0",
         "passport": "0.4.1",
         "passport-facebook": "3.0.0",
