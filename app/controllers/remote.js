@@ -45,7 +45,10 @@ module.exports = function(app) {
         }
 
         var cachedValue = cache.get(url);
-        if (cachedValue) return sendTitle(cachedValue)
+        if (cachedValue) return sendTitle(cachedValue);
+        else if (cache.keys().includes(url)) return sendTitle(null);
+
+        cache.put(url, null, CACHE_TIMEOUT); // prevent redirect loops
 
         axios({
             method: 'head',
