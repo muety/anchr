@@ -217,7 +217,7 @@ module.exports = function (grunt) {
         flow: {
           html: {
             steps: {
-              js: ['concat', 'uglifyjs'],
+              js: ['concat'],
               css: ['cssmin']
             },
             post: {}
@@ -324,13 +324,6 @@ module.exports = function (grunt) {
       }
     },
 
-    uglify: {
-      options: {
-        report: 'min',
-        mangle: false
-      }
-    },
-
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
@@ -394,7 +387,6 @@ module.exports = function (grunt) {
     'copy:dist',
     'copy:fonts',
     'cssmin',
-    'uglify',
     'usemin'
   ]);
 
