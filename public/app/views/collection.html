@@ -103,8 +103,9 @@
             <div class="row" ng-if="getCollection(data.active).links.length">
                 <div class="row">
                     <div class="col-md-8">
-                        <h4 class="text-primary">
-                            <span>My links</span>
+                        <h4 class="text-primary flex items-center">
+                            <span>{{getCollection(data.active).name}}</span>
+                            <small class="badge bg-primary collection-counter">{{getCollection(data.active).links.length}}</small>
                             <i title="Refresh" class="glyphicon glyphicon-repeat" style="margin-left: 10px; font-size: 14px; cursor: pointer" ng-click="setActiveCollection(data.active, false)"></i>
                         </h4>
                     </div>

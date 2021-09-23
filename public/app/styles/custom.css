@@ -212,6 +212,10 @@ td h4 {
     line-height: 360px;
 }
 
+.collection-counter {
+    margin: 0 10px;
+}
+
 .noscript {
     position: absolute;
     z-index: 9999;
@@ -272,4 +276,8 @@ td h4 {
 
 .items-center {
     align-items: center;
+}
+
+.bg-primary {
+    background: #009688;
 }
