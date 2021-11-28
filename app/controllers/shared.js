@@ -3,7 +3,8 @@ var express = require('express')
   , log = require('./../../config/middlewares/log')()
   , _ = require('underscore')
   , mongoose = require('mongoose')
-  , Collection = mongoose.model('Collection');
+  , Collection = mongoose.model('Collection')
+  , countLinks = require('./utils').countLinks;
 
 module.exports = function (app) {
   app.use('/api/shared', router);
@@ -31,9 +32,30 @@ module.exports = function (app) {
     var _id = req.params.id;
     if (!_id) return res.makeError(404, 'Not found. Please give an id.');
 
-    Collection.findOne({_id : _id, shared: true}, {__v : false, created: false, modified: false}, function (err, obj) {
+    var page = Math.max(req.query.page, 1);
+    var pageSize = Math.max(req.query.pageSize, 0) || DEFAULT_PAGE_SIZE;
+    var skip = (page - 1) * pageSize;
+
+    Collection.findOne({
+      _id: _id,
+      shared: true
+    }, {
+      __v: false,
+      created: false,
+      modified: false,
+      links: { $slice: [skip, pageSize] }
+    }, function (err, obj) {
       if (err) return res.makeError(500, err.message, err);
-      res.send(obj);
+
+      obj = obj.toObject();
+
+      countLinks(_id, function (err, count) {
+        if (count) {
+          res.set('Link', '<?pageSize=' + pageSize + '&page=' + Math.ceil(count / pageSize) + '>; rel="last"');
+          obj.size = count;
+        }
+        res.send(obj);
+      })
     });
   });
 };

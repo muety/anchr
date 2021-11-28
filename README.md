@@ -95,5 +95,8 @@ You can integrate Anchr with [ShareX](https://github.com/ShareX/ShareX) on Windo
 ## 🧩 Project State
 This project is still maintained, but considered feature-complete. Dependencies are updated occasionally. Since the project started in 2014, the out-dated JavaScript ES5 syntax is used alongside tools like Grunt and Bower, which are not considered state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. Please don't use `const` and `let`, template string, arrow functions, `async / await` etc.
 
+## 🔗 Links
+* [Angular UI Bootstrap](https://angular-ui.github.io/bootstrap/)
+
 ## 📓 License
 GNU General Public License v3 (GPL-3) @ [Ferdinand Mütsch](https://muetsch.io)

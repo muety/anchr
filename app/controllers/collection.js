@@ -5,9 +5,12 @@ var express = require('express'),
     _ = require('underscore'),
     auth = require('./../../config/middlewares/auth'),
     mongoose = require('mongoose'),
-    Collection = mongoose.model('Collection');
+    Collection = mongoose.model('Collection'),
+    countLinks = require('./utils').countLinks;
 
-module.exports = function(app, passport) {
+var DEFAULT_PAGE_SIZE = 25;
+
+module.exports = function (app, passport) {
     app.use('/api/collection', router);
     router.use(auth(passport));
     router.use(log);
@@ -29,8 +32,8 @@ module.exports = function(app, passport) {
      *            schema:
      *              $ref: '#/definitions/CollectionList'
      */
-    router.get('/', function(req, res) {
-        Collection.find({ owner: req.user._id }, '_id name shared', function(err, result) {
+    router.get('/', function (req, res) {
+        Collection.find({ owner: req.user._id }, '_id name shared', function (err, result) {
             if (err) return res.makeError(500, err.message, err);
             res.send(result);
         });
@@ -57,7 +60,7 @@ module.exports = function(app, passport) {
      *            schema:
      *              $ref: '#/definitions/Collection'
      */
-    router.post('/', function(req, res) {
+    router.post('/', function (req, res) {
         var name = req.body.name;
         if (!name) return res.makeError(400, 'No collection name given.', err);
 
@@ -69,7 +72,7 @@ module.exports = function(app, passport) {
             links: [],
             owner: req.user._id,
             shared: false
-        }).save(function(err, obj) {
+        }).save(function (err, obj) {
             if (err || !obj) return res.makeError(500, err.message || 'Unable to save new collection.', err);
             res.status(201).send(_.omit(obj.toObject(), '__v', 'created', 'modified'));
         });
@@ -94,14 +97,26 @@ module.exports = function(app, passport) {
      *            schema:
      *              $ref: '#/definitions/CollectionDetails'
      */
-    router.get('/:id', function(req, res) {
+    router.get('/:id', function (req, res) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.', err);
 
-        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: false, created: false, modified: false }, function(err, obj) {
+        var page = Math.max(req.query.page, 1);
+        var pageSize = Math.max(req.query.pageSize, 0) || DEFAULT_PAGE_SIZE;
+
+        loadCollection(_id, req.user._id, pageSize, page, function (err, obj) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
-            res.send(obj);
+
+            obj = obj.toObject();
+
+            countLinks(_id, function(err, count) {
+                if (count) {
+                    res.set('Link', '<?pageSize=' + pageSize + '&page=' + Math.ceil(count / pageSize) + '>; rel="last"');
+                    obj.size = count;
+                }
+                res.send(obj);
+            })
         });
     });
 
@@ -124,14 +139,26 @@ module.exports = function(app, passport) {
      *            schema:
      *              $ref: '#/definitions/LinkList'
      */
-    router.get('/:id/links', function(req, res) {
+    router.get('/:id/links', function (req, res) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.');
 
-        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: false }, function(err, obj) {
+        var page = Math.max(req.query.page, 1);
+        var pageSize = Math.max(req.query.pageSize, 0) || DEFAULT_PAGE_SIZE;
+
+        loadCollection(_id, req.user._id, pageSize, page, function (err, obj) {
             if (err) return res.makeError(500, err.message, err);
             if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
-            res.send(obj.links);
+
+            obj = obj.toObject();
+            
+            countLinks(_id, function(err, count) {
+                if (count) {
+                    res.set('Link', '<?pageSize=' + pageSize + '&page=' + Math.ceil(count / pageSize) + '>; rel="last"');
+                    obj.size = count;
+                }
+                res.send(obj.links);
+            })
         });
     });
 
@@ -157,7 +184,7 @@ module.exports = function(app, passport) {
      *            schema:
      *              $ref: '#/definitions/Link'
      */
-    router.post('/:id/links', function(req, res) {
+    router.post('/:id/links', function (req, res) {
         var _id = req.params.id,
             url = req.body.url,
             description = req.body.description || '';
@@ -171,23 +198,26 @@ module.exports = function(app, passport) {
             date: Date.now()
         };
 
-        Collection.findOne({ _id: _id, owner: req.user._id }, function(err, obj) {
-            if (err) return res.makeError(500, err.message, err);
-            if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
-
-            obj.modified = new Date();
-            obj.links.push(link);
-            obj.save(function(err, obj) {
-                if (err || !obj) return res.makeError(500, err.message || 'Unable to save new link.', err);
-                var savedLink = _.last(_.sortBy(obj.toObject().links.filter(function(l) {
-                    return l.url === link.url && l.description === link.description;
-                }), 'date'));
-                res.status(201).send(savedLink);
-            });
+        Collection.findOneAndUpdate({
+            _id: _id,
+            owner: req.user._id
+        }, {
+            $push: { links: link },
+            modified: new Date()
+        }, {
+            returnDocument: 'after',
+            lean: true,
+            projection: {
+                links: { $elemMatch: { date: link.date } }
+            }
+        }, function (err, obj) {
+            if (err) return res.makeError(500, err.message || 'Unable to save new link.', err);
+            if (!obj || !obj.links.length) return res.makeError(404, 'Collection not found or unauthorized.');
+            return res.status(201).send(obj.links[0]);
         });
     });
 
-    router.post('/shortlinks', function(req, res) {
+    router.post('/shortlinks', function (req, res) {
         var url = req.body.url,
             description = req.body.description || '';
 
@@ -199,16 +229,22 @@ module.exports = function(app, passport) {
             date: Date.now()
         };
 
-        Collection.findOne({ name: 'My shortlinks', owner: req.user._id }, function(err, obj) {
-            if (err) return res.makeError(500, err.message, err);
-            if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
-
-            obj.modified = new Date();
-            obj.links.push(link);
-            obj.save(function(err) {
-                if (err) return res.makeError(500, err.message, err);
-                res.status(201).end();
-            });
+        Collection.findOneAndUpdate({
+            name: 'My shortlinks',
+            owner: req.user._id
+        }, {
+            $push: { links: link },
+            modified: new Date()
+        }, {
+            returnDocument: 'after',
+            lean: true,
+            projection: {
+                links: { $elemMatch: { date: link.date } }
+            }
+        }, function (err, obj) {
+            if (err) return res.makeError(500, err.message || 'Unable to save new link.', err);
+            if (!obj || !obj.links.length) return res.makeError(404, 'Collection not found or unauthorized.');
+            return res.status(201).send(obj.links[0]);
         });
     });
 
@@ -229,11 +265,11 @@ module.exports = function(app, passport) {
      *          200:
      *            description: Successful
      */
-    router.delete('/:id', function(req, res) {
+    router.delete('/:id', function (req, res) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.');
 
-        Collection.remove({ _id: _id, owner: req.user._id }, function(err, obj) {
+        Collection.remove({ _id: _id, owner: req.user._id }, function (err, obj) {
             if (err) return res.makeError(500, err.message, err);
             res.status(200).end();
         });
@@ -257,30 +293,19 @@ module.exports = function(app, passport) {
      *          200:
      *            description: Successful
      */
-    router.delete('/:id/links/:linkId', function(req, res) {
+    router.delete('/:id/links/:linkId', function (req, res) {
         var _id = req.params.id,
             linkId = req.params.linkId;
         if (!_id || !linkId) return res.makeError(404, 'Not found. Please give an id.');
 
-        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: false }, function(err, obj) {
+        Collection.updateOne({
+            _id: _id,
+            owner: req.user._id,
+        }, {
+            $pull: { links: { _id: linkId } }
+        }, function (err) {
             if (err) return res.makeError(500, err.message, err);
-            if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
-
-            var links = obj.toObject().links.slice();
-
-            for (var i = 0; i < links.length; i++) {
-                if (links[i]._id == linkId) {
-                    links.splice(i, 1);
-                    break;
-                }
-            }
-
-            obj.links = links;
-
-            obj.save(function(err) {
-                if (err) return res.makeError(500, err.message, err);
-                res.status(200).end();
-            });
+            return res.status(200).end();
         });
     });
 
@@ -304,20 +329,15 @@ module.exports = function(app, passport) {
      *            schema:
      *              $ref: '#/definitions/Link'
      */
-    router.get('/:id/links/:linkId', function(req, res) {
+    router.get('/:id/links/:linkId', function (req, res) {
         var _id = req.params.id,
             linkId = req.params.linkId;
         if (!_id || !linkId) return res.makeError(404, 'Not found. Please give an id.');
 
-        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: false }, function(err, obj) {
+        Collection.findOne({ _id: _id, owner: req.user._id }, { __v: false, links: { $elemMatch: { _id: linkId } } }, function (err, obj) {
             if (err) return res.makeError(500, err.message, err);
-            if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
-
-            for (var i = 0; i < obj.links.length; i++) {
-                if (obj.links[i]._id == linkId) {
-                    return res.send(obj.links[i]);
-                }
-            }
+            if (!obj || !obj.links.length) return res.makeError(404, 'Collection or link not found or unauthorized.');
+            return res.send(obj.links[0])
         });
     });
 
@@ -341,7 +361,7 @@ module.exports = function(app, passport) {
      *          200:
      *            description: Successful
      */
-    router.patch('/:id', function(req, res) {
+    router.patch('/:id', function (req, res) {
         var _id = req.params.id;
         if (!_id) return res.makeError(404, 'Not found. Please give an id.');
 
@@ -353,19 +373,32 @@ module.exports = function(app, passport) {
 
         if (!Object.keys(updateFields).length) return res.status(200).end();
 
-        Collection.update({ _id: _id, owner: req.user._id }, updateFields, function(err, num) {
+        Collection.updateOne({ _id: _id, owner: req.user._id }, updateFields, function (err, num) {
             if (err) return res.makeError(500, err.message, err);
-            if (!num || !num.nModified) return res.makeError(404, 'Collection not found or unauthorized.');
+            if (!num || !num.numModified) return res.makeError(404, 'Collection not found or unauthorized.');
             res.status(200).end();
         });
     });
 
-    router.delete('/', function(req, res) {
+    router.delete('/', function (req, res) {
         res.makeError(404, 'Not found. Please give an id.');
     });
 
-    router.delete('/:id/links', function(req, res) {
+    router.delete('/:id/links', function (req, res) {
         res.makeError(404, 'Not found. Please give an id.');
     });
 
+    function loadCollection(id, ownerId, pageSize, page, cb) {
+        var skip = (page - 1) * pageSize;
+
+        Collection.findOne({
+            _id: id,
+            owner: ownerId
+        }, {
+            __v: false,
+            created: false,
+            modified: false,
+            links: { $slice: [skip, pageSize] }
+        }, cb);
+    };
 };

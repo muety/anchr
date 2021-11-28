@@ -1,7 +1,7 @@
 <div class="content-box shadow-z-1">
   <h3 class="text-primary flex items-center">
     <span>{{data.collection.name || 'Link collection'}}</span>
-    <small class="badge bg-primary collection-counter">{{data.collection.links.length}}</small>
+    <small class="badge bg-primary collection-counter">{{getCollection(data.active).size || data.collection.links.length}}</small>
   </h3>
   <div style="height: 500px" ng-if="!data.collection._id">
     <div class="alert alert-dismissible alert-warning">
@@ -13,7 +13,7 @@
   <div style="height: 500px" ng-if="!data.collection.links.length">
     <div class="alert alert-dismissible alert-success">
       <button type="button" class="close" data-dismiss="alert">×</button>
-      <p>There are no links in this collection.</p>
+      <p>There are no more links in this collection.</p>
     </div>
   </div>
 
@@ -48,7 +48,15 @@
         </tbody>
       </table>
     </div>
-
+    
   </div>
+
+  <nav>
+    <ul class="pager">
+        <li class="previous" ng-class="{ disabled: data.currentPage == 1 }"><a href="javascript:void(0)" ng-click="movePage(-1)"><span aria-hidden="true">&larr;</span> Previous</a></li>
+        <span class="text-small">Page {{ data.currentPage }} / {{ data.numPages }}</span>
+        <li class="next"><a href="javascript:void(0)" ng-click="movePage(+1)">Next <span aria-hidden="true">&rarr;</span></a></li>
+    </ul>
+  </nav>
 
 </div>

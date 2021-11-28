@@ -7,8 +7,10 @@ angular.module('anchrClientApp')
         var fetchTitleDebounce = null;
 
         /* Either id or index! */
-        $scope.setActiveCollection = function (id, cached) {
+        $scope.setActiveCollection = function (id, cached, page) {
             if ($scope.data.active === id && cached) return;
+
+            $scope.data.currentPage = page || 1
 
             function setActive() {
                 $scope.data.search = ''
@@ -17,7 +19,8 @@ angular.module('anchrClientApp')
             }
 
             if (!cached) {
-                Collection.collection.get({ _id: id }, function (result) {
+                Collection.collection.get({ _id: id, page: $scope.data.currentPage, pageSize: 25 }, function (result, headers) {
+                    $scope.data.numPages = parseNumPages(headers('link'))
                     collections[findCollection(collections, id)] = result;
                     setActive();
                 }, function (err) {
@@ -85,7 +88,7 @@ angular.module('anchrClientApp')
             }).$save(function (result) {
                 collections.push(result);
                 $scope.toggleNewCollection();
-                $scope.setActiveCollection(result._id, true);
+                $scope.setActiveCollection(result._id);
             }, function (err) {
                 Snackbar.show('Failed to create new collection: ' + err.data.error);
             });
@@ -134,12 +137,19 @@ angular.module('anchrClientApp')
             }, 500);
         };
 
+        $scope.movePage = function(offset) {
+            if (!$scope.getCollection($scope.data.active).links.length && offset > 0) return;
+            $scope.setActiveCollection($scope.data.active, false, Math.max($scope.data.currentPage + offset, 1))
+        };
+
         $scope.clear = function () {
             $scope.data = {
                 collections: collections,
                 active: 0,
                 search: '',
-                loading: false
+                loading: false,
+                currentPage: 1,
+                numPages: 1
             };
 
             Collection.collection.query(function (result) {
@@ -185,5 +195,11 @@ angular.module('anchrClientApp')
 
         function getCollection(colls, collId) {
             return colls[findCollection(colls, collId)];
+        }
+
+        function parseNumPages(linkHeader) {
+            var match = /[\?&]page=(\d+)/gi.exec(linkHeader)
+            if (match.length !== 2) return 1
+            return parseInt(match[1]) || 1
         }
     }]);

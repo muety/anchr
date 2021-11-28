@@ -119,6 +119,14 @@ angular
             if (!string || !char) return '';
             return string.replace(char, '');
         }
+        $rootScope.range = function(min, max, step) {
+            step = step || 1;
+            var input = [];
+            for (var i = min; i <= max; i += step) {
+                input.push(i);
+            }
+            return input;
+        };
     }])
     .run(['Auth', function (Auth) {
         if (Auth.loggedin()) Auth.renew();

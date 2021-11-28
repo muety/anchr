@@ -105,7 +105,7 @@
                     <div class="col-md-8">
                         <h4 class="text-primary flex items-center">
                             <span>{{getCollection(data.active).name}}</span>
-                            <small class="badge bg-primary collection-counter">{{getCollection(data.active).links.length}}</small>
+                            <small class="badge bg-primary collection-counter">{{getCollection(data.active).size || getCollection(data.active).links.length}}</small>
                             <i title="Refresh" class="glyphicon glyphicon-repeat" style="margin-left: 10px; font-size: 14px; cursor: pointer" ng-click="setActiveCollection(data.active, false)"></i>
                         </h4>
                     </div>
@@ -146,10 +146,18 @@
             <div class="row placeholder-sketch" ng-if="!getCollection(data.active).links.length">
                 <img src="images/undraw_no_data_qbuo.svg">
                 <div class="flex items-center" style="margin-top: 20px">
-                    <span style="margin: 0">This collection is empty</span>
+                    <span style="margin: 0">This collection is empty or you have reached the last page</span>
                     <i title="Refresh" class="glyphicon glyphicon-repeat text-primary" style="margin-left: 10px; font-size: 14px; cursor: pointer" ng-click="setActiveCollection(data.active, false)"></i>
                 </div>
             </div>
+
+            <nav>
+                <ul class="pager">
+                    <li class="previous" ng-class="{ disabled: data.currentPage == 1 }"><a href="javascript:void(0)" ng-click="movePage(-1)"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                    <span class="text-small">Page {{ data.currentPage }} / {{ data.numPages }}</span>
+                    <li class="next"><a href="javascript:void(0)" ng-click="movePage(+1)">Next <span aria-hidden="true">&rarr;</span></a></li>
+                </ul>
+            </nav>
         </div>
     </div>
 

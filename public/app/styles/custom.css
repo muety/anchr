@@ -281,3 +281,23 @@ td h4 {
 .bg-primary {
     background: #009688;
 }
+
+.pagination > li > a, .pagination > li > a:hover {
+    color: #009688;
+}
+
+.pagination > li.active > a {
+    background-color: #009688;
+    border-color: #009688;
+    color: #fff;
+}
+
+.pager {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pager span {
+    flex-grow: 1;
+}
