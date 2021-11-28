@@ -69,8 +69,8 @@ In order to host Anchr on your own, you need a few things.
    
 #### Option 1: Run Natively
 ##### For development
-1. Run backend `$ yarn start` (from root folder)
-2. Run frontend `$ ../node_modules/.bin/grunt serve` (from `public` folder)
+1. Run backend `$ yarn start`
+2. Run frontend `$ yarn start:frontend`
 3. Go to http://localhost:9000 and enjoy live reload
 
 ##### In production
