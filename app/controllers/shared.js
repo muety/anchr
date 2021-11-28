@@ -4,6 +4,7 @@ var express = require('express')
   , _ = require('underscore')
   , mongoose = require('mongoose')
   , Collection = mongoose.model('Collection')
+  , loadCollection = require('./utils').loadCollection
   , countLinks = require('./utils').countLinks;
 
 module.exports = function (app) {
@@ -34,29 +35,26 @@ module.exports = function (app) {
 
     var page = Math.max(req.query.page, 1);
     var pageSize = Math.max(req.query.pageSize, 0) || DEFAULT_PAGE_SIZE;
-    var skip = (page - 1) * pageSize;
 
-    Collection.findOne({
-      _id: _id,
-      shared: true
-    }, {
-      __v: false,
-      created: false,
-      modified: false,
-      links: { $slice: [skip, pageSize] }
-    }, function (err, obj) {
-      if (err) return res.makeError(500, err.message, err);
+    Promise.allSettled([
+      loadCollection({ _id: _id, shared: true }, pageSize, page),
+      countLinks(_id)
+  ])
+      .then(function (results) {
+          var r1 = results[0]
+          var r2 = results[1]
 
-      obj = obj.toObject();
+          if (r1.status === 'rejected') return res.makeError(500, r1.reason.message, r1.reason);
+          if (!r1.value) return res.makeError(404, 'Collection not found or unauthorized.');
 
-      countLinks(_id, function (err, count) {
-        if (count) {
-          res.set('Link', '<?pageSize=' + pageSize + '&page=' + Math.ceil(count / pageSize) + '>; rel="last"');
-          obj.size = count;
-        }
-        res.send(obj);
-      })
-    });
+          var obj = r1.value.toObject();
+          if (r2.status === 'fulfilled') {
+              var count = r2.value;
+              res.set('Link', '<?pageSize=' + pageSize + '&page=' + Math.ceil(count / pageSize) + '>; rel="last"');
+              obj.size = count;
+          }
+          res.send(obj);
+      });
   });
 };
 

@@ -6,6 +6,7 @@ var express = require('express'),
     auth = require('./../../config/middlewares/auth'),
     mongoose = require('mongoose'),
     Collection = mongoose.model('Collection'),
+    loadCollection = require('./utils').loadCollection,
     countLinks = require('./utils').countLinks;
 
 var DEFAULT_PAGE_SIZE = 25;
@@ -104,20 +105,25 @@ module.exports = function (app, passport) {
         var page = Math.max(req.query.page, 1);
         var pageSize = Math.max(req.query.pageSize, 0) || DEFAULT_PAGE_SIZE;
 
-        loadCollection(_id, req.user._id, pageSize, page, function (err, obj) {
-            if (err) return res.makeError(500, err.message, err);
-            if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
+        Promise.allSettled([
+            loadCollection({ _id: _id, owner: req.user._id }, pageSize, page),
+            countLinks(_id)
+        ])
+            .then(function (results) {
+                var r1 = results[0]
+                var r2 = results[1]
 
-            obj = obj.toObject();
+                if (r1.status === 'rejected') return res.makeError(500, r1.reason.message, r1.reason);
+                if (!r1.value) return res.makeError(404, 'Collection not found or unauthorized.');
 
-            countLinks(_id, function(err, count) {
-                if (count) {
+                var obj = r1.value.toObject();
+                if (r2.status === 'fulfilled') {
+                    var count = r2.value;
                     res.set('Link', '<?pageSize=' + pageSize + '&page=' + Math.ceil(count / pageSize) + '>; rel="last"');
                     obj.size = count;
                 }
                 res.send(obj);
-            })
-        });
+            });
     });
 
     /**
@@ -146,20 +152,23 @@ module.exports = function (app, passport) {
         var page = Math.max(req.query.page, 1);
         var pageSize = Math.max(req.query.pageSize, 0) || DEFAULT_PAGE_SIZE;
 
-        loadCollection(_id, req.user._id, pageSize, page, function (err, obj) {
-            if (err) return res.makeError(500, err.message, err);
-            if (!obj) return res.makeError(404, 'Collection not found or unauthorized.');
+        Promise.allSettled([
+            loadCollection({ _id: _id, owner: req.user._id }, pageSize, page),
+            countLinks(_id)
+        ])
+            .then(function (results) {
+                var r1 = results[0]
+                var r2 = results[1]
 
-            obj = obj.toObject();
-            
-            countLinks(_id, function(err, count) {
-                if (count) {
-                    res.set('Link', '<?pageSize=' + pageSize + '&page=' + Math.ceil(count / pageSize) + '>; rel="last"');
-                    obj.size = count;
+                if (r1.status === 'rejected') return res.makeError(500, r1.reason.message, r1.reason);
+                if (!r1.value) return res.makeError(404, 'Collection not found or unauthorized.');
+
+                var obj = r1.value.toObject();
+                if (r2.status === 'fulfilled') {
+                    res.set('Link', '<?pageSize=' + pageSize + '&page=' + Math.ceil(r2.value / pageSize) + '>; rel="last"');
                 }
                 res.send(obj.links);
-            })
-        });
+            });
     });
 
     /**
@@ -387,18 +396,4 @@ module.exports = function (app, passport) {
     router.delete('/:id/links', function (req, res) {
         res.makeError(404, 'Not found. Please give an id.');
     });
-
-    function loadCollection(id, ownerId, pageSize, page, cb) {
-        var skip = (page - 1) * pageSize;
-
-        Collection.findOne({
-            _id: id,
-            owner: ownerId
-        }, {
-            __v: false,
-            created: false,
-            modified: false,
-            links: { $slice: [skip, pageSize] }
-        }, cb);
-    };
 };
