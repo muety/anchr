@@ -90,6 +90,8 @@ module.exports = function (app, passport) {
      *        - ApiKeyAuth: []
      *      parameters:
      *        - $ref: '#/parameters/collectionId'
+     *        - $ref: '#/parameters/page'
+     *        - $ref: '#/parameters/pageSize'
      *      produces:
      *        - application/json
      *      responses:
@@ -137,6 +139,8 @@ module.exports = function (app, passport) {
      *        - ApiKeyAuth: []
      *      parameters:
      *        - $ref: '#/parameters/collectionId'
+     *        - $ref: '#/parameters/page'
+     *        - $ref: '#/parameters/pageSize'
      *      produces:
      *        - application/json
      *      responses:

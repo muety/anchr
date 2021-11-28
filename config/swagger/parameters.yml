@@ -1,4 +1,18 @@
 parameters:
+  page:
+    in: query
+    name: page
+    type: integer
+    require: false
+    description: Page number to fetch
+
+  pageSize:
+    in: query
+    name: pageSize
+    type: integer
+    require: false
+    description: Number of items per page
+
   userSignup:
     in: body
     name: user
