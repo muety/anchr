@@ -23,7 +23,7 @@
         "jsonwebtoken": "8.5.1",
         "memory-cache": "0.2.0",
         "method-override": "3.0.0",
-        "mongoose": "5.13.9",
+        "mongoose": "^6.0.12",
         "nodemailer": "^6.5.0",
         "passport": "0.4.1",
         "passport-facebook": "3.0.0",
