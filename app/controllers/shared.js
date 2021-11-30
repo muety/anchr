@@ -21,8 +21,6 @@ module.exports = function (app) {
    *        - collection
    *      parameters:
    *        - $ref: '#/parameters/collectionId'
-   *        - $ref: '#/parameters/page'
-   *        - $ref: '#/parameters/pageSize'
    *      produces:
    *        - application/json
    *      responses:
