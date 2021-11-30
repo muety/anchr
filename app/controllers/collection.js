@@ -6,7 +6,7 @@ var express = require("express"),
   auth = require("./../../config/middlewares/auth"),
   mongoose = require("mongoose"),
   Collection = mongoose.model("Collection"),
-  loadCollection = require("./utils").loadCollection,
+  fetchLinks = require("./utils").fetchLinks,
   countLinks = require("./utils").countLinks;
 
 var DEFAULT_PAGE_SIZE = 25;
@@ -103,14 +103,11 @@ module.exports = function (app, passport) {
     var _id = req.params.id;
     if (!_id) return res.makeError(404, "Not found. Please give an id.", err);
 
-    loadCollection({ _id: _id, owner: req.user._id }, true)
-      .then(function (result) {
-        if (!result) return res.makeError(404, "Collection not found or unauthorized.");
-        res.send(result.toObject());
-      })
-      .catch(function (err) {
-        res.makeError(500, r1.reason.message, r1.reason);
-      });
+    Collection.findOne({ _id: id, owner: req.user._id }, { links: 0 }, function(err, obj) {
+        if (err) return res.makeError(500, err.message, err);
+        if (!obj) return res.makeError(404, "Collection not found or unauthorized.");
+        res.send(obj.toObject());
+    });
   });
 
   /**
@@ -126,6 +123,7 @@ module.exports = function (app, passport) {
    *        - $ref: '#/parameters/collectionId'
    *        - $ref: '#/parameters/page'
    *        - $ref: '#/parameters/pageSize'
+   *        - $ref: '#/parameters/q'
    *      produces:
    *        - application/json
    *      responses:
@@ -142,8 +140,8 @@ module.exports = function (app, passport) {
     var pageSize = Math.max(req.query.pageSize, 0) || DEFAULT_PAGE_SIZE;
 
     Promise.allSettled([
-      loadCollection({ _id: _id, owner: req.user._id }, false, pageSize, page),
-      countLinks(_id),
+      fetchLinks({ _id: _id, owner: req.user._id }, req.query.q, pageSize, page),
+      countLinks(_id, req.query.q),
     ]).then(function (results) {
       var r1 = results[0];
       var r2 = results[1];
@@ -151,11 +149,13 @@ module.exports = function (app, passport) {
       if (r1.status === "rejected") return res.makeError(500, r1.reason.message, r1.reason);
       if (!r1.value) return res.makeError(404, "Collection not found or unauthorized.");
 
-      var obj = r1.value.toObject();
+      var links = r1.value;
       if (r2.status === "fulfilled") {
         res.set("Link", "<?pageSize=" + pageSize + "&page=" + Math.ceil(r2.value / pageSize) + '>; rel="last"');
       }
-      res.send(obj.links);
+      res.send(links);
+    }).catch(function(e) {
+        return res.makeError(500, e);
     });
   });
 

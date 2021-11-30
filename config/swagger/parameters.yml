@@ -13,6 +13,13 @@ parameters:
     require: false
     description: Number of items per page
 
+  q:
+    in: query
+    name: q
+    type: string
+    require: false
+    description: Query string to filter by
+
   userSignup:
     in: body
     name: user

@@ -1,41 +1,68 @@
 var mongoose = require('mongoose'),
-    Collection = mongoose.model('Collection');
+    Collection = mongoose.model('Collection'),
+    _ = require('underscore');
 
-function loadCollection(filter, excludeLinks, pageSize, page, cb) {
-    if (!cb) cb = function() {}
+function fetchLinks(filter, q, pageSize, page, cb) {
+    if (!cb) cb = function() {};
+
+    var skip = (page - 1) * pageSize;
+    var regex = new RegExp('.*' + q + '.*', 'i');
+    var filters = _.clone(filter);
+
+    // https://coderedirect.com/questions/302814/regex-as-filter-in-projection
+
+    var projection = {
+        links: {
+            $slice: ['$links', skip, pageSize]
+        },
+        _id: 0
+    };
+
+    if (q) {
+        filters.$or = [
+            { 'links.description': regex },
+            { 'links.url': regex }
+        ];
+    };
+
+
     return new Promise(function(resolve, reject) {
-        var skip = (page - 1) * pageSize;
-
-        Collection.findOne(filter, {
-            __v: false,
-            created: false,
-            modified: false,
-            links: excludeLinks ? false : { $slice: [skip, pageSize] }
-        }, function(err, obj) {
-            if (err) {
-                cb(err, obj);
+        Collection.aggregate([
+            { $unwind: '$links' },
+            { $match: filters },
+            { $group: { _id: null, links: { $push: '$links' } } },
+            { $project: projection }
+        ], function(err, obj) {
+            if (err || !obj) {
+                cb(err, null);
                 return reject(err);
             }
-            cb(err, obj);
-            return resolve(obj);
-        });
+            var links = obj.length ? obj[0].links : []
+            cb(err, links);
+            return resolve(links);
+        })
     });
 };
 
-function countLinks(id, cb) {
+function countLinks(id, q, cb) {
     if (!cb) cb = function() {}
+
+    var regex = new RegExp('.*' + q + '.*', 'i');
+    var filters = { _id: id };
+
+    if (q) {
+        filters.$or = [
+            { 'links.description': regex },
+            { 'links.url': regex }
+        ];
+    };
+
     return new Promise(function (resolve, reject) {
         Collection.aggregate([
-            {
-                $match: {
-                    _id: id
-                }
-            },
-            {
-                $project: {
-                    totalLinks: { $size: '$links' }
-                }
-            }
+            { $unwind: '$links' },
+            { $match: filters },
+            { $group: { _id: null, links: { $push: '$links' } } },
+            { $project: { totalLinks: { $size: '$links' } } }
         ], function (err, obj) {
             if (err || !obj || !obj.length) {
                 var errMessage = err || 'failed to count links';
@@ -49,6 +76,6 @@ function countLinks(id, cb) {
 }
 
 module.exports = {
-    loadCollection: loadCollection,
+    fetchLinks: fetchLinks,
     countLinks: countLinks
 }
