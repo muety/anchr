@@ -27,7 +27,7 @@ module.exports = function (app) {
    *        - application/json
    *      responses:
    *          200:
-   *            description: Details about the requested collection
+   *            description: Details about the requested collection, including links
    *            schema:
    *              $ref: '#/definitions/CollectionDetails'
    */
@@ -39,7 +39,7 @@ module.exports = function (app) {
     var pageSize = Math.max(req.query.pageSize, 0) || DEFAULT_PAGE_SIZE;
 
     Promise.allSettled([
-      loadCollection({ _id: _id, shared: true }, pageSize, page),
+      loadCollection({ _id: _id, shared: true }, false, pageSize, page),
       countLinks(_id)
   ])
       .then(function (results) {

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
     Collection = mongoose.model('Collection');
 
-function loadCollection(filter, pageSize, page, cb) {
+function loadCollection(filter, excludeLinks, pageSize, page, cb) {
     if (!cb) cb = function() {}
     return new Promise(function(resolve, reject) {
         var skip = (page - 1) * pageSize;
@@ -10,7 +10,7 @@ function loadCollection(filter, pageSize, page, cb) {
             __v: false,
             created: false,
             modified: false,
-            links: { $slice: [skip, pageSize] }
+            links: excludeLinks ? false : { $slice: [skip, pageSize] }
         }, function(err, obj) {
             if (err) {
                 cb(err, obj);

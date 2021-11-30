@@ -19,9 +19,9 @@ angular.module('anchrClientApp')
             }
 
             if (!cached) {
-                Collection.collection.get({ _id: id, page: $scope.data.currentPage, pageSize: 25 }, function (result, headers) {
+                Collection.links.query({ collId: id, page: $scope.data.currentPage, pageSize: 25 }, function (result, headers) {
                     $scope.data.numPages = parseNumPages(headers('link'))
-                    collections[findCollection(collections, id)] = result;
+                    collections[findCollection(collections, id)].links = result;
                     setActive();
                 }, function (err) {
                     Snackbar.show("Failed to fetch collection " + getCollection(collections, id).name + " from server: " + err.data.error);
