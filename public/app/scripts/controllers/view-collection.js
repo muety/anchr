@@ -15,22 +15,20 @@ angular.module('anchrClientApp')
       query()
     };
 
-    function query() {
-      Collection.collection.get({ _id: id, page: $scope.data.currentPage, pageSize: 25 }, function (result, headers) {
-        $scope.data.numPages = parseNumPages(headers('link'))
-        if (result._id) $scope.data.collection = result;
-        else queryShared();
+    function query(shared) {
+      (shared ? Collection.shared : Collection.collection).get({ _id: id }, function (result) {
+        if (result._id) {
+          $scope.data.collection = result;
+          (shared ? Collection.sharedLinks : Collection.links).query({ collId: id, page: $scope.data.currentPage, pageSize: 25 }, function (result, headers) {
+            $scope.data.numPages = parseNumPages(headers('link'))
+            $scope.data.collection.links = result;
+          });
+        }
+        else if (!shared) query(true);
       }, function (err) {
-        queryShared();
+        if (!shared) query(true);
       });
     }
-
-    function queryShared() {
-      Collection.shared.get({ _id: id, page: $scope.data.currentPage, pageSize: 25 }, function (result, headers) {
-        $scope.data.numPages = parseNumPages(headers('link'))
-        if (result._id) $scope.data.collection = result;
-      });
-    };
 
     function parseNumPages(linkHeader) {
       var match = /[\?&]page=(\d+)/gi.exec(linkHeader)

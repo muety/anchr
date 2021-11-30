@@ -11,6 +11,9 @@ angular.module('anchrClientApp')
       }),
       links: $resource('/api/collection/:collId/links/:id', {collId : '@collId', id : '@_id'}),
       shortlinks: $resource('/api/collection/shortlinks/:id', {id : '@_id'}),
-      shared: $resource('/api/shared/:_id', null)
+      shared: $resource('/api/shared/:_id', null),
+      sharedLinks: $resource('/api/shared/:collId/links', null, {
+        'query': {method: 'GET', params: {collId : '@collId'}, isArray: true}
+      })
     };
   }]);

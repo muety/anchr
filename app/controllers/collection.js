@@ -115,8 +115,7 @@ module.exports = function (app, passport) {
 
     loadCollection({ _id: _id, owner: req.user._id }, true)
       .then(function (result) {
-        if (!result)
-          return res.makeError(404, "Collection not found or unauthorized.");
+        if (!result) return res.makeError(404, "Collection not found or unauthorized.");
         res.send(result.toObject());
       })
       .catch(function (err) {
@@ -159,21 +158,12 @@ module.exports = function (app, passport) {
       var r1 = results[0];
       var r2 = results[1];
 
-      if (r1.status === "rejected")
-        return res.makeError(500, r1.reason.message, r1.reason);
-      if (!r1.value)
-        return res.makeError(404, "Collection not found or unauthorized.");
+      if (r1.status === "rejected") return res.makeError(500, r1.reason.message, r1.reason);
+      if (!r1.value) return res.makeError(404, "Collection not found or unauthorized.");
 
       var obj = r1.value.toObject();
       if (r2.status === "fulfilled") {
-        res.set(
-          "Link",
-          "<?pageSize=" +
-            pageSize +
-            "&page=" +
-            Math.ceil(r2.value / pageSize) +
-            '>; rel="last"'
-        );
+        res.set("Link", "<?pageSize=" + pageSize + "&page=" + Math.ceil(r2.value / pageSize) + '>; rel="last"');
       }
       res.send(obj.links);
     });
@@ -421,19 +411,14 @@ module.exports = function (app, passport) {
     var updateFields = {
       modified: new Date(),
     };
-    if (req.body.hasOwnProperty("shared"))
-      updateFields.shared = req.body.shared;
+    if (req.body.hasOwnProperty("shared")) updateFields.shared = req.body.shared;
     if (req.body.hasOwnProperty("name")) updateFields.name = req.body.name;
 
     if (!Object.keys(updateFields).length) return res.status(200).end();
 
-    Collection.updateOne(
-      { _id: _id, owner: req.user._id },
-      updateFields,
-      function (err, num) {
+    Collection.updateOne({ _id: _id, owner: req.user._id }, updateFields, function (err, num) {
         if (err) return res.makeError(500, err.message, err);
-        if (!num || !num.numModified)
-          return res.makeError(404, "Collection not found or unauthorized.");
+        if (!num || !num.modifiedCount) return res.makeError(404, "Collection not found or unauthorized.");
         res.status(200).end();
       }
     );
