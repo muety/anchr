@@ -103,7 +103,7 @@ module.exports = function (app, passport) {
     var _id = req.params.id;
     if (!_id) return res.makeError(404, "Not found. Please give an id.", err);
 
-    Collection.findOne({ _id: id, owner: req.user._id }, { links: 0 }, function(err, obj) {
+    Collection.findOne({ _id: _id, owner: req.user._id }, { links: 0 }, function(err, obj) {
         if (err) return res.makeError(500, err.message, err);
         if (!obj) return res.makeError(404, "Collection not found or unauthorized.");
         res.send(obj.toObject());
@@ -150,9 +150,8 @@ module.exports = function (app, passport) {
       if (!r1.value) return res.makeError(404, "Collection not found or unauthorized.");
 
       var links = r1.value;
-      if (r2.status === "fulfilled") {
-        res.set("Link", "<?pageSize=" + pageSize + "&page=" + Math.ceil(r2.value / pageSize) + '>; rel="last"');
-      }
+      var count = r2.value || 0
+      res.set("Link", "<?pageSize=" + pageSize + "&page=" + Math.ceil(count / pageSize) + '>; rel="last"');
       res.send(links);
     }).catch(function(e) {
         return res.makeError(500, e);

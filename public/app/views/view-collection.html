@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="row" ng-if="data.collection.links.length">
+  <div class="row">
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-8"></div>
@@ -25,13 +25,13 @@
           <div class="form-group search-form">
             <div class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-              <input class="form-control" ng-model="search" placeholder="Search ...">
+              <input class="form-control" ng-model="data.search" ng-change="onSearchUpdated()" placeholder="Search ...">
             </div>
           </div>
         </div>
       </div>
 
-      <table class="table table-striped table-hover ">
+      <table class="table table-striped table-hover" ng-if="data.collection.links.length">
         <thead>
           <tr>
             <th class="col-md-6">Link</th>
@@ -55,7 +55,7 @@
     <ul class="pager">
         <li class="previous" ng-class="{ disabled: data.currentPage == 1 }"><a href="javascript:void(0)" ng-click="movePage(-1)"><span aria-hidden="true">&larr;</span> Previous</a></li>
         <span class="text-small">Page {{ data.currentPage }} / {{ data.numPages }}</span>
-        <li class="next"><a href="javascript:void(0)" ng-click="movePage(+1)">Next <span aria-hidden="true">&rarr;</span></a></li>
+        <li class="next" ng-class="{ disabled: data.currentPage == data.numPages }"><a href="javascript:void(0)" ng-click="movePage(+1)">Next <span aria-hidden="true">&rarr;</span></a></li>
     </ul>
   </nav>
 

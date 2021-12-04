@@ -4,30 +4,46 @@ angular.module('anchrClientApp')
     .controller('CollectionCtrl', ['$scope', '$rootScope', 'Collection', 'Remote', 'Snackbar', '$window', '$timeout', function ($scope, $rootScope, Collection, Remote, Snackbar, $window, $timeout) {
 
         var collections = [];
+        var collectionsPagesCache = [];
         var fetchTitleDebounce = null;
+        var searchDebounce = null;
 
         /* Either id or index! */
-        $scope.setActiveCollection = function (id, cached, page) {
-            if ($scope.data.active === id && cached) return;
+        $scope.setActiveCollection = function (id, page, skipCache) {
+            if (skipCache) {
+                collectionsPagesCache = [];
+            }
 
             $scope.data.currentPage = page || 1
+            if ($scope.data.active !== id) {
+                $scope.data.search = '';
+            }
+
+            var isNonFiltered = $scope.data.search === '';
+            var hasCache = collectionsPagesCache[id] && collectionsPagesCache[id][$scope.data.currentPage - 1] && collectionsPagesCache[id][$scope.data.currentPage - 1][0].length;
 
             function setActive() {
-                $scope.data.search = ''
                 $scope.data.active = id;
                 $window.localStorage.setItem('selectedCollectionId', id);
             }
 
-            if (!cached) {
-                Collection.links.query({ collId: id, page: $scope.data.currentPage, pageSize: 25 }, function (result, headers) {
+            if (isNonFiltered && hasCache) {
+                var cacheEntry = collectionsPagesCache[id][$scope.data.currentPage - 1];
+                $scope.data.numPages = cacheEntry[1];
+                collections[findCollection(collections, id)].links = angular.copy(cacheEntry[0]);
+                setActive()
+            } else {
+                Collection.links.query({ collId: id, page: $scope.data.currentPage, pageSize: 25, q: $scope.data.search || undefined }, function (result, headers) {
                     $scope.data.numPages = parseNumPages(headers('link'))
                     collections[findCollection(collections, id)].links = result;
+                    if (isNonFiltered) {
+                        if (!collectionsPagesCache[id]) collectionsPagesCache[id] = [];
+                        collectionsPagesCache[id][$scope.data.currentPage - 1] = [angular.copy(result), $scope.data.numPages];
+                    }
                     setActive();
                 }, function (err) {
                     Snackbar.show("Failed to fetch collection " + getCollection(collections, id).name + " from server: " + err.data.error);
                 });
-            } else {
-                setActive();
             }
         };
 
@@ -137,9 +153,20 @@ angular.module('anchrClientApp')
             }, 500);
         };
 
-        $scope.movePage = function(offset) {
-            if (!$scope.getCollection($scope.data.active).links.length && offset > 0) return;
-            $scope.setActiveCollection($scope.data.active, false, Math.max($scope.data.currentPage + offset, 1))
+        $scope.onSearchUpdated = function () {
+            if (searchDebounce != null) {
+                $timeout.cancel(searchDebounce);
+            }
+
+            searchDebounce = $timeout(function () {
+                $scope.setActiveCollection($scope.data.active);
+            }, 500);
+        }
+
+        $scope.movePage = function (offset) {
+            if ($scope.data.currentPage === 1 && offset < 0) return;
+            if ($scope.data.currentPage === $scope.data.numPages && offset > 0) return;
+            $scope.setActiveCollection($scope.data.active, Math.max($scope.data.currentPage + offset, 1))
         };
 
         $scope.clear = function () {
@@ -151,6 +178,8 @@ angular.module('anchrClientApp')
                 currentPage: 1,
                 numPages: 1
             };
+
+            collectionsPagesCache = [];
 
             Collection.collection.query(function (result) {
                 collections = result;

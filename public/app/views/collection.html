@@ -100,25 +100,25 @@
                 </form>
             </div>
 
-            <div class="row" ng-if="getCollection(data.active).links.length">
+            <div class="row">
                 <div class="row">
                     <div class="col-md-8">
                         <h4 class="text-primary flex items-center">
                             <span>{{getCollection(data.active).name}}</span>
                             <small class="badge bg-primary collection-counter">{{getCollection(data.active).size || getCollection(data.active).links.length}}</small>
-                            <i title="Refresh" class="glyphicon glyphicon-repeat" style="margin-left: 10px; font-size: 14px; cursor: pointer" ng-click="setActiveCollection(data.active, false)"></i>
+                            <i title="Refresh" class="glyphicon glyphicon-repeat" style="margin-left: 10px; font-size: 14px; cursor: pointer" ng-click="setActiveCollection(data.active, data.currentPage, true)"></i>
                         </h4>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group search-form">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                                <input class="form-control" ng-model="data.search" placeholder="Search ...">
+                                <input class="form-control" ng-model="data.search" ng-change="onSearchUpdated()" placeholder="Search ...">
                             </div>
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover table-collection">
+                <table class="table table-striped table-hover table-collection" ng-if="getCollection(data.active).links.length">
                     <thead>
                         <tr>
                             <th class="col-md-5">Link</th>
@@ -127,7 +127,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="l in getCollection(data.active).links | filter:data.search | orderBy:'-date'">
+                        <tr ng-repeat="l in getCollection(data.active).links | orderBy:'-date'">
                             <td class="td-link-container">
                                 <a href="{{l.url}}" target="_blank">{{ l.url }}</a>
                                 <div class="text-small">({{ l.date | date : 'MMM d, y h:mm a' }})</div>
@@ -146,16 +146,16 @@
             <div class="row placeholder-sketch" ng-if="!getCollection(data.active).links.length">
                 <img src="images/undraw_no_data_qbuo.svg">
                 <div class="flex items-center" style="margin-top: 20px">
-                    <span style="margin: 0">This collection is empty or you have reached the last page</span>
-                    <i title="Refresh" class="glyphicon glyphicon-repeat text-primary" style="margin-left: 10px; font-size: 14px; cursor: pointer" ng-click="setActiveCollection(data.active, false)"></i>
+                    <span style="margin: 0">This collection is empty</span>
+                    <i title="Refresh" class="glyphicon glyphicon-repeat text-primary" style="margin-left: 10px; font-size: 14px; cursor: pointer" ng-click="setActiveCollection(data.active)"></i>
                 </div>
             </div>
 
-            <nav>
+            <nav ng-if="getCollection(data.active).links.length">
                 <ul class="pager">
                     <li class="previous" ng-class="{ disabled: data.currentPage == 1 }"><a href="javascript:void(0)" ng-click="movePage(-1)"><span aria-hidden="true">&larr;</span> Previous</a></li>
                     <span class="text-small">Page {{ data.currentPage }} / {{ data.numPages }}</span>
-                    <li class="next"><a href="javascript:void(0)" ng-click="movePage(+1)">Next <span aria-hidden="true">&rarr;</span></a></li>
+                    <li class="next" ng-class="{ disabled: data.currentPage == data.numPages }"><a href="javascript:void(0)" ng-click="movePage(+1)">Next <span aria-hidden="true">&rarr;</span></a></li>
                 </ul>
             </nav>
         </div>

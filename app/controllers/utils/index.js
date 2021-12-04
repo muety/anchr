@@ -1,12 +1,13 @@
 var mongoose = require('mongoose'),
     Collection = mongoose.model('Collection'),
+    escapeRegExp = require('../../utils/string').escapeRegExp,
     _ = require('underscore');
 
 function fetchLinks(filter, q, pageSize, page, cb) {
     if (!cb) cb = function() {};
 
     var skip = (page - 1) * pageSize;
-    var regex = new RegExp('.*' + q + '.*', 'i');
+    var regex = q ? new RegExp('.*' + escapeRegExp(q) + '.*', 'i') : null;
     var filters = _.clone(filter);
 
     // https://coderedirect.com/questions/302814/regex-as-filter-in-projection
