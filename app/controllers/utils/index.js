@@ -30,9 +30,10 @@ function fetchLinks(filter, q, pageSize, page, cb) {
     return new Promise(function(resolve, reject) {
         Collection.aggregate([
             { $unwind: '$links' },
+            { $sort: { 'links.date': -1 } },
             { $match: filters },
             { $group: { _id: null, links: { $push: '$links' } } },
-            { $project: projection }
+            { $project: projection },
         ], function(err, obj) {
             if (err || !obj) {
                 cb(err, null);
