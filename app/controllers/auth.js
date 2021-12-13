@@ -1,5 +1,3 @@
-const user = require('../models/user');
-
 var express = require('express'),
     router = express.Router(),
     config = require('./../../config/config'),
@@ -65,7 +63,7 @@ module.exports = function (app, passport) {
                         res.status(201).end();
                     })
                     .catch(function (err) {
-                        console.error(err);
+                        logger.error('Failed to send confirmation mail to user ' + user.local.email + ' - ' + err);
                         res.makeError(500, 'Failed to send confirmation mail.');
                     });
             }, function (err) {
@@ -197,7 +195,7 @@ module.exports = function (app, passport) {
             user.save(function () {
                 res.redirect(config.clientUrl);
             }, function(err) {
-                console.error(err);
+                logger.error('Failed to activate user by token ' + req.query.token + ' - ' + err);
                 res.makeError(500, 'Failed to activate user');
             });
         });
@@ -258,7 +256,7 @@ function sendConfirmationMail(user) {
         subject: 'Confirm your Anchr.io account',
         text: text
     }).then(function (res) {
-        console.log('Successfully sent confirmation mail to ' + user.local.email);
+        logger.default('Successfully sent confirmation mail to ' + user.local.email);
         return true;
     })
 }
