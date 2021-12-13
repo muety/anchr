@@ -5,7 +5,7 @@ var express = require('express'),
     safeBrowseLookup = require('safe-browse-url-lookup'),
     Shortlink = mongoose.model('Shortlink'),
     utils = require('../../utils'),
-    log = require('./../../config/middlewares/log')(),
+    morgan = require('./../../config/middlewares/morgan')(),
     logger = require('./../../config/log')()
     _ = require('underscore'),
     auth = require('./../../config/middlewares/auth');
@@ -23,7 +23,8 @@ if (!config.googleApiKey) {
 module.exports = function(app, passport) {
     app.use('/api/shortlink', router);
     app.use('/s', router);
-    router.use(log);
+
+    router.use(morgan);
 
     /**
      * @swagger

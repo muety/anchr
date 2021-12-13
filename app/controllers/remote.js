@@ -4,7 +4,7 @@ var express = require('express'),
     htmlparser = require('htmlparser2'),
     cache = require('memory-cache'),
     config = require('../../config/config'),
-    log = require('./../../config/middlewares/log')(),
+    morgan = require('../../config/middlewares/morgan')(),
     logger = require('./../../config/log')(),
     _ = require('underscore');
 
@@ -12,7 +12,8 @@ var CACHE_TIMEOUT = 1000 * 60 * 60 * 24;
 
 module.exports = function(app) {
     app.use('/api/remote', router);
-    router.use(log);
+    
+    router.use(morgan);
 
     /**
      * @swagger

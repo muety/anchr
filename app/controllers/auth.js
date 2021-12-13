@@ -2,7 +2,7 @@ var express = require('express'),
     router = express.Router(),
     config = require('./../../config/config'),
     authConfig = require('./../../config/auth'),
-    log = require('./../../config/middlewares/log')(),
+    morgan = require('../../config/middlewares/morgan'),
     logger = require('./../../config/log')(),
     auth = require('./../../config/middlewares/auth'),
     utils = require('../../utils'),
@@ -29,7 +29,7 @@ var mail = function() {
 module.exports = function (app, passport) {
     app.use('/api/auth', router);
 
-    router.use(log);
+    router.use(morgan());
 
     /**
      * @swagger

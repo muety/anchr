@@ -1,7 +1,7 @@
 var express = require("express"),
   router = express.Router(),
   utils = require("../../utils"),
-  log = require("./../../config/middlewares/log")(),
+  morgan = require("./../../config/middlewares/morgan")(),
   _ = require("underscore"),
   auth = require("./../../config/middlewares/auth"),
   mongoose = require("mongoose"),
@@ -14,7 +14,8 @@ var DEFAULT_PAGE_SIZE = 25;
 module.exports = function (app, passport) {
   app.use("/api/collection", router);
   router.use(auth(passport));
-  router.use(log);
+
+  router.use(morgan);
 
   /**
    * @swagger
