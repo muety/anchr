@@ -69,6 +69,7 @@ angular.module('anchrClientApp')
                     description: result.description,
                     date: result.date
                 });
+                collectionsPagesCache = [];
             }, function (err) {
                 Snackbar.show('Failed to save link: ' + err.data.error);
             });
@@ -82,6 +83,7 @@ angular.module('anchrClientApp')
             l.$delete(function (result) {
                 var c = $scope.getCollection(collId);
                 c.links.splice(findLinkInCollection(c, linkId), 1);
+                collectionsPagesCache = [];
             }, function (err) {
                 Snackbar.show('Failed to delete link: ' + err.data.error);
             });
