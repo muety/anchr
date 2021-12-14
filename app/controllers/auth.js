@@ -229,13 +229,13 @@ module.exports = function (app, passport) {
 };
 
 function initUser(user) {
-    Collection.findOne({ name: 'My shortlinks', owner: user._id }, function (err, result) {
+    Collection.findOne({ name: config.shortlinkCollectionName, owner: user._id }, function (err, result) {
         if (err) return res.makeError(500, err.message, err);
         if (result) return true;
         else {
             new Collection({
                 _id: utils.generateUUID(),
-                name: 'My shortlinks',
+                name: config.shortlinkCollectionName,
                 links: [],
                 owner: user._id,
                 shared: false

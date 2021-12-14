@@ -129,7 +129,10 @@
                     <tbody>
                         <tr ng-repeat="l in getCollection(data.active).links | orderBy:'-date'">
                             <td class="td-link-container">
-                                <a href="{{l.url}}" target="_blank">{{ l.url }}</a>
+                                <div>
+                                    <a href="{{l.url}}" target="_blank">{{ l.url }}</a>
+                                    <small ng-if="l.hits" class="badge bg-primary collection-counter" title="Link was clicked {{l.hits}} times">{{l.hits}}</small>
+                                </div>
                                 <div class="text-small">({{ l.date | date : 'MMM d, y h:mm a' }})</div>
                             </td>
                             <td>{{ l.description || '–'}}</td>

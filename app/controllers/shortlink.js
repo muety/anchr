@@ -4,6 +4,7 @@ var express = require('express'),
     config = require('../../config/config'),
     safeBrowseLookup = require('safe-browse-url-lookup'),
     Shortlink = mongoose.model('Shortlink'),
+    Collection = mongoose.model('Collection'),
     utils = require('../../utils'),
     morgan = require('./../../config/middlewares/morgan')(),
     logger = require('./../../config/log')()
@@ -50,8 +51,21 @@ module.exports = function(app, passport) {
 
         Shortlink.findOne({ _id: req.params.id }, { __v: false, id: false, createdBy: false, created: false }, function(err, obj) {
             if (err || !obj) return res.makeError(404, "Not found.");
-            if (!asJson && obj.url) res.redirect(obj.url);
-            else res.send(obj.toObject());
+
+            if (!asJson && obj.url) {
+                // update counter asynchronously
+                var regex = new RegExp('.*' + req.params.id + '$', 'i')
+                Collection.findOneAndUpdate(
+                    { name: config.shortlinkCollectionName, 'links.url': regex },
+                    { $inc: { "links.$.hits": 1 } },
+                function(err, obj) {
+                    console.log(1);
+                });
+
+                return res.redirect(obj.url);
+            }
+            
+            res.send(obj.toObject());
         });
     });
 

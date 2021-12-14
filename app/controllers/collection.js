@@ -1,5 +1,6 @@
 var express = require("express"),
   router = express.Router(),
+  config = require("../../config/config"),
   utils = require("../../utils"),
   morgan = require("./../../config/middlewares/morgan")(),
   _ = require("underscore"),
@@ -233,7 +234,7 @@ module.exports = function (app, passport) {
 
     Collection.findOneAndUpdate(
       {
-        name: "My shortlinks",
+        name: config.shortlinkCollectionName,
         owner: req.user._id,
       },
       {
