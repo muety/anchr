@@ -1,7 +1,7 @@
-var config = require('../config')
+var config = require('../config');
 
-var strategies = [ 'jwt' ]
-if (config.basicAuth) strategies.push('basic')
+var strategies = [ 'jwt' ];
+if (config.basicAuth) strategies.push('basic');
 
 module.exports = function (passport) {
   return function (req, res, next) {

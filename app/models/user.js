@@ -44,8 +44,8 @@ userSchema.methods.validFacebook = function (token) {
 }
 
 userSchema.methods.jwtSerialize = function(strategy) {
-  var self = this.toObject()
-  var payload = {}
+  var self = this.toObject();
+  var payload = {};
   payload[strategy] = self[strategy];
   payload.strategy = strategy;
 

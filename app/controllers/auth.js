@@ -65,8 +65,7 @@ module.exports = function (app, passport) {
                         res.status(201).end();
                     })
                     .catch(function (err) {
-                        console.error(err);
-                        res.makeError(500, 'Failed to send confirmation mail.');
+                        res.makeError(500, 'Failed to send confirmation mail.', err);
                     });
             }, function (err) {
                 res.makeError(500, err.message);
@@ -197,8 +196,7 @@ module.exports = function (app, passport) {
             user.save(function () {
                 res.redirect(config.clientUrl);
             }, function(err) {
-                console.error(err);
-                res.makeError(500, 'Failed to activate user');
+                res.makeError(500, 'Failed to activate user', err);
             });
         });
     });
@@ -258,7 +256,7 @@ function sendConfirmationMail(user) {
         subject: 'Confirm your Anchr.io account',
         text: text
     }).then(function (res) {
-        console.log('Successfully sent confirmation mail to ' + user.local.email);
+        logger.default('Successfully sent confirmation mail to ' + user.local.email);
         return true;
     })
 }

@@ -1,20 +1,33 @@
-# Anchr - Image uploads, bookmarks and shortlink service
+<p align="center">
+  <img src="public/app/images/logo.png" height="128px">
+</p>
 
-![GitHub package.json version](https://badges.fw-web.space/github/package-json/v/muety/anchr?style=flat-square)
-[![](http://badges.fw-web.space/liberapay/receives/muety.svg?logo=liberapay&style=flat-square)](https://liberapay.com/muety/)
-[![Say thanks](https://badges.fw-web.space/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg?style=flat-square)](https://saythanks.io/to/n1try)
-![](https://badges.fw-web.space/github/license/muety/anchr?style=flat-square)
-[![](https://badges.fw-web.space/website.svg?url=https%3A%2F%anchr.io%2Fhealth&style=flat-square)](https://anchr.io)
+<h1 align="center">Anchr</h1>
+<h3 align="center">Anchr is a small toolbox for common tasks on the internet, including <strong>bookmarks</strong>, <strong>link shortening</strong> and <strong>image uploads</strong>.</h3>
 
-[![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoff.ee/n1try)
+<p align="center">
+    <img src="https://badges.fw-web.space/github/license/muety/anchr?style=flat-square">
+    <img src="https://badges.fw-web.space/github/package-json/v/muety/anchr?style=flat-square">
+    <img src="https://badges.fw-web.space/github/languages/code-size/muety/anchr">
+    <a href="https://liberapay.com/muety/" target="_blank"><img src="http://badges.fw-web.space/liberapay/receives/muety.svg?logo=liberapay&style=flat-square"></a>
+</p>
 
----
+## 🚀 Features
+* Link shortener
+* Searchable bookmarks collections
+* Encrypted images uploads, using [CryptoJS](https://www.npmjs.com/package/crypto-js)
+* Malicious link checking, using [Safe Browsing API](https://developers.google.com/safe-browsing/)
+* Self-hosted and open-source
+* Hosted, GDPR-compliant service at [Anchr.io](https://anchr.io)
+* Official [Android app](https://github.com/muety/anchr-android)
+* Chrome and Firefox [browser extension](webext)
+* [Prometheus](https://prometheus.io) metrics
+* Integration with [ShareX](https://github.com/ShareX/ShareX)
+* OAuth 2 authentication (Google, Facebook, ...)
 
-Anchr is a useful little helper or toolbox or the like for common tasks on the internet. It comes with an [Android App](https://github.com/muety/anchr-android) for Anchr link collections.
+**If you like this project, please [consider sponsoring it](https://muetsch.io/consider-sponsoring-open-source.html)!**
 
-<img src="https://anchr.io/images/logo.png" height="128px">
-
-## 🗒 What does it do?
+## 🗒 Description
 The idea arose when someday I considered it useful to have a collection of web links or bookmarks – like those you have in Chrome or Firefox – accessible from anywhere without needing to synchronize your browser profile. Just like if you’re somewhere on another PC, find a useful article on the internet and want to save it quickly for later at home. This is what Anchr’s __collections__ feature does. It saves links – with an optional description for easier search and separated into categories / collections.
 
 The second feature is to __upload images__. You can easily upload one or more photos from your computer or mobile device and send them to friends or include them into forum posts or the like. Special with Anchr’s image hosting is that users are given the opportunity to client-sided encrypt images with a password. As a result no one without the password will ever see their photos’ content.
@@ -23,7 +36,7 @@ The last feature are __shortlinks__ – actually not any different from those yo
 
 Anchr’s focus is on ease and quickness of use – short loading times, flat menu hierarchies, etc. There's also a Chrome extension out there, which you can use to save or shorten links directly from the website.
 
-## 📡 How to host it myself?
+## 📡 How to run?
 ### Prerequisites
 In order to host Anchr on your own, you need a few things.
 * Node.js 12.x
@@ -93,7 +106,7 @@ You can integrate Anchr with [ShareX](https://github.com/ShareX/ShareX) on Windo
 1. Import both files as custom uploaders in ShareX
 
 ## 🧩 Project State
-This project is still maintained, but considered feature-complete. Dependencies are updated occasionally. Since the project started in 2014, the out-dated JavaScript ES5 syntax is used alongside tools like Grunt and Bower, which are not considered state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. Please don't use `const` and `let`, template string, arrow functions, `async / await` etc.
+The project's origins lie in 2014, back when the [MEAN stack](https://www.mongodb.com/mean-stack) was the sh*t. It was the author's first real web project and a great opportunity to learn. The project is maintained ever since, however, considered mostly feature-complete. Dependencies are updated occasionally. Because the project started quite a couple of years ago, it is still based on old-fashioned JavaScript ES5 syntax, alongside vintage tools like [Grunt](https://gruntjs.com/) and [Bower](https://bower.io/). Certainly, this is not state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. Please don't use `const` and `let`, template strings, arrow functions, `async / await` etc.
 
 ## 📓 License
 GNU General Public License v3 (GPL-3) @ [Ferdinand Mütsch](https://muetsch.io)

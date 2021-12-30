@@ -1,9 +1,10 @@
 var nodemailer = require('nodemailer')
     , axios = require('axios')
+    , logger = require('../../config/log')()
 
 module.exports = function (provider, config) {
     var sendFn = function () {
-        console.log('Not sending mail as no SMTP config was provided');
+        logger.default('Not sending mail as no SMTP config was provided');
         return Promise.resolve();
     }
 

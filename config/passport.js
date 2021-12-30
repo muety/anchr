@@ -85,7 +85,7 @@ module.exports = function (passport) {
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer')
   };
   passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
-    var strategy = jwt_payload.strategy
+    var strategy = jwt_payload.strategy;
     var query = {};
     query[strategy + '.email'] = jwt_payload[strategy].email;
 

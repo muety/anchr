@@ -84,7 +84,6 @@ module.exports = function(app) {
             var parser = new htmlparser.Parser(handler);
             parser.parseComplete(response.data);
         }).catch(function(err) {
-            console.error(err)
             return res.makeError(404, 'Not found');
         });
     });
