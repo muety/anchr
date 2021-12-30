@@ -4,14 +4,16 @@ var express = require('express'),
     htmlparser = require('htmlparser2'),
     cache = require('memory-cache'),
     config = require('../../config/config'),
-    log = require('./../../config/middlewares/log')(),
+    morgan = require('../../config/middlewares/morgan')(),
+    logger = require('./../../config/log')(),
     _ = require('underscore');
 
 var CACHE_TIMEOUT = 1000 * 60 * 60 * 24;
 
 module.exports = function(app) {
     app.use('/api/remote', router);
-    router.use(log);
+    
+    router.use(morgan);
 
     /**
      * @swagger
@@ -84,6 +86,7 @@ module.exports = function(app) {
             var parser = new htmlparser.Parser(handler);
             parser.parseComplete(response.data);
         }).catch(function(err) {
+            logger.error('Failed to resolve title for URL ' + url + ' - ' + err)
             return res.makeError(404, 'Not found');
         });
     });

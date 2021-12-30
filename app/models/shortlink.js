@@ -3,7 +3,10 @@ var mongoose = require('mongoose'),
   utils = require('../../utils');
 
 var ShortlinkSchema = new Schema({
-  url: String,
+  url: {
+    type: String,
+    required: true,
+  },
   _id: String,
   created : Date,
   createdBy: {

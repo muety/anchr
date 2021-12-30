@@ -1,6 +1,6 @@
 var express = require("express"),
   router = express.Router(),
-  log = require("./../../config/middlewares/log")(),
+  morgan = require("./../../config/middlewares/morgan")(),
   _ = require("underscore"),
   mongoose = require("mongoose"),
   Collection = mongoose.model("Collection"),
@@ -10,7 +10,7 @@ var express = require("express"),
 module.exports = function (app) {
   app.use("/api/shared", router);
 
-  router.use(log);
+  router.use(morgan);
 
   /**
    * @swagger

@@ -4,7 +4,7 @@ var express = require('express'),
     path = require('path'),
     config = require('../../config/config'),
     utils = require('../../utils'),
-    log = require('./../../config/middlewares/log')(),
+    morgan = require('./../../config/middlewares/morgan')(),
     logger = require('./../../config/log')(),
     _ = require('underscore'),
     auth = require('./../../config/middlewares/auth'),
@@ -16,7 +16,8 @@ var express = require('express'),
 module.exports = function (app, passport) {
     app.use('/api/image', router);
     app.use('/i', router);
-    router.use(log);
+    
+    router.use(morgan);
 
     /**
      * @swagger

@@ -1,6 +1,6 @@
 var express = require('express'),
     router = express.Router(),
-    log = require('./../../config/middlewares/log')(),
+    morgan = require('../../config/middlewares/morgan')(),
     config = require('./../../config/config')
     mongoose = require('mongoose'),
     Collection = mongoose.model('Collection'),
@@ -153,7 +153,7 @@ module.exports = function(app) {
     if (!config.exposeMetrics) return
 
     app.use('/api/metrics', router);
-    router.use(log);
+    router.use(morgan);
 
     initPromClient()
 

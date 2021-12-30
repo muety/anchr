@@ -4,8 +4,9 @@ var express = require('express'),
     config = require('../../config/config'),
     safeBrowseLookup = require('safe-browse-url-lookup'),
     Shortlink = mongoose.model('Shortlink'),
+    Collection = mongoose.model('Collection'),
     utils = require('../../utils'),
-    log = require('./../../config/middlewares/log')(),
+    morgan = require('./../../config/middlewares/morgan')(),
     logger = require('./../../config/log')()
     _ = require('underscore'),
     auth = require('./../../config/middlewares/auth');
@@ -23,7 +24,8 @@ if (!config.googleApiKey) {
 module.exports = function(app, passport) {
     app.use('/api/shortlink', router);
     app.use('/s', router);
-    router.use(log);
+
+    router.use(morgan);
 
     /**
      * @swagger
@@ -49,8 +51,21 @@ module.exports = function(app, passport) {
 
         Shortlink.findOne({ _id: req.params.id }, { __v: false, id: false, createdBy: false, created: false }, function(err, obj) {
             if (err || !obj) return res.makeError(404, "Not found.");
-            if (!asJson && obj.url) res.redirect(obj.url);
-            else res.send(obj.toObject());
+
+            if (!asJson && obj.url) {
+                // update counter asynchronously
+                var regex = new RegExp('.*' + req.params.id + '$', 'i')
+                Collection.findOneAndUpdate(
+                    { name: config.shortlinkCollectionName, 'links.url': regex },
+                    { $inc: { "links.$.hits": 1 } },
+                function(err, obj) {
+                    console.log(1);
+                });
+
+                return res.redirect(obj.url);
+            }
+            
+            res.send(obj.toObject());
         });
     });
 

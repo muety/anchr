@@ -1,10 +1,8 @@
-const user = require('../models/user');
-
 var express = require('express'),
     router = express.Router(),
     config = require('./../../config/config'),
     authConfig = require('./../../config/auth'),
-    log = require('./../../config/middlewares/log')(),
+    morgan = require('../../config/middlewares/morgan'),
     logger = require('./../../config/log')(),
     auth = require('./../../config/middlewares/auth'),
     utils = require('../../utils'),
@@ -31,7 +29,7 @@ var mail = function() {
 module.exports = function (app, passport) {
     app.use('/api/auth', router);
 
-    router.use(log);
+    router.use(morgan());
 
     /**
      * @swagger
@@ -65,7 +63,8 @@ module.exports = function (app, passport) {
                         res.status(201).end();
                     })
                     .catch(function (err) {
-                        res.makeError(500, 'Failed to send confirmation mail.', err);
+                        logger.error('Failed to send confirmation mail to user ' + user.local.email + ' - ' + err);
+                        res.makeError(500, 'Failed to send confirmation mail.');
                     });
             }, function (err) {
                 res.makeError(500, err.message);
@@ -196,7 +195,8 @@ module.exports = function (app, passport) {
             user.save(function () {
                 res.redirect(config.clientUrl);
             }, function(err) {
-                res.makeError(500, 'Failed to activate user', err);
+                logger.error('Failed to activate user by token ' + req.query.token + ' - ' + err);
+                res.makeError(500, 'Failed to activate user');
             });
         });
     });
@@ -229,13 +229,13 @@ module.exports = function (app, passport) {
 };
 
 function initUser(user) {
-    Collection.findOne({ name: 'My shortlinks', owner: user._id }, function (err, result) {
+    Collection.findOne({ name: config.shortlinkCollectionName, owner: user._id }, function (err, result) {
         if (err) return res.makeError(500, err.message, err);
         if (result) return true;
         else {
             new Collection({
                 _id: utils.generateUUID(),
-                name: 'My shortlinks',
+                name: config.shortlinkCollectionName,
                 links: [],
                 owner: user._id,
                 shared: false

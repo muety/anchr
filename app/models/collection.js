@@ -4,17 +4,28 @@ var mongoose = require('mongoose'),
 
 var CollectionSchema = new Schema({
   _id: String,
-  name: String,
-  created : Date,
-  modified : Date,
+  name: {
+    type: String,
+    required: true,
+  },
+  created: Date,
+  modified: Date,
   links: [{
-    url: String,
-    description: String,
+    url: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    hits: Number,
     date : Date,
   }],
   shared : Boolean,
   owner: {
     type: Schema.Types.ObjectId,
+    required: true,
     ref: "UserSchema"
   }
 }, {
