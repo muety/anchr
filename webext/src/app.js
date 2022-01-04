@@ -25,7 +25,7 @@ browser.storage.local.get()
     })
     .then(fetchCollections)
     .then(updateCollectionList)
-    .then(readTab)
+    .then(readTabOrTemp)
     .then(updateLinkInformation)
     .catch(onError)
     .then(refreshToken)
@@ -41,16 +41,22 @@ formMain.addEventListener('submit', event => {
         .catch(onError)
 })
 
-function readTab() {
-    return browser.tabs.query({ active: true, windowId: browser.windows.WINDOW_ID_CURRENT })
-        .then(tabs => {
-            if (!tabs || !tabs.length) {
-                return Promise.reject('Could not read current tab')
-            }
-            return {
-                url: tabs[0].url,
-                title: tabs[0].title
-            }
+function readTabOrTemp() {
+    return browser.storage.local.get('tempLink')
+        .then(data => data?.tempLink || browser.tabs.query({ active: true, windowId: browser.windows.WINDOW_ID_CURRENT })
+            .then(tabs => {
+                if (!tabs || !tabs.length) {
+                    return Promise.reject('Could not read current tab')
+                }
+                return {
+                    url: tabs[0].url,
+                    title: tabs[0].title
+                }
+            })
+        )
+        .then(data => {
+            browser.storage.local.remove('tempLink')
+            return data
         })
         .catch(err => console.error(JSON.stringify(err)))
 }
