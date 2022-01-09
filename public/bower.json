@@ -11,8 +11,7 @@
     "ngclipboard": "1.1.3",
     "snackbarjs": "1.1.0",
     "ng-file-upload": "12.2.13",
-    "angular-jwt": "0.1.11",
-    "crypto-js": "4.1.1"
+    "angular-jwt": "0.1.11"
   },
   "devDependencies": {
     "angular-mocks": "1.4.0"
@@ -30,9 +29,6 @@
     "bootstrap-sass": {
       "main": [
       ]
-    },
-    "crypto-js": {
-      "main": "crypto-js.js"
     }
   },
   "resolutions": {

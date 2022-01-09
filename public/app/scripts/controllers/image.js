@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('anchrClientApp')
-  .controller('ImageCtrl', ['$rootScope', '$scope', 'Upload', '$timeout', function ($rootScope, $scope, Upload, $timeout) {
+  .controller('ImageCtrl', ['$rootScope', '$scope', 'Snackbar', 'Upload', 'Encryption', '$timeout', function ($rootScope, $scope, Snackbar, Upload, Encryption, $timeout) {
     var allowedTypes = ['image/'];
 
     $scope.encryptAndUpload = function (files, errFiles) {
@@ -16,19 +16,27 @@ angular.module('anchrClientApp')
         return false;
       }
 
-      reader.onload = function(e) {
-        var encrypted = CryptoJS.AES.encrypt(e.target.result, password);
-        var blob = new Blob([encrypted], {type: file.type});
-        blob.name = file.name;
-        blob.encrypted = true;
-        $scope.files.loading = false;
-        $scope.uploadFiles([blob], []);
+      reader.onload = function (e) {
+        Encryption.encrypt(e.target.result, password)
+          .then(function (encrypted) {
+            var blob = new Blob([encrypted], { type: file.type });
+            blob.name = file.name;
+            blob.encrypted = true;
+            $scope.files.loading = false;
+            $scope.uploadFiles([blob], []);
+          })
+          .catch(function(error) {
+            console.error(error);
+
+            $scope.files.loading = false;
+            Snackbar.show("Failed to encrypt image.");
+          });
       };
 
-      reader.readAsDataURL(file);
+      reader.readAsArrayBuffer(file);
     };
 
-    $scope.uploadFiles = function(files, errFiles) {
+    $scope.uploadFiles = function (files, errFiles) {
       if ((files && files.length) || (errFiles && errFiles.length)) {
         $scope.files.files = $scope.files.files.concat(files);
         $scope.files.errFiles = $scope.files.errFiles.concat(errFiles);
@@ -41,7 +49,7 @@ angular.module('anchrClientApp')
           else {
             file.upload = Upload.upload({
               url: $rootScope.getApiUrl() + 'image',
-              data: {uploadFile: file, encrypted: file.encrypted}
+              data: { uploadFile: file, encrypted: file.encrypted }
             });
 
             file.upload.then(function (response) {
@@ -63,7 +71,7 @@ angular.module('anchrClientApp')
 
     $scope.clear = function () {
       $scope.files = {
-        files : [],
+        files: [],
         errFiles: [],
         password: null,
         encrypt: false,
@@ -79,8 +87,8 @@ angular.module('anchrClientApp')
       $rootScope.init();
     }
 
-    function arrayMatch (regexArray, val) {
-      for (var i=0; i<regexArray.length; i++) {
+    function arrayMatch(regexArray, val) {
+      for (var i = 0; i < regexArray.length; i++) {
         if (val.match(regexArray[i])) return true;
       }
       return false;
