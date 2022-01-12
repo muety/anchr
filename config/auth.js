@@ -31,7 +31,7 @@ _.extend(resolvedConfig, config.root, config[env]);
 resolvedConfig.with = function(key) {
   return resolvedConfig.hasOwnProperty(key) && Object.values(resolvedConfig[key]).every(function (e) {
     return !!e
-  })
+  });
 }
 
 module.exports = resolvedConfig;

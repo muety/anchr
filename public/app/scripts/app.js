@@ -119,7 +119,7 @@ angular
             if (!string || !char) return '';
             return string.replace(char, '');
         }
-        $rootScope.range = function(min, max, step) {
+        $rootScope.range = function (min, max, step) {
             step = step || 1;
             var input = [];
             for (var i = min; i <= max; i += step) {
@@ -143,4 +143,21 @@ angular
         $rootScope.getApiUrl = function () {
             return $rootScope.getBaseUrl() + 'api/';
         };
+    }])
+    .run(['$rootScope', '$http', function ($rootScope, $http) {
+        $rootScope.serverCapabilities = [];
+        $rootScope.loginProviders = [];
+
+        $http.get($rootScope.getApiUrl() + 'capabilities')
+            .then(function (res) {
+                $rootScope.serverCapabilities = res.data.split(',');
+                $rootScope.loginProviders = $rootScope.serverCapabilities
+                    .filter(function (c) {
+                        return c.startsWith('auth.');
+                    })
+                    .map(function (c) {
+                        return c.replace('auth.', '');
+                    });
+            })
+            .catch(console.error);
     }]);

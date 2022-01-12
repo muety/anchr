@@ -24,13 +24,13 @@
           </div>
         </form>
         <br><br>
-        <div class="row">
+        <div class="row" ng-if="loginProviders.length">
           <div class="col-md-4">
             <h4 class="text-primary">Or login with ...</h4>
           </div>
           <div class="col-md-4">
-            <a href="{{getApiUrl()}}auth/facebook"><img src="images/facebook.png" width="52px"></a>
-            <a href="{{getApiUrl()}}auth/google"><img src="images/google.png" width="52px"></a>
+            <a ng-if="loginProviders.includes('facebook')" href="{{getApiUrl()}}auth/facebook"><img src="images/facebook.png" width="52px"></a>
+            <a ng-if="loginProviders.includes('google')" href="{{getApiUrl()}}auth/google"><img src="images/google.png" width="52px"></a>
           </div>
           <div class="col-md-4"></div>
         </div>

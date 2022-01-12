@@ -1,4 +1,5 @@
 var express = require('express')
+  , authConfig = require('./auth')
   , cors = require('cors')
   , fs = require('fs')
   , bodyParser = require('body-parser')
@@ -54,6 +55,7 @@ module.exports = function (app, config) {
     }));
   }
 
+  // Health endpoint
   app.get('/health', function (req, res) {
     var text = 'app=1\n';
     text += 'db=' + mongoose.connection.readyState + '\n';
@@ -61,7 +63,16 @@ module.exports = function (app, config) {
 
     res.set('Content-Type', 'text/plain');
     res.send(text);
-  })
+  });
+
+  // Capabilites endpoint
+  app.get('/api/capabilities', function(req, res) {
+    var capabilities = [];
+    if (authConfig.with('facebookAuth')) capabilities.push('auth.facebook');
+    if (authConfig.with('googleAuth')) capabilities.push('auth.google');
+    res.set('Content-Type', 'text/plain');
+    res.send(capabilities.join(','));
+  });
 
   // Swagger
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

@@ -45,7 +45,7 @@ var config = {
             url: process.env.ANCHR_MAILWHALE_URL || 'https://mailwhale.dev',
             clientId: process.env.ANCHR_MAILWHALE_CLIENT_ID || '',
             clientSecret: process.env.ANCHR_MAILWHALE_CLIENT_SECRET,
-        }
+        },
     },
     development: {
     },
