@@ -42,7 +42,12 @@ var commandMatchers = {
         return args ? args.slice(1) : null;
     },
     [CMD_ADD_LINK]: function (m) {
-        var args = m.text.match(/^(?:\/add\s)?([^\s]+)(?:\s(.+))?$/);
+        // "/add https://anchr.io Anchr" or
+        // "/add https://anchr.io" or
+        // "https://anchr.io Anchr" or
+        // "https://anchr.io" or
+        // "lorem ipsum https://anchr.io Anchr"
+        var args = m.text.match(/(?:^\/add\s)?(https?:\/\/[^\s]+)(?:\s(.+))?/);
         return args && utils.isURL(args[0]) ? args.slice(1) : null
     },
     [CMD_CHOOSE_COLLECTION]: function (m) {
@@ -195,6 +200,8 @@ module.exports = function (app, passport) {
 
         try {
             var message = req.body.message;
+            message.text = message.text.trim();
+
             var parseResult = parseCommand(message);
             var command = parseResult[0];
             var args = parseResult[1];
@@ -204,7 +211,7 @@ module.exports = function (app, passport) {
                     logger.error('Failed to process Telegram command "' + command + ' - ', e);
                 })
         } catch (e) {
-            tgutils.doRequest('sendMessage', { chat_id: message.chat.id, text: 'Sorry, I did not understand you' });
+            tgutils.doRequest('sendMessage', { chat_id: message.chat.id, text: '🤷‍♂️ Sorry, I did not understand you' });
         }
 
         res.status(204).end();
@@ -218,7 +225,7 @@ module.exports = function (app, passport) {
             })
             .join('');
         otps[otp] = req.user;
-        res.setHeader('Content-Type', 'text/plain')
+        res.setHeader('Content-Type', 'text/plain');
         res.send(otp);
     });
 };
