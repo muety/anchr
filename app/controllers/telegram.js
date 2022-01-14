@@ -1,4 +1,6 @@
-var express = require("express"),
+var fs = require('fs'),
+    path = require('path'),
+    express = require("express"),
     router = express.Router(),
     _ = require("underscore"),
     config = require("../../config/config"),
@@ -8,6 +10,7 @@ var express = require("express"),
     auth = require("./../../config/middlewares/auth"),
     mongoose = require("mongoose"),
     User = mongoose.model("User"),
+    Image = mongoose.model('Image')
     tgutils = require('./utils/telegram'),
     addLink = require('./utils/collection').addLink,
     fetchCollections = require('./utils/collection').fetchCollections,
@@ -22,6 +25,7 @@ var CMD_START = 'CMD_START',
     CMD_SHORTEN = 'CMD_SHORTEN',
     CMD_ADD_LINK = 'CMD_ADD_LINK',
     CMD_CHOOSE_COLLECTION = 'CMD_CHOOSE_COLLECTION',
+    CMD_UPLOAD_PHOTO = 'CMD_UPLOAD_PHOTO',
     CMD_HELP = 'CMD_HELP';
 
 var commandMatchers = {
@@ -53,6 +57,9 @@ var commandMatchers = {
     [CMD_CHOOSE_COLLECTION]: function (m) {
         var args = m.text.match(/^(\d+)$/);
         return args ? args.slice(1) : null;
+    },
+    [CMD_UPLOAD_PHOTO]: function (m) {
+        return m.photo ? [] : null;
     },
     [CMD_HELP]: function (m) {
         var args = m.text.match(/^\/(?:start|help)$/);
@@ -167,6 +174,37 @@ var commandProcessors = {
             })
             .catch(unauthenticatedHandler(rawMessage));
     },
+    [CMD_UPLOAD_PHOTO]: function (args, rawMessage) {
+        return tgutils.resolveUser(rawMessage.from)
+            .then(function (user) {
+                var fileId = rawMessage.photo[0].file_id;
+                tgutils.downloadFile(fileId)
+                    .then(function ({ file, stream }) {
+                        var targetName = utils.generateUUID() + path.parse(file.file_path).ext;
+                        var targetPath = config.uploadDir + targetName;
+                        stream.pipe(fs.createWriteStream(targetPath));
+                        
+                        var image = new Image({
+                            _id: targetName,
+                            created: Date.now(),
+                            source: 'telegram',
+                            encrypted: false,
+                            type: utils.guessMimeType(targetName),
+                            createdBy: user._id
+                        });
+
+                        image.save(function (err, obj) {
+                            if (err) throw err;
+                            var link = config.publicImageUrl + '/' + obj._id;
+                            return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '✅ Successfully uploaded image: ' + link, disable_web_page_preview: true });
+                        });
+                    })
+                    .catch(function () {
+                        return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '❌ Failed to upload photo, sorry.' });
+                    });
+            })
+            .catch(unauthenticatedHandler(rawMessage));
+    },
     [CMD_HELP]: function (args, rawMessage) {
         return tgutils.doRequest('sendMessage', {
             chat_id: rawMessage.chat.id,
@@ -200,7 +238,7 @@ module.exports = function (app, passport) {
 
         try {
             var message = req.body.message;
-            message.text = message.text.trim();
+            message.text = message.text ? message.text.trim() : '';
 
             var parseResult = parseCommand(message);
             var command = parseResult[0];

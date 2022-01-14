@@ -23,6 +23,7 @@
         "jsonwebtoken": "8.5.1",
         "memory-cache": "0.2.0",
         "method-override": "3.0.0",
+        "mime-types": "^2.1.34",
         "mongoose": "^6.0.12",
         "morgan": "^1.10.0",
         "nodemailer": "^6.5.0",

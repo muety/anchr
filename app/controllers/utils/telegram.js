@@ -13,6 +13,22 @@ function doRequest(method, payload) {
         });
 }
 
+function downloadFile(fileId) {
+    return doRequest('getFile', { file_id: fileId })
+        .then(function (response) {
+            var file = response.data.result;
+            var token = config.telegram.botToken;
+            var url = 'https://api.telegram.org/file/bot' + token + '/' + file.file_path;
+            return axios.get(url, { responseType: 'stream' })
+                .then(function (res) {
+                    return res.data;
+                })
+                .then(function (stream) {
+                    return { file: file, stream: stream };
+                });
+        });
+}
+
 function resolveUser(telegramUser) {
     return new Promise(function (resolve, reject) {
         User.findOne({ 'telegramUserId': telegramUser.id.toString() }, function (err, user) {
@@ -26,5 +42,6 @@ function resolveUser(telegramUser) {
 
 module.exports = {
     doRequest: doRequest,
-    resolveUser: resolveUser
+    resolveUser: resolveUser,
+    downloadFile: downloadFile
 };

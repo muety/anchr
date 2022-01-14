@@ -6,6 +6,7 @@ var ImageSchema = new Schema({
   _id : String,
   created : Date,
   ip : String,
+  source : String,
   encrypted : Boolean,
   type : String,
   createdBy: {
