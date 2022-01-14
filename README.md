@@ -24,6 +24,7 @@
 * [Prometheus](https://prometheus.io) metrics
 * Integration with [ShareX](https://github.com/ShareX/ShareX)
 * OAuth 2 authentication (Google, Facebook, ...)
+* Telegram Bot ([@AnchrBot](https://t.me/AnchrBot))
 
 **If you like this project, please [consider sponsoring it](https://muetsch.io/consider-sponsoring-open-source.html)!**
 
@@ -73,6 +74,8 @@ In order to host Anchr on your own, you need a few things.
     * `ANCHR_MAILWHALE_URL`: Public URL of your [MailWhale](https://github.com/muety/mailwhale) instance when using it for mails instead of SMTP (default: `https://mailwhale.dev`)
     * `ANCHR_MAILWHALE_CLIENT_ID`: MailWhale client ID for authentication
     * `ANCHR_MAILWHALE_CLIENT_SECRET`: MailWhale client secret for authentication
+    * `ANCHR_TELEGRAM_BOT_TOKEN`: Telegram bot token (from [@BotFather](https://t.me/BotFather)). Leave empty for disabling Telegram integration.
+    * `ANCHR_TELEGRAM_URL_SECRET`: Secret to append to Telegram webhook path for security purposes. Can be any random string.
 
 ### ⚙️ Run
 #### Setup
@@ -93,6 +96,14 @@ In order to host Anchr on your own, you need a few things.
 #### Option 2: Run with Docker
 1. `source env.sh`
 1. `docker-compose up`
+
+### 🤖 Telegram Bot Setup
+1. Create a new bot with [@BotFather](https://t.me/BotFather)
+1. Configure `ANCHR_TELEGRAM_BOT_TOKEN` and `ANCHR_TELEGRAM_URL_SECRET` variables
+1. Configure the webhook:
+```bash
+curl https://api.telegram.org/bot<BOT_TOKEN>/setWebhook?url=https://<ANCHR_URL>/api/telegram/updates/<URL_SECRET>
+```
 
 ## 🧰 Tooling
 ### [ShareX](https://github.com/ShareX/ShareX) (Windows only)
