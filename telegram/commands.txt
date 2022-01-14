@@ -1,0 +1,7 @@
+/setcommands
+start - Connect bot to your Anchr account
+add - Add a new link to a collections
+shorten - Shorten a link
+logout - Unlink your Anchr account from bot
+whoami - Check your user account
+help - Get help on how to use this bot
