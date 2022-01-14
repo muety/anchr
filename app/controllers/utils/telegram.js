@@ -1,5 +1,6 @@
 var axios = require('axios'),
     config = require('../../../config/config'),
+    mongoose = require("mongoose"),
     User = mongoose.model("User");
 
 function doRequest(method, payload) {
@@ -14,7 +15,7 @@ function doRequest(method, payload) {
 
 function resolveUser(telegramUser) {
     return new Promise(function (resolve, reject) {
-        User.findOne({ 'telegramUserId': telegramUser.id }, function (err, user) {
+        User.findOne({ 'telegramUserId': telegramUser.id.toString() }, function (err, user) {
             if (err) return reject(err);
             if (!user) return reject('User not found.')
             resolve(user);
