@@ -7,8 +7,8 @@ var express = require("express"),
   auth = require("./../../config/middlewares/auth"),
   mongoose = require("mongoose"),
   Collection = mongoose.model("Collection"),
-  fetchLinks = require("./utils").fetchLinks,
-  countLinks = require("./utils").countLinks;
+  fetchLinks = require("./utils/collection").fetchLinks,
+  countLinks = require("./utils/collection").countLinks;
 
 var DEFAULT_PAGE_SIZE = 25;
 

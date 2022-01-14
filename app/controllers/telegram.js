@@ -1,19 +1,20 @@
-const { raw } = require("body-parser");
-
 var express = require("express"),
     router = express.Router(),
     _ = require("underscore"),
     config = require("../../config/config"),
+    utils = require("../../utils"),
     morgan = require("./../../config/middlewares/morgan")(),
     logger = require('./../../config/log')(),
     auth = require("./../../config/middlewares/auth"),
     User = mongoose.model("User"),
-    tgutils = require('./utils/telegram');
+    tgutils = require('./utils/telegram'),
+    addShortlink = require('./utils/shortlink').addShortlink;
 
 var otps = {};
 
 var CMD_START = 'CMD_START',
     CMD_WHOAMI = 'CMD_WHOAMI',
+    CMD_SHORTEN = 'CMD_SHORTEN',
     CMD_HELP = 'CMD_HELP';
 
 var commandMatchers = {
@@ -25,10 +26,20 @@ var commandMatchers = {
         var args = m.text.match(/\/whoami/);
         return args ? args.slice(1) : null;
     },
+    [CMD_SHORTEN]: function (m) {
+        var args = m.text.match(/\/shorten\s(.+)$/);
+        return args ? args.slice(1) : null;
+    },
     [CMD_HELP]: function (m) {
         return []  // fallback
     }
 };
+
+function unauthenticatedHandler(rawMessage) {
+    return function (err) {
+        return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: 'You do not seem to be authenticated, yet.' });
+    }
+}
 
 var commandProcessors = {
     [CMD_START]: function (args, rawMessage) {
@@ -46,9 +57,24 @@ var commandProcessors = {
             .then(function (user) {
                 return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: 'You are ' + user.getEmail() });
             })
-            .catch(function () {
-                return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: 'You do not seem to be authenticated, yet.' });
-            });
+            .catch(unauthenticatedHandler(rawMessage));
+    },
+    [CMD_SHORTEN]: function (args, rawMessage) {
+        if (!utils.isURL(args[0])) {
+            return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: 'Not a valid URL.' });
+        }
+        return tgutils.resolveUser(rawMessage.from.id)
+            .then(function (user) {
+                addShortlink(args[0], user)
+                    .then(function ({ data }) {
+                        var link = config.publicShortlinkUrl + '/' + data._id;
+                        return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: 'Here is your shortlink: ' + link, disable_web_page_preview: true });
+                    })
+                    .catch(function () {
+                        return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: 'Failed to shorten link, sorry.' });
+                    })
+            })
+            .catch(unauthenticatedHandler(rawMessage));
     },
     [CMD_HELP]: function (args, rawMessage) {
         return tgutils.doRequest('sendMessage', {

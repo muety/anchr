@@ -4,8 +4,8 @@ var express = require("express"),
   _ = require("underscore"),
   mongoose = require("mongoose"),
   Collection = mongoose.model("Collection"),
-  fetchLinks = require("./utils").fetchLinks,
-  countLinks = require("./utils").countLinks;
+  fetchLinks = require("./utils/collection").fetchLinks,
+  countLinks = require("./utils/collection").countLinks;
 
 module.exports = function (app) {
   app.use("/api/shared", router);
