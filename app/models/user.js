@@ -22,7 +22,8 @@ var userSchema = mongoose.Schema({
     email : String,
     name : String
   },
-  verificationToken : String
+  verificationToken : String,
+  telegramUserId : String
 }, {
   usePushEach: true
 });
@@ -62,6 +63,13 @@ userSchema.methods.generateToken = function() {
 
 userSchema.methods.clearToken = function() {
   this.verificationToken = '';
+}
+
+userSchema.methods.getEmail = function() {
+  if (this.local) return this.local.email;
+  if (this.facebook) return this.facebook.email;
+  if (this.google) return this.google.email;
+  return null;
 }
 
 module.exports = mongoose.model('User', userSchema);

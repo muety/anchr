@@ -32,6 +32,10 @@ var config = {
         exposeMetrics: process.env.ANCHR_EXPOSE_METRICS === 'true',
         verifyUsers: process.env.ANCHR_VERIFY_USERS === 'true' || false,
         mailSender: process.env.ANCHR_MAIL_SENDER || 'Anchr.io <noreply@anchr.io>',
+        telegram: {
+            botToken: process.env.ANCHR_TELEGRAM_BOT_TOKEN || '',
+            urlSecret: process.env.ANCHR_TELEGRAM_URL_SECRET || '',
+        },
         smtp: {
             host: process.env.ANCHR_SMTP_HOST || '',
             port: process.env.ANCHR_SMTP_PORT || 587,
