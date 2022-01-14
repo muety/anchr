@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('anchrClientApp')
-  .controller('SettingsCtrl', ['$scope', '$rootScope', 'Auth', 'Snackbar', function ($scope, $rootScope, Auth, Snackbar) {
+  .controller('SettingsCtrl', ['$scope', '$rootScope', 'Auth', 'Telegram', 'Snackbar', function ($scope, $rootScope, Auth, Telegram, Snackbar) {
     $scope.updatePassword = function () {
       Auth.updatePassword(
         $scope.data.oldPassword,
@@ -18,6 +18,12 @@ angular.module('anchrClientApp')
         }
       )
     };
+
+    $scope.getOtp = function () {
+      Telegram.otp.get(null, function(result) {
+        alert('Your one-time authentication code is: ' + result.otp);
+      });
+    }
 
     $scope.deleteAccount = function () {
       Auth.deleteAccount(

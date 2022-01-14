@@ -94,6 +94,7 @@ module.exports = function (app, passport) {
                 _id: newName,
                 created: Date.now(),
                 ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip,
+                source: 'upload',
                 encrypted: req.body.encrypted || false,
                 type: req.files[FILE_UPLOAD_FIELD].type,
                 createdBy: req.user._id
