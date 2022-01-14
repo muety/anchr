@@ -10,7 +10,7 @@ var fs = require('fs'),
     auth = require("./../../config/middlewares/auth"),
     mongoose = require("mongoose"),
     User = mongoose.model("User"),
-    Image = mongoose.model('Image')
+    Image = mongoose.model('Image'),
     tgutils = require('./utils/telegram'),
     addLink = require('./utils/collection').addLink,
     fetchCollections = require('./utils/collection').fetchCollections,
@@ -177,13 +177,14 @@ var commandProcessors = {
     [CMD_UPLOAD_PHOTO]: function (args, rawMessage) {
         return tgutils.resolveUser(rawMessage.from)
             .then(function (user) {
-                var fileId = rawMessage.photo[0].file_id;
+                var fileId = rawMessage.photo[rawMessage.photo.length - 1].file_id;
+
                 tgutils.downloadFile(fileId)
                     .then(function ({ file, stream }) {
                         var targetName = utils.generateUUID() + path.parse(file.file_path).ext;
                         var targetPath = config.uploadDir + targetName;
                         stream.pipe(fs.createWriteStream(targetPath));
-                        
+
                         var image = new Image({
                             _id: targetName,
                             created: Date.now(),
