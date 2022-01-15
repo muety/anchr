@@ -116,8 +116,8 @@ You can integrate Anchr with [ShareX](https://github.com/ShareX/ShareX) on Windo
     * [`sharex-shortlinks.json`](scripts/sharex-shortlinks.json)
 1. Import both files as custom uploaders in ShareX
 
-## 🧩 Project State
-The project's origins lie in 2014, back when the [MEAN stack](https://www.mongodb.com/mean-stack) was the sh*t. It was the author's first real web project and a great opportunity to learn. The project is maintained ever since, however, considered mostly feature-complete. Dependencies are updated occasionally. Because the project started quite a couple of years ago, it is still based on old-fashioned JavaScript ES5 syntax, alongside vintage tools like [Grunt](https://gruntjs.com/) and [Bower](https://bower.io/). Certainly, this is not state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. Please don't use `const` and `let`, template strings, arrow functions, `async / await` etc.
+## 🧩 Project History
+The project's origins lie in 2014, back when the [MEAN stack](https://www.mongodb.com/mean-stack) was the sh*t. It was the author's first real web project and a great opportunity to learn. The project is maintained ever since, however, considered mostly feature-complete. Dependencies are updated occasionally. Because the project started quite a couple of years ago, some parts are still based on old-fashioned JavaScript ES5 syntax, alongside vintage tools like [Grunt](https://gruntjs.com/) and [Bower](https://bower.io/). Certainly, this is not state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. **Update:** Just [recently](https://github.com/muety/anchr/issues/54), all backend-side code was refactored to modern JavaScript syntax to ease development. 
 
 ## 📓 License
 GNU General Public License v3 (GPL-3) @ [Ferdinand Mütsch](https://muetsch.io)

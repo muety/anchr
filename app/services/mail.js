@@ -1,18 +1,18 @@
-var nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer')
     , axios = require('axios')
     , logger = require('../../config/log')()
 
 module.exports = function (provider, config) {
-    var sendFn = function () {
-        logger.default('Not sending mail as no SMTP config was provided');
-        return Promise.resolve();
+    let sendFn = function () {
+        logger.default('Not sending mail as no SMTP config was provided')
+        return Promise.resolve()
     }
 
     if (provider === 'smtp') {
         if (config && config.host) {
-            var mailTransport = nodemailer.createTransport(config);
-            mailTransport.sendMail = mailTransport.sendMail.bind(mailTransport);
-            sendFn = mailTransport.sendMail;
+            const mailTransport = nodemailer.createTransport(config)
+            mailTransport.sendMail = mailTransport.sendMail.bind(mailTransport)
+            sendFn = mailTransport.sendMail
         }
     } else if (provider === 'mailwhale') {
         sendFn = function (mail) {
@@ -26,12 +26,12 @@ module.exports = function (provider, config) {
                     password: config.clientSecret,
                 },
                 data: {
-                    to: [ mail.to ],
+                    to: [mail.to],
                     subject: mail.subject,
                     text: mail.text
                 }
             })
-        };
+        }
     }
 
     return {

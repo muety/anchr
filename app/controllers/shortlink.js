@@ -1,4 +1,4 @@
-var express = require('express'),
+const express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
     config = require('../../config/config'),
@@ -6,19 +6,18 @@ var express = require('express'),
     Collection = mongoose.model('Collection'),
     morgan = require('./../../config/middlewares/morgan')(),
     logger = require('./../../config/log')(),
-    _ = require('underscore'),
     auth = require('./../../config/middlewares/auth'),
-    addShortlink = require('./utils/shortlink').addShortlink;
+    addShortlink = require('./utils/shortlink').addShortlink
 
 if (!config.googleApiKey) {
-    logger.default('[WARN] Disabling safe browse lookups for shortlinks as "ANCHR_GOOGLE_API_KEY" config variable is missing.');
+    logger.default('[WARN] Disabling safe browse lookups for shortlinks as "ANCHR_GOOGLE_API_KEY" config variable is missing.')
 }
 
 module.exports = function (app, passport) {
-    app.use('/api/shortlink', router);
-    app.use('/s', router);
+    app.use('/api/shortlink', router)
+    app.use('/s', router)
 
-    router.use(morgan);
+    router.use(morgan)
 
     /**
      * @swagger
@@ -39,28 +38,26 @@ module.exports = function (app, passport) {
      *          302:
      *            description: Redirect to the shortlinks target URL (returned if `Accept` header is NOT `application/json`)
      */
-    router.get('/:id', function (req, res, next) {
-        var asJson = req.get('accept') === 'application/json';
+    router.get('/:id', (req, res) => {
+        const asJson = req.get('accept') === 'application/json'
 
-        Shortlink.findOne({ _id: req.params.id }, { __v: false, id: false, createdBy: false, created: false }, function (err, obj) {
-            if (err || !obj) return res.makeError(404, "Not found.");
+        Shortlink.findOne({ _id: req.params.id }, { __v: false, id: false, createdBy: false, created: false }, (err, obj) => {
+            if (err || !obj) return res.makeError(404, 'Not found.')
 
             if (!asJson && obj.url) {
                 // update counter asynchronously
-                var regex = new RegExp('.*' + req.params.id + '$', 'i')
+                const regex = new RegExp(`.*${req.params.id}$`, 'i')
                 Collection.findOneAndUpdate(
                     { name: config.shortlinkCollectionName, 'links.url': regex },
-                    { $inc: { "links.$.hits": 1 } },
-                    function (err, obj) {
-                        console.log(1);
-                    });
+                    { $inc: { 'links.$.hits': 1 } }
+                )
 
-                return res.redirect(obj.url);
+                return res.redirect(obj.url)
             }
 
-            res.send(obj.toObject());
-        });
-    });
+            res.send(obj.toObject())
+        })
+    })
 
     /**
      * @swagger
@@ -83,15 +80,15 @@ module.exports = function (app, passport) {
      *            schema:
      *              $ref: '#/definitions/ShortlinkShort'
      */
-    router.post('/', auth(passport), function (req, res, next) {
-        if (!req.body.url) return res.makeError(400, 'Malformed request: You need to pass a url attribute.');
+    router.post('/', auth(passport), (req, res) => {
+        if (!req.body.url) return res.makeError(400, 'Malformed request: You need to pass a url attribute.')
 
         addShortlink(req.body.url, req.user)
-            .then(function ({ status, data }) {
+            .then(({ status, data }) => {
                 res.status(status).send(data)
             })
-            .catch(function ({ status, error }) {
+            .catch(({ status, error }) => {
                 res.makeError(status, error)
             })
-    });
-};
+    })
+}

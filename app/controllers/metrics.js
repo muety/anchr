@@ -1,7 +1,7 @@
-var express = require('express'),
+const express = require('express'),
     router = express.Router(),
     morgan = require('../../config/middlewares/morgan')(),
-    config = require('./../../config/config')
+    config = require('./../../config/config'),
     mongoose = require('mongoose'),
     Collection = mongoose.model('Collection'),
     User = mongoose.model('User'),
@@ -10,132 +10,132 @@ var express = require('express'),
     prom = require('prom-client'),
     du = require('du')
 
-var PREFIX = 'anchr_';
+const PREFIX = 'anchr_'
 
 function initPromClient() {
     prom.collectDefaultMetrics({
         gcDurationBuckets: [0.001, 0.01, 0.1, 1, 2, 5],
         prefix: PREFIX,
-    });
+    })
 
-    var gTotalUsers = new prom.Gauge({
+    const gTotalUsers = new prom.Gauge({
         name: `${PREFIX}users_total`,
-        help: "Total number of registered users",
+        help: 'Total number of registered users',
         labelNames: []
-    });
+    })
 
-    gTotalUsers.collect = function() {
-        return new Promise(function (resolve, reject) {
-            count('user', null, function (count) {
-                gTotalUsers.set(count);
-                resolve();
-            });
-        })
-    };
-
-    var gTotalCollections = new prom.Gauge({
-        name: `${PREFIX}collections_total`,
-        help: "Total number of link collections",
-        labelNames: []
-    });
-
-    gTotalCollections.collect = function() {
-        return new Promise(function (resolve, reject) {
-            count('collection', null, function (count) {
-                gTotalCollections.set(count);
-                resolve();
+    gTotalUsers.collect = function () {
+        return new Promise((resolve) => {
+            count('user', null, (count) => {
+                gTotalUsers.set(count)
+                resolve()
             })
         })
-    };
+    }
 
-    var gTotalShortlinks = new prom.Gauge({
-        name: `${PREFIX}shortlinks_total`,
-        help: "Total number of shortlinks",
+    const gTotalCollections = new prom.Gauge({
+        name: `${PREFIX}collections_total`,
+        help: 'Total number of link collections',
         labelNames: []
-    });
+    })
 
-    gTotalShortlinks.collect = function() {
-        return new Promise(function (resolve, reject) {
-            count('shortlink', null, function (count) {
+    gTotalCollections.collect = function () {
+        return new Promise((resolve) => {
+            count('collection', null, (count) => {
+                gTotalCollections.set(count)
+                resolve()
+            })
+        })
+    }
+
+    const gTotalShortlinks = new prom.Gauge({
+        name: `${PREFIX}shortlinks_total`,
+        help: 'Total number of shortlinks',
+        labelNames: []
+    })
+
+    gTotalShortlinks.collect = function () {
+        return new Promise((resolve) => {
+            count('shortlink', null, (count) => {
                 gTotalShortlinks.set(count)
                 resolve()
-            });
-        })
-    };
-
-    var gTotalImages = new prom.Gauge({
-        name: `${PREFIX}images_total`,
-        help: "Total number of uploaded images",
-        labelNames: ['encryption']
-    });
-
-    gTotalImages.collect = function() {
-        return Promise.all([
-            new Promise(function (resolve, reject) {
-                count('image', { encrypted: false }, function (count) {
-                    gTotalImages.set({ encryption: false }, count);
-                    resolve();
-                });
-            }),
-            new Promise(function (resolve, reject) {
-                count('image', { encrypted: true }, function (count) {
-                    gTotalImages.set({ encryption: true }, count);
-                    resolve();
-                });
             })
-        ]);
-    };
+        })
+    }
 
-    var gTotalLinks = new prom.Gauge({
+    const gTotalImages = new prom.Gauge({
+        name: `${PREFIX}images_total`,
+        help: 'Total number of uploaded images',
+        labelNames: ['encryption']
+    })
+
+    gTotalImages.collect = function () {
+        return Promise.all([
+            new Promise((resolve) => {
+                count('image', { encrypted: false }, (count) => {
+                    gTotalImages.set({ encryption: false }, count)
+                    resolve()
+                })
+            }),
+            new Promise((resolve) => {
+                count('image', { encrypted: true }, (count) => {
+                    gTotalImages.set({ encryption: true }, count)
+                    resolve()
+                })
+            })
+        ])
+    }
+
+    const gTotalLinks = new prom.Gauge({
         name: `${PREFIX}links_total`,
-        help: "Total number of links among all collections",
+        help: 'Total number of links among all collections',
         labelNames: []
-    });
+    })
 
-    gTotalLinks.collect = function() {
-        return new Promise(function (resolve, reject) {
-            countLinks(function (count) {
+    gTotalLinks.collect = function () {
+        return new Promise((resolve) => {
+            countLinks((count) => {
                 gTotalLinks.set(count)
                 resolve()
-            });
+            })
         })
-    };
+    }
 
-    var gTotalImageSize = new prom.Gauge({
+    const gTotalImageSize = new prom.Gauge({
         name: `${PREFIX}images_size_total_bytes`,
-        help: "Total size of all images stored in the file system",
+        help: 'Total size of all images stored in the file system',
         labelNames: []
-    });
+    })
 
-    gTotalImageSize.collect = function() {
-        return new Promise(function (resolve, reject) {
-            return du(config.uploadDir, function (err, size) {
+    gTotalImageSize.collect = function () {
+        return new Promise((resolve) => {
+            return du(config.uploadDir, (err, size) => {
                 gTotalImageSize.set(err ? -1 : size)
                 resolve()
-            });
+            })
         })
-    };
+    }
 }
 
 function count(type, select, cb) {
-    var model = null
-    
+    let model = null
+
     switch (type) {
-        case 'user':
-            model = User
-            break
-        case 'collection':
-            model = Collection
-            break
-        case 'shortlink':
-            model = Shortlink
-            break
-        case 'image':
-            model = Image
-            break
+    case 'user':
+        model = User
+        break
+    case 'collection':
+        model = Collection
+        break
+    case 'shortlink':
+        model = Shortlink
+        break
+    case 'image':
+        model = Image
+        break
     }
 
-    model.countDocuments(select || {}, function (err, count) {
+    model.countDocuments(select || {}, (err, count) => {
         cb(err ? -1 : count)
     })
 }
@@ -143,17 +143,17 @@ function count(type, select, cb) {
 function countLinks(cb) {
     Collection.aggregate([
         { $match: {} },
-        { $group: { _id: null, total: { $sum: { $size: "$links" } } } }
-    ], function (err, data) {
+        { $group: { _id: null, total: { $sum: { $size: '$links' } } } }
+    ], (err, data) => {
         cb(err ? -1 : data[0].total)
     })
 }
 
-module.exports = function(app) {
+module.exports = function (app) {
     if (!config.exposeMetrics) return
 
-    app.use('/api/metrics', router);
-    router.use(morgan);
+    app.use('/api/metrics', router)
+    router.use(morgan)
 
     initPromClient()
 
@@ -170,10 +170,10 @@ module.exports = function(app) {
      *          200:
      *            description: Prometheus metrics in the default format
      */
-    router.get('/', function(req, res) {
-        return prom.register.metrics().then(function (data) {
+    router.get('/', (req, res) => {
+        return prom.register.metrics().then((data) => {
             res.set('content-type', 'text/plain')
             return res.status(200).send(data)
         })
-    });
-};
+    })
+}
