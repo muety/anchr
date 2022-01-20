@@ -16,7 +16,7 @@ const CollectionSchema = new Schema({
         },
         description: {
             type: String,
-            required: true,
+            default: '',
         },
         hits: Number,
         date: Date,

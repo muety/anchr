@@ -238,6 +238,7 @@ module.exports = function (app, passport) {
                 projection: {
                     links: { $elemMatch: { date: link.date } },
                 },
+                runValidators: true
             },
             (err, obj) => {
                 if (err) return res.makeError(500, err.message || 'Unable to save new link.', err)
@@ -297,7 +298,9 @@ module.exports = function (app, passport) {
             linkId = req.params.linkId
         if (!_id || !linkId) return res.makeError(404, 'Not found. Please give an id.')
 
-        Collection.updateOne({ _id: _id, owner: req.user._id }, { $pull: { links: { _id: linkId } } },
+        Collection.updateOne(
+            { _id: _id, owner: req.user._id },
+            { $pull: { links: { _id: linkId } } },
             (err) => {
                 if (err) return res.makeError(500, err.message, err)
                 return res.status(200).end()
@@ -373,7 +376,11 @@ module.exports = function (app, passport) {
 
         if (!Object.keys(updateFields).length) return res.status(200).end()
 
-        Collection.updateOne({ _id: _id, owner: req.user._id }, updateFields, (err, num) => {
+        Collection.updateOne(
+            { _id: _id, owner: req.user._id },
+            updateFields,
+            { runValidators: true },
+            (err, num) => {
             if (err) return res.makeError(500, err.message, err)
             if (!num || !num.modifiedCount) return res.makeError(404, 'Collection not found or unauthorized.')
             res.status(200).end()

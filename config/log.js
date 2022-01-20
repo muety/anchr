@@ -1,5 +1,5 @@
 module.exports = function () {
-  var errorLogger = console.error;
+  var errorLogger = err => console.error(err.message)
   var defaultLogger = console.log;
 
   process.on('uncaughtException', errLog);

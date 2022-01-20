@@ -29,6 +29,7 @@ function addLink(link, collectionId, user) {
                 projection: {
                     links: { $elemMatch: { date: link.date } },
                 },
+                runValidators: true
             },
             (err, obj) => {
                 if (err) return reject({ status: 500, error: err })
@@ -75,7 +76,8 @@ function fetchLinks(filter, q, pageSize, page, cb) {
                 cb(err, null)
                 return reject(err)
             }
-            const links = obj.length ? obj[0].links : []
+            let links = obj.length ? obj[0].links : []
+            links = links.map(link => ({ ...link, description: link.description || '' }))
             cb(err, links)
             return resolve(links)
         })
