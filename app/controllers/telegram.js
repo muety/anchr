@@ -26,6 +26,8 @@ const CMD_START = 'CMD_START',
     CMD_ADD_LINK = 'CMD_ADD_LINK',
     CMD_CHOOSE_COLLECTION = 'CMD_CHOOSE_COLLECTION',
     CMD_UPLOAD_PHOTO = 'CMD_UPLOAD_PHOTO',
+    CMD_SET_DEFAULT = 'CMD_SET_DEFAULT',
+    CMD_CLEAR_DEFAULT = 'CMD_CLEAR_DEFAULT',
     CMD_HELP = 'CMD_HELP'
 
 const commandMatchers = {
@@ -56,6 +58,14 @@ const commandMatchers = {
     },
     [CMD_CHOOSE_COLLECTION]: function (m) {
         const args = m.text.match(/^(\d+)$/)
+        return args ? args.slice(1) : null
+    },
+    [CMD_SET_DEFAULT]: function (m) {
+        const args = m.text.match(/^\/setdefault\s(\d+)$/)
+        return args ? args.slice(1) : null
+    },
+    [CMD_CLEAR_DEFAULT]: function (m) {
+        const args = m.text.match(/^\/cleardefault$/)
         return args ? args.slice(1) : null
     },
     [CMD_UPLOAD_PHOTO]: function (m) {
@@ -130,20 +140,24 @@ const commandProcessors = {
                     date: Date.now()
                 }
 
-                fetchCollections(user)
-                    .then(({ data }) => {
-                        // this is not robust to the collections changing while the user does their choice
-                        let text = '👇 Choose a collection to save the link to by typing its number:\n\n'
-                        text += data
-                            .map((c, i) => {
-                                return `**${i + 1}.** ${c.name}`
-                            })
-                            .join('\n')
-                        return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: text, parse_mode: 'Markdown' })
-                    })
-                    .catch(() => {
-                        return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '❌ Failed to add link, sorry.' })
-                    })
+                if (user.telegramDefaultCollId) {
+                    commandProcessors[CMD_CHOOSE_COLLECTION]([user.telegramDefaultCollId], rawMessage)
+                } else {
+                    fetchCollections(user)
+                        .then(({ data }) => {
+                            // this is not robust to the collections changing while the user does their choice
+                            let text = '👇 Choose a collection to save the link to by typing its number:\n\n'
+                            text += data
+                                .map((c, i) => {
+                                    return `**${i + 1}.** ${c.name}`
+                                })
+                                .join('\n')
+                            return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: text, parse_mode: 'Markdown' })
+                        })
+                        .catch(() => {
+                            return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '❌ Failed to add link, sorry.' })
+                        })
+                }
             })
             .catch(unauthenticatedHandler(rawMessage))
     },
@@ -170,6 +184,26 @@ const commandProcessors = {
                     })
                     .catch(() => {
                         return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '❌ Failed to add link, sorry.' })
+                    })
+            })
+            .catch(unauthenticatedHandler(rawMessage))
+    },
+    [CMD_SET_DEFAULT]: function (args, rawMessage) {
+        return tgutils.resolveUser(rawMessage.from)
+            .then((user) => {
+                User.updateOne({ _id: user._id }, { telegramDefaultCollId: parseInt(args[0]) })
+                    .then(() => {
+                        return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '✅ Set default collection.' })
+                    })
+            })
+            .catch(unauthenticatedHandler(rawMessage))
+    },
+    [CMD_CLEAR_DEFAULT]: function (args, rawMessage) {
+        return tgutils.resolveUser(rawMessage.from)
+            .then((user) => {
+                User.updateOne({ _id: user._id }, { $unset: { telegramDefaultCollId: '' } })
+                    .then(() => {
+                        return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '✅ Unset default collection.' })
                     })
             })
             .catch(unauthenticatedHandler(rawMessage))
