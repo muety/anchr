@@ -23,7 +23,8 @@ const userSchema = mongoose.Schema({
         name : String
     },
     verificationToken : String,
-    telegramUserId : String
+    telegramUserId : String,
+    telegramDefaultCollId : Number,
 }, {
     usePushEach: true
 })
