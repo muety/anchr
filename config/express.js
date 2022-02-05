@@ -1,4 +1,5 @@
 var express = require('express')
+  , config = require('./config')
   , authConfig = require('./auth')
   , cors = require('cors')
   , fs = require('fs')
@@ -66,10 +67,11 @@ module.exports = function (app, config) {
   });
 
   // Capabilites endpoint
-  app.get('/api/capabilities', function(req, res) {
+  app.get('/api/capabilities', function (req, res) {
     var capabilities = [];
     if (authConfig.with('facebookAuth')) capabilities.push('auth.facebook');
     if (authConfig.with('googleAuth')) capabilities.push('auth.google');
+    if (config.allowSignUp) capabilities.push('signup');
     res.set('Content-Type', 'text/plain');
     res.send(capabilities.join(','));
   });

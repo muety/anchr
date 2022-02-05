@@ -151,6 +151,7 @@ angular
         $http.get($rootScope.getApiUrl() + 'capabilities')
             .then(function (res) {
                 $rootScope.serverCapabilities = res.data.split(',');
+                $rootScope.signupEnabled = $rootScope.serverCapabilities.includes('signup')
                 $rootScope.loginProviders = $rootScope.serverCapabilities
                     .filter(function (c) {
                         return c.startsWith('auth.');

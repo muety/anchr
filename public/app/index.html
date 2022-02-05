@@ -69,14 +69,22 @@
                                     class="glyphicon glyphicon-menu-right"></i> API</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/#/" data-target="#modalSignup" data-toggle="modal" ng-if="!loggedIn()"><i
-                                    class="glyphicon glyphicon-new-window"></i> Sign Up</a></li>
-                        <li><a href="/#/" data-target="#modalLogin" data-toggle="modal" ng-if="!loggedIn()"><i
-                                    class="glyphicon glyphicon-log-in"></i> Log In</a></li>
-                        <li><a href="/#/" data-target="#modalSettings" data-toggle="modal" ng-if="loggedIn()"><i
-                                    class="glyphicon glyphicon-cog"></i> Settings</a></li>
-                        <li><a href="/#/" ng-if="loggedIn()" ng-click="logout()"><i
-                                    class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+                        <li ng-class="{ disabled: !signupEnabled }" title="{{ !signupEnabled ? 'Server does not allow user registration' : '' }}">
+                            <a href="/#/" data-target="#modalSignup" data-toggle="modal" ng-if="!loggedIn()"><i
+                                    class="glyphicon glyphicon-new-window"></i> Sign Up</a>
+                        </li>
+                        <li>
+                            <a href="/#/" data-target="#modalLogin" data-toggle="modal" ng-if="!loggedIn()"><i
+                                    class="glyphicon glyphicon-log-in"></i> Log In</a>
+                        </li>
+                        <li>
+                            <a href="/#/" data-target="#modalSettings" data-toggle="modal" ng-if="loggedIn()"><i
+                                    class="glyphicon glyphicon-cog"></i> Settings</a>
+                        </li>
+                        <li>
+                            <a href="/#/" ng-if="loggedIn()" ng-click="logout()"><i
+                                    class="glyphicon glyphicon-log-out"></i> Logout</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -97,7 +105,7 @@
                     </div>
                 </div>
 
-                <ng-include src="'views/signup.inc.html'" ng-controller="SignupCtrl" onload="init()"></ng-include>
+                <ng-include src="'views/signup.inc.html'" ng-controller="SignupCtrl" onload="init()" ng-if="signupEnabled"></ng-include>
                 <ng-include src="'views/login.inc.html'" ng-controller="LoginCtrl" onload="init()"></ng-include>
                 <ng-include src="'views/settings.inc.html'" ng-controller="SettingsCtrl" onload="init()"></ng-include>
 

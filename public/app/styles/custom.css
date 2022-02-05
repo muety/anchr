@@ -40,6 +40,10 @@ section {
     margin: 0 20px;
 }
 
+.disabled {
+    cursor: not-allowed;
+}
+
 .form-group {
     margin-bottom: 30px !important;
 }
