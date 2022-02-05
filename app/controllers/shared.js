@@ -35,7 +35,7 @@ module.exports = function (app) {
         if (!_id) return res.makeError(404, 'Not found. Please give an id.')
 
         Collection.findOne({ _id: _id, shared: 1 }, { links: 0 }, (err, obj) => {
-            if (err) return res.makeError(500, err.message, err)
+            if (err) return res.makeError(500, err?.message, err)
             if (!obj) return res.makeError(404, 'Collection not found or unauthorized.')
             res.send(obj.toObject())
         })

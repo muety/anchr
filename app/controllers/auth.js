@@ -50,7 +50,7 @@ module.exports = function (app, passport) {
      */
     router.post('/signup', checkSignup, (req, res, next) => {
         passport.authenticate('local-signup', (err, user) => {
-            if (err || !user) return res.makeError(400, err.message || 'Unknown error during signup.', err)
+            if (err || !user) return res.makeError(400, err?.message || 'Unknown error during signup.', err)
 
             if (!config.verifyUsers) {
                 return res.status(201).end()
@@ -67,7 +67,7 @@ module.exports = function (app, passport) {
                         res.makeError(500, 'Failed to send confirmation mail.')
                     })
             }, (err) => {
-                res.makeError(500, err.message)
+                res.makeError(500, err?.message || err)
             })
 
         })(req, res, next)
@@ -97,7 +97,7 @@ module.exports = function (app, passport) {
      */
     router.post('/token', (req, res, next) => {
         passport.authenticate('local-login', (err, user) => {
-            if (err || !user) return res.makeError(401, err.message || 'Unknown error during login.', err)
+            if (err || !user) return res.makeError(401, err?.message || 'Unknown error during login.', err)
 
             res.status(200).send({ token: user.jwtSerialize('local') })
             initUser(user)
@@ -181,7 +181,7 @@ module.exports = function (app, passport) {
 
         user.local.password = user.generateHash(req.body.new)
         user.save((err) => {
-            if (err) return res.makeError(500, err.message)
+            if (err) return res.makeError(500, err?.message || err)
             res.status(200).send({ token: user.jwtSerialize('local') })
         })
     })

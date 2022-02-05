@@ -44,7 +44,7 @@ module.exports = function (app, passport) {
             })
             .catch((err) => {
                 if (err.status) return res.makeError(err.status, (err.error.message || 'Unable get collections.'), err.error)
-                res.makeError(500, err.message || err)
+                res.makeError(500, err?.message || err)
             })
     })
 
@@ -82,7 +82,7 @@ module.exports = function (app, passport) {
             owner: req.user._id,
             shared: false,
         }).save((err, obj) => {
-            if (err || !obj) return res.makeError(500, err.message || 'Unable to save new collection.', err)
+            if (err || !obj) return res.makeError(500, err?.message || 'Unable to save new collection.', err)
             res.status(201).send(_.omit(obj.toObject(), '__v', 'created', 'modified'))
         })
     })
@@ -111,7 +111,7 @@ module.exports = function (app, passport) {
         if (!_id) return res.makeError(404, 'Not found. Please give an id.')
 
         Collection.findOne({ _id: _id, owner: req.user._id }, { links: 0 }, (err, obj) => {
-            if (err) return res.makeError(500, err.message, err)
+            if (err) return res.makeError(500, err?.message, err)
             if (!obj) return res.makeError(404, 'Collection not found or unauthorized.')
             res.send(obj.toObject())
         })
@@ -207,7 +207,7 @@ module.exports = function (app, passport) {
             })
             .catch((err) => {
                 if (err.status) return res.makeError(err.status, (err.error.message || 'Unable to save new link.'), err.error)
-                res.makeError(500, err.message || err)
+                res.makeError(500, err?.message || err)
             })
     })
 
@@ -241,7 +241,7 @@ module.exports = function (app, passport) {
                 runValidators: true
             },
             (err, obj) => {
-                if (err) return res.makeError(500, err.message || 'Unable to save new link.', err)
+                if (err) return res.makeError(500, err?.message || 'Unable to save new link.', err)
                 if (!obj || !obj.links.length) return res.makeError(404, 'Collection not found or unauthorized.')
                 return res.status(201).send(obj.links[0])
             }
@@ -270,7 +270,7 @@ module.exports = function (app, passport) {
         if (!_id) return res.makeError(404, 'Not found. Please give an id.')
 
         Collection.remove({ _id: _id, owner: req.user._id }, (err) => {
-            if (err) return res.makeError(500, err.message, err)
+            if (err) return res.makeError(500, err?.message, err)
             res.status(200).end()
         })
     })
@@ -302,7 +302,7 @@ module.exports = function (app, passport) {
             { _id: _id, owner: req.user._id },
             { $pull: { links: { _id: linkId } } },
             (err) => {
-                if (err) return res.makeError(500, err.message, err)
+                if (err) return res.makeError(500, err?.message, err)
                 return res.status(200).end()
             }
         )
@@ -337,7 +337,7 @@ module.exports = function (app, passport) {
             { _id: _id, owner: req.user._id },
             { __v: false, links: { $elemMatch: { _id: linkId } } },
             (err, obj) => {
-                if (err) return res.makeError(500, err.message, err)
+                if (err) return res.makeError(500, err?.message, err)
                 if (!obj || !obj.links.length) return res.makeError(404, 'Collection or link not found or unauthorized.')
                 return res.send(obj.links[0])
             }
@@ -381,7 +381,7 @@ module.exports = function (app, passport) {
             updateFields,
             { runValidators: true },
             (err, num) => {
-            if (err) return res.makeError(500, err.message, err)
+            if (err) return res.makeError(500, err?.message, err)
             if (!num || !num.modifiedCount) return res.makeError(404, 'Collection not found or unauthorized.')
             res.status(200).end()
         }

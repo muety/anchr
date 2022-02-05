@@ -45,15 +45,15 @@ module.exports = function (app, passport) {
         const asJson = req.get('accept') === 'application/json'
 
         Image.findOne({ _id: req.params.id }, { __v: false, ip: false, createdBy: false }, (err, obj) => {
-            if (err) return res.makeError(500, err.message, err)
-            if (!obj) return res.makeError(404, 'Image not found.')
+            if (err) return res.makeError(500, err?.message, err)
+            if (!obj) return res.makeError(404, `Image ${req.params.id} not found`)
 
             const image = _.omit(obj.toObject(), 'id')
             image.hrefProxied = config.imageProxyUrlTpl ? config.imageProxyUrlTpl.replace('{0}', image.href) : null
 
             const filePath = config.uploadDir + obj._id
             fs.exists(filePath, (exists) => {
-                if (!exists) return res.makeError(404, 'File not found.')
+                if (!exists) return res.makeError(404, `File ${obj._id} not found`)
                 if (asJson) res.send(image)
                 else res.sendFile(filePath)
             })
