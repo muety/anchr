@@ -1,5 +1,6 @@
 const config = require('../../config/config'),
     logger = require('../../config/log')(),
+    cron = require('node-cron'),
     _ = require('underscore')
 
 const BLACKLIST = [
@@ -30,7 +31,11 @@ class LinkCheckerService {
     }
 
     async initialize() {
-        this.checkers.forEach(async c => c.initialize())
+        await Promise.all(this.checkers.map(c => c.initialize()))
+        
+        cron.schedule(config.linkcheckUpdateCron, () => {
+            this.checkers.forEach(c => c.updateData())
+        })
     }
 
     // returns true (malicious) or false (safe) for each url

@@ -1,6 +1,6 @@
 {
     "name": "anchr-multi-webservice",
-    "version": "3.2.1",
+    "version": "3.3.0",
     "description": "⚓️ Anchr provides you with a toolbox for tiny tasks on the internet, especially bookmark collections",
     "private": true,
     "scripts": {
@@ -31,6 +31,7 @@
         "mime-types": "^2.1.34",
         "mongoose": "^6.0.12",
         "morgan": "^1.10.0",
+        "node-cron": "^3.0.0",
         "nodemailer": "^6.5.0",
         "passport": "0.4.1",
         "passport-facebook": "3.0.0",
