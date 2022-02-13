@@ -34,6 +34,13 @@
     call-me-maybe "^1.0.1"
     z-schema "^4.2.3"
 
+"@brigand/abp-filter-parser@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@brigand/abp-filter-parser/-/abp-filter-parser-0.3.2.tgz#787c1e4313ff9b476bece423ed59d7a5128c6edd"
+  integrity sha512-x4sBjkRZQxZ32tF22LOpVnd8gFdEZ+JFFaKkTe7b8LaF/pDY72tJi+m9Mtx4hhZ/4TwL3LB2xYTWetREuJFaUg==
+  dependencies:
+    bloom-filter-js "0.0.12"
+
 "@eslint/eslintrc@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-1.0.5.tgz#33f1b838dbf1f923bfa517e008362b78ddbbf318"
@@ -395,6 +402,11 @@ bintrees@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/bintrees/-/bintrees-1.0.1.tgz#0e655c9b9c2435eaab68bf4027226d2b55a34524"
   integrity sha1-DmVcm5wkNeqraL9AJyJtK1WjRSQ=
+
+bloom-filter-js@0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/bloom-filter-js/-/bloom-filter-js-0.0.12.tgz#89550f1b97af1bf5f2fba4048a647ebf3d35d11f"
+  integrity sha1-iVUPG5evG/Xy+6QEimR+vz010R8=
 
 body-parser@1.19.0:
   version "1.19.0"

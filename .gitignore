@@ -18,3 +18,4 @@ bower_components
 .yo-rc.json
 .sass-cache
 .env
+easylist-matches.json
