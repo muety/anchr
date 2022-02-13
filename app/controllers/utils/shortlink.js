@@ -2,24 +2,17 @@ const _ = require('underscore'),
     config = require('../../../config/config'),
     utils = require('../../../utils'),
     mongoose = require('mongoose'),
-    safeBrowseLookup = require('safe-browse-url-lookup'),
-    Shortlink = mongoose.model('Shortlink')
+    Shortlink = mongoose.model('Shortlink'),
+    LinkCheckerService = require('../../services/linkcheck')
 
-
-const blacklist = [/.*bit\.ly.*/gi, /.*goo\.gl.*/gi, /.*confirm.*/gi, /.*verif.*/gi, /.*account.*/gi, /.*secur.*/gi]
-
-const lookup = config.googleApiKey
-    ? safeBrowseLookup({ apiKey: config.googleApiKey, clientId: 'anchr.io' })
-    : { checkSingle: function () { return Promise.resolve(false) } }
+const checker = new LinkCheckerService()
+checker.initialize()  // not waiting for promise here
 
 function addShortlink(url, user) {
     return new Promise((resolve, reject) => {
-        for (let i = 0; i < blacklist.length; i++) {
-            if (blacklist[i].test(url)) return reject({ status: 400, error: 'The link you try to reference is not safe!' })
-        }
-
-        lookup.checkSingle(url)
-            .then(isMalicious => {
+        checker.check([url])
+            .then(result => {
+                const isMalicious = result[0]
                 if (isMalicious) return reject({ status: 400, error: 'The link you try to reference is not safe!' })
                 const shortlink = new Shortlink({
                     url: url,
