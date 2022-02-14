@@ -1,5 +1,7 @@
 const _ = require('underscore'),
+    cron = require('node-cron'),
     config = require('../../../config/config'),
+    logger = require('../../../config/log')(),
     utils = require('../../../utils'),
     mongoose = require('mongoose'),
     Shortlink = mongoose.model('Shortlink'),
@@ -31,6 +33,22 @@ function addShortlink(url, user) {
     })
 }
 
+function scheduleCleanup() {
+    async function runCleanup() {
+        logger.default('Running shortlink cleanup routine')
+        const shortlinks = await Shortlink.find({})
+        const checkResults = await checker.check(shortlinks.map(s => s.url))
+        const deleteIds = shortlinks
+            .filter((s, i) => !!checkResults[i])
+            .map(obj => obj._id)
+        const { deletedCount } = await Shortlink.deleteMany({ _id: { $in: deleteIds } })
+        logger.default(`Deleted ${deletedCount} potentially malicious shortlinks`)
+    }
+
+    cron.schedule(config.cron.shortlinkCleanup, runCleanup)
+}
+
 module.exports = {
-    addShortlink: addShortlink
+    addShortlink,
+    scheduleCleanup,
 }

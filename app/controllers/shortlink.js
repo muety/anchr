@@ -7,11 +7,13 @@ const express = require('express'),
     morgan = require('./../../config/middlewares/morgan')(),
     logger = require('./../../config/log')(),
     auth = require('./../../config/middlewares/auth'),
-    addShortlink = require('./utils/shortlink').addShortlink
+    { addShortlink, scheduleCleanup } = require('./utils/shortlink')
 
 if (!config.googleApiKey) {
     logger.default('[WARN] Disabling safe browse lookups for shortlinks as "ANCHR_GOOGLE_API_KEY" config variable is missing.')
 }
+
+scheduleCleanup()
 
 module.exports = function (app, passport) {
     app.use('/api/shortlink', router)

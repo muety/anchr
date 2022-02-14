@@ -12,28 +12,38 @@ const BLACKLIST = [
     /.*secur.*/gi
 ]
 
+// Singleton
 class LinkCheckerService {
     constructor() {
-        this.checkers = [
-            new (require('../../lib/urlcheck/ublock_badware'))({}),
-            new (require('../../lib/urlcheck/phishingarmy'))({}),
-            new (require('../../lib/urlcheck/openphish'))({}),
-            new (require('../../lib/urlcheck/simple_blacklist'))({}, BLACKLIST),
-        ]
+        if (!LinkCheckerService._instance) {
+            this.initialized = false
+            this.checkers = [
+                new (require('../../lib/urlcheck/ublock_badware'))({}),
+                //new (require('../../lib/urlcheck/phishingarmy'))({}), // disabled, because yields many false positives
+                new (require('../../lib/urlcheck/openphish'))({}),
+                new (require('../../lib/urlcheck/simple_blacklist'))({}, BLACKLIST),
+            ]
 
-        if (config.googleApiKey) {
-            this.checkers.push(
-                new (require('../../lib/urlcheck/safe_browsing'))({}, config.googleApiKey, 'anchr.io')
-            )
+            if (config.googleApiKey) {
+                this.checkers.push(
+                    new (require('../../lib/urlcheck/safe_browsing'))({}, config.googleApiKey, 'anchr.io')
+                )
+            }
+
+            logger.default(`Enabled link safety checking with ${this.checkers.length} checkers`)
+
+            LinkCheckerService._instance = this
         }
-
-        logger.default(`Enabled link safety checking with ${this.checkers.length} checkers`)
+        return LinkCheckerService._instance
     }
 
     async initialize() {
+        if (this.initialized) return
+        this.initialized = true
+
         await Promise.all(this.checkers.map(c => c.initialize()))
-        
-        cron.schedule(config.linkcheckUpdateCron, () => {
+
+        cron.schedule(config.cron.linkcheckUpdate, () => {
             this.checkers.forEach(c => c.updateData())
         })
     }
