@@ -51,7 +51,9 @@ module.exports = function (app, passport) {
                 const regex = new RegExp(`.*${req.params.id}$`, 'i')
                 Collection.findOneAndUpdate(
                     { name: config.shortlinkCollectionName, 'links.url': regex },
-                    { $inc: { 'links.$.hits': 1 } }
+                    { $inc: { 'links.$.hits': 1 } },
+                    {},
+                    err => !!err && logger.error(err)
                 )
 
                 return res.redirect(obj.url)
