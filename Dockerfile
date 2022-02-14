@@ -6,6 +6,7 @@ WORKDIR /app
 
 COPY app /app/app/
 COPY config /app/config/
+COPY lib /app/lib/
 COPY public /app/public/
 COPY *.js /app/
 COPY *.json /app/
