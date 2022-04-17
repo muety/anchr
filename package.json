@@ -1,6 +1,6 @@
 {
     "name": "anchr-multi-webservice",
-    "version": "3.3.0",
+    "version": "3.3.1",
     "description": "⚓️ Anchr provides you with a toolbox for tiny tasks on the internet, especially bookmark collections",
     "private": true,
     "scripts": {
@@ -8,7 +8,7 @@
         "start:frontend": "cd public && grunt serve",
         "production": "NODE_ENV=production node app.js",
         "build": "cd public && grunt build && cd ..",
-        "lint": "eslint --fix app/**"
+        "lint": "eslint --fix *.js app/**/*.js config/*.js config/**/*.js lib/**/*.js"
     },
     "engines": {
         "node": ">=12.0.0"
