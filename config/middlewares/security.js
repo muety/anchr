@@ -1,7 +1,7 @@
-var helmet = require('helmet')
+const helmet = require('helmet')
 
 module.exports = function () {
-    var helmetHandler = helmet({
+    const helmetHandler = helmet({
         hsts: false,
         expectCt: false,
         hidePoweredBy: false,
@@ -9,16 +9,16 @@ module.exports = function () {
             directives: Object.assign(
                 helmet.contentSecurityPolicy.getDefaultDirectives(),
                 {
-                    'script-src': ["'self'", "'unsafe-inline'"]
+                    'script-src': ['\'self\'', '\'unsafe-inline\'']
                 }
             )
         }
-    });
+    })
 
     return function (req, res, next) {
-        helmetHandler(req, res, function () {
+        helmetHandler(req, res, () => {
             // additional headers can be set header, for instance 'Report-To'
-            next();
-        });
-    };
-};
+            next()
+        })
+    }
+}

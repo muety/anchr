@@ -1,10 +1,10 @@
-var path = require('path'),
-    rootPath = path.normalize(__dirname + '/..'),
+const path = require('path'),
+    rootPath = path.normalize(`${__dirname}/..`),
     env = process.env.NODE_ENV || 'development',
-    _ = require('underscore');
+    _ = require('underscore')
 
 /* Specialized configs (development, test, production) will inherit and possibly override all properties from root */
-var config = {
+const config = {
     root: {
         publicUrl: 'http://localhost:3000/api',
         publicShortlinkUrl: 'http://localhost:3000/s',
@@ -17,7 +17,7 @@ var config = {
         port: parseInt(process.env.PORT) || 3000,
         addr: process.env.LISTEN_ADDR || 'localhost',
         db: mongoConnectionString(),
-        uploadDir: path.normalize((process.env.ANCHR_UPLOAD_DIR || '/var/data/anchr') + '/'),
+        uploadDir: path.normalize(`${process.env.ANCHR_UPLOAD_DIR || '/var/data/anchr'}/`),
         maxFileSize: 1000000 * 10,
         maxHtmlSizeKb: 1024,
         imageProxyUrlTpl: process.env.ANCHR_IMAGE_PROXY_URL_TPL,
@@ -64,14 +64,14 @@ var config = {
         publicImageUrl: 'https://anchr.io/i',
         clientUrl: 'https://anchr.io/#/'
     }
-};
+}
 
-var resolvedConfig = {};
-_.extend(resolvedConfig, config.root, config[env]);
+const resolvedConfig = {}
+_.extend(resolvedConfig, config.root, config[env])
 
 function mongoConnectionString() {
     if (process.env.ANCHR_DB_URL) return process.env.ANCHR_DB_URL
     return `mongodb://${process.env.ANCHR_DB_USER}:${process.env.ANCHR_DB_PASSWORD}@${process.env.ANCHR_DB_HOST}:${process.env.ANCHR_DB_PORT}/${process.env.ANCHR_DB_NAME}`
 }
 
-module.exports = resolvedConfig;
+module.exports = resolvedConfig

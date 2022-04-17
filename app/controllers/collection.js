@@ -381,10 +381,10 @@ module.exports = function (app, passport) {
             updateFields,
             { runValidators: true },
             (err, num) => {
-            if (err) return res.makeError(500, err?.message, err)
-            if (!num || !num.modifiedCount) return res.makeError(404, 'Collection not found or unauthorized.')
-            res.status(200).end()
-        }
+                if (err) return res.makeError(500, err?.message, err)
+                if (!num || !num.modifiedCount) return res.makeError(404, 'Collection not found or unauthorized.')
+                res.status(200).end()
+            }
         )
     })
 

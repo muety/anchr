@@ -1,12 +1,12 @@
-var swaggerJsdoc = require('swagger-jsdoc')
+const swaggerJsdoc = require('swagger-jsdoc')
     , config = require('./config')
-    , package = require('../package.json');
+    , package = require('../package.json')
 
 // Swagger 2.0 specification: https://swagger.io/docs/specification/2-0/basic-structure/
 
-var url = new URL(config.publicUrl)
+const url = new URL(config.publicUrl)
 
-var options = {
+const options = {
     definition: {
         info: {
             title: 'Anchr.io API',
@@ -21,7 +21,7 @@ var options = {
         ]
     },
     apis: ['./config/swagger/*.yml', './app/controllers/*.js'],
-};
+}
 
 module.exports = {
     specs: swaggerJsdoc(options)
