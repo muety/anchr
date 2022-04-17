@@ -4,7 +4,6 @@ var express = require('express')
   , cors = require('cors')
   , fs = require('fs')
   , bodyParser = require('body-parser')
-  , compress = require('compression')
   , methodOverride = require('method-override')
   , error = require('./middlewares/error')
   , security = require('./middlewares/security')
@@ -35,7 +34,6 @@ module.exports = function (app, config) {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(compress());
   app.use(error());
   app.use(security());
 
