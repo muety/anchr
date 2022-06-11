@@ -19,8 +19,8 @@ class LinkCheckerService {
             this.initialized = false
             this.checkers = [
                 new (require('../../lib/urlcheck/ublock_badware'))({}),
-                //new (require('../../lib/urlcheck/phishingarmy'))({}), // disabled, because yields many false positives
-                new (require('../../lib/urlcheck/openphish'))({}),
+                new (require('../../lib/urlcheck/phishingarmy'))({}),
+                // new (require('../../lib/urlcheck/openphish'))({}), // already contained in phishingarmy
                 new (require('../../lib/urlcheck/simple_blacklist'))({}, BLACKLIST),
             ]
 
