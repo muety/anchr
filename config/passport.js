@@ -9,6 +9,12 @@ const LocalStrategy = require('passport-local').Strategy
     , authConfig = require('./auth')
     , log = require('./log')()
 
+function postUserLogin(user) {
+    user.updateOne({ lastLoggedIn: new Date() })
+        .then(() => {})
+        .catch(console.error)
+}
+
 module.exports = function (passport) {
 
     passport.serializeUser((user, done) => {
@@ -72,6 +78,7 @@ module.exports = function (passport) {
 
             if (!user.validPassword(password)) return done({ message: 'Wrong password.' })
 
+            postUserLogin(user)  // async, don't wait
             return done(null, user)
         })
 
@@ -91,6 +98,7 @@ module.exports = function (passport) {
 
         User.findOne(query, (err, user) => {
             if (err || !user) return done(err || { message: 'Unable to authenticate.' }, false)
+            postUserLogin(user)  // async, don't wait
             done(null, user)
         })
     })))
@@ -109,6 +117,7 @@ module.exports = function (passport) {
                 password = (password || '').trim()
                 if (!user.validPassword(password)) return done({ message: 'Wrong password.' })
 
+                postUserLogin(user)  // async, don't wait
                 return done(null, user)
             })
         }))
@@ -131,7 +140,10 @@ module.exports = function (passport) {
             process.nextTick(() => {
                 User.findOne({ 'facebook.id': profile.id }, (err, user) => {
                     if (err) return done(err)
-                    if (user) return done(null, user)
+                    if (user) {
+                        postUserLogin(user)  // async, don't wait
+                        return done(null, user)
+                    }
                     else {
                         const newUser = new User({
                             created: Date.now()
@@ -168,8 +180,10 @@ module.exports = function (passport) {
             process.nextTick(() => {
                 User.findOne({ 'google.id': profile.id }, (err, user) => {
                     if (err) return done(err)
-
-                    if (user) return done(null, user)
+                    if (user) {
+                        postUserLogin(user)  // async, don't wait
+                        return done(null, user)
+                    }
                     else {
                         const newUser = new User({
                             created: Date.now()
