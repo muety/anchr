@@ -129,7 +129,8 @@ section {
 }
 
 .second-header {
-    height: 200px;
+    /*height: 200px;*/
+    height: 320px;
     width: 100%;
     background: #009688;
     border-top: 1px solid #eee;

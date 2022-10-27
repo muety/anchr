@@ -245,7 +245,7 @@ function initUser(user) {
 }
 
 function sendConfirmationMail(user) {
-    let text = 'Welcome to Anchr.io!\n\n'
+    let text = 'Welcome to Anchr!\n\n'
     text += 'Please confirm your e-mail address by clicking the following link:\n\n'
     text += `${config.publicUrl}/auth/verify?token=${user.verificationToken}\n\n`
     text += 'Thank you!'
@@ -253,7 +253,7 @@ function sendConfirmationMail(user) {
     return mail.send({
         from: config.mailSender,
         to: user.local.email,
-        subject: 'Confirm your Anchr.io account',
+        subject: 'Confirm your Anchr account',
         text: text
     }).then(() => {
         logger.default(`Successfully sent confirmation mail to ${user.local.email}`)

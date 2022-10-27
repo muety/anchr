@@ -48,11 +48,11 @@ const commandMatchers = {
         return args ? args.slice(1) : null
     },
     [CMD_ADD_LINK]: function (m) {
-        // "/add https://anchr.io Anchr" or
-        // "/add https://anchr.io" or
-        // "https://anchr.io Anchr" or
-        // "https://anchr.io" or
-        // "lorem ipsum https://anchr.io Anchr"
+        // "/add https://anchr.eu Anchr" or
+        // "/add https://anchr.eu" or
+        // "https://anchr.eu Anchr" or
+        // "https://anchr.eu" or
+        // "lorem ipsum https://anchr.eu Anchr"
         const args = m.text.match(/(?:^\/add\s)?(https?:\/\/[^\s]+)(?:\s(.+))?/)
         return args && utils.isURL(args[0]) ? args.slice(1) : null
     },
@@ -243,7 +243,7 @@ const commandProcessors = {
     [CMD_HELP]: function (args, rawMessage) {
         return tgutils.doRequest('sendMessage', {
             chat_id: rawMessage.chat.id,
-            text: '👋 Welcome! To get started, browse to https://anchr.io, go to Settings and get your token. Then, type `/start <YOUR TOKEN>` to authenticate.',
+            text: '👋 Welcome! To get started, browse to https://anchr.eu, go to Settings and get your token. Then, type `/start <YOUR TOKEN>` to authenticate.',
             parse_mode: 'Markdown',
             disable_web_page_preview: true
         })

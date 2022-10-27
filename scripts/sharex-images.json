@@ -3,7 +3,7 @@
     "Name": "Anchr (Images)",
     "DestinationType": "ImageUploader",
     "RequestMethod": "POST",
-    "RequestURL": "https://anchr.io/api/image",
+    "RequestURL": "https://anchr.eu/api/image",
     "Headers": {
       "Authorization": "Basic <YOUR_BASIC_AUTH_HASH>"
     },

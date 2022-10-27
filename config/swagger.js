@@ -9,7 +9,7 @@ const url = new URL(config.publicUrl)
 const options = {
     definition: {
         info: {
-            title: 'Anchr.io API',
+            title: 'Anchr API',
             version: package.version,
             description: package.description
         },

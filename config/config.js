@@ -35,7 +35,7 @@ const config = {
         basicAuth: process.env.ANCHR_BASIC_AUTH !== 'false',
         exposeMetrics: process.env.ANCHR_EXPOSE_METRICS === 'true',
         verifyUsers: process.env.ANCHR_VERIFY_USERS === 'true' || false,
-        mailSender: process.env.ANCHR_MAIL_SENDER || 'Anchr.io <noreply@anchr.io>',
+        mailSender: process.env.ANCHR_MAIL_SENDER || 'Anchr <noreply@anchr.eu>',
         telegram: {
             botToken: process.env.ANCHR_TELEGRAM_BOT_TOKEN || '',
             urlSecret: process.env.ANCHR_TELEGRAM_URL_SECRET || '',
@@ -59,10 +59,10 @@ const config = {
     },
     test: {},
     production: {
-        publicUrl: 'https://anchr.io/api',
-        publicShortlinkUrl: 'https://anchr.io/s',
-        publicImageUrl: 'https://anchr.io/i',
-        clientUrl: 'https://anchr.io/#/'
+        publicUrl: 'https://anchr.eu/api',
+        publicShortlinkUrl: 'https://anchr.eu/s',
+        publicImageUrl: 'https://anchr.eu/i',
+        clientUrl: 'https://anchr.eu/#/'
     }
 }
 

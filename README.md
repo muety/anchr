@@ -18,7 +18,7 @@
 * Encrypted images uploads, using [CryptoJS](https://www.npmjs.com/package/crypto-js)
 * Malicious link checking, using [Safe Browsing API](https://developers.google.com/safe-browsing/)
 * Self-hosted and open-source
-* Hosted, GDPR-compliant service at [Anchr.io](https://anchr.io)
+* Hosted, GDPR-compliant service at [Anchr.eu](https://anchr.eu)
 * Official [Android app](https://github.com/muety/anchr-android)
 * Chrome and Firefox [browser extension](webext)
 * [Prometheus](https://prometheus.io) metrics
@@ -65,7 +65,7 @@ In order to host Anchr on your own, you need a few things.
     * `ANCHR_VERIFY_USERS`: Whether require new users to activate their accounts with an e-mail link (requires mailing) (default: `true`)
     * `ANCHR_BASIC_AUTH`: Whether to allow authenticating using [HTTP Basic Auth](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes) (default: `true`)
     * `ANCHR_EXPOSE_METRICS`: Whether to expose [Prometheus](https://prometheus.io) metrics under the public `/api/metrics` endpoint (default: `false`)
-    * `ANCHR_MAIL_SENDER`: Sender address in mails from Anchr.io (default: `Anchr.io <noreply@anchr.io>`)
+    * `ANCHR_MAIL_SENDER`: Sender address in mails from Anchr (default: `Anchr <noreply@anchr.eu>`)
     * `ANCHR_SMTP_HOST`: SMTP server host for sending mails (leave empty to disable mailing)
     * `ANCHR_SMTP_PORT`: SMTP server port (default: `587`)
     * `ANCHR_SMTP_TLS`: Whether to establish a TLS connection with the SMTP server (not to be confused with STARTTLS) (default: `false`)

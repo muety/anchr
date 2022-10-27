@@ -1,2 +1,2 @@
 /setdescription
-Official bot for https://anchr.io. Supports adding bookmarks to collections, shortening links and uploading images. Terms of service at https://anchr.io/#/terms.
+Official bot for https://anchr.eu. Supports adding bookmarks to collections, shortening links and uploading images. Terms of service at https://anchr.eu/#/terms.

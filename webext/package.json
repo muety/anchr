@@ -1,7 +1,7 @@
 {
   "name": "anchr-webext",
   "version": "1.4.0",
-  "description": "Browser extension to save bookmarks to Anchr.io, compatible with Firefox and Chromium",
+  "description": "Browser extension to save bookmarks to Anchr, compatible with Firefox and Chromium",
   "main": "src/app.js",
   "scripts": {
     "dev": "node_modules/.bin/web-ext run",
