@@ -12,6 +12,15 @@
     <a href="https://liberapay.com/muety/" target="_blank"><img src="http://badges.fw-web.space/liberapay/receives/muety.svg?logo=liberapay&style=flat-square"></a>
 </p>
 
+## 👉👉👉 Rebranding 👈👈👈
+* [x] Deprecation notice
+* [x] Replace all references in Anchr itself
+* [ ] Set up redirection
+* [ ] Update web extensionin Firefox / Chrome stores
+* [ ] Update names in Android app
+* [ ] Update API URLs in Android app
+* [ ] Update API URLs for Telegram bot?
+ 
 ## 🚀 Features
 * Link shortener
 * Searchable bookmarks collections
