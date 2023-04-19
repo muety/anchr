@@ -1,6 +1,6 @@
 {
     "name": "anchr-multi-webservice",
-    "version": "3.3.5",
+    "version": "3.3.6",
     "description": "⚓️ Anchr provides you with a toolbox for tiny tasks on the internet, especially bookmark collections",
     "private": true,
     "scripts": {
@@ -11,46 +11,46 @@
         "lint": "eslint --fix *.js app/**/*.js config/*.js config/**/*.js lib/**/*.js"
     },
     "engines": {
-        "node": ">=12.0.0"
+        "node": ">=18.0.0"
     },
     "dependencies": {
         "@brigand/abp-filter-parser": "^0.3.2",
         "axios": "^0.21.4",
-        "bcrypt": "^5.0.1",
-        "body-parser": "^1.19.0",
+        "bcrypt": "^5.1.0",
+        "body-parser": "^1.20.2",
         "connect-multiparty": "^2.2.0",
         "cors": "^2.8.5",
         "du": "^1.0.0",
-        "express": "4.17.1",
-        "helmet": "^4.4.1",
+        "express": "^4.18.2",
+        "helmet": "^4.6.0",
         "htmlparser2": "^4.1.0",
         "jsonwebtoken": "^8.5.1",
         "memory-cache": "^0.2.0",
         "method-override": "^3.0.0",
-        "mime-types": "^2.1.34",
-        "mongoose": "^6.0.12",
+        "mime-types": "^2.1.35",
+        "mongoose": "^6.10.5",
         "morgan": "^1.10.0",
-        "node-cron": "^3.0.0",
-        "nodemailer": "^6.5.0",
+        "node-cron": "^3.0.2",
+        "nodemailer": "^6.9.1",
         "passport": "^0.4.1",
         "passport-facebook": "^3.0.0",
         "passport-google-oauth": "^2.0.0",
         "passport-http": "^0.3.0",
-        "passport-jwt": "^4.0.0",
+        "passport-jwt": "^4.0.1",
         "passport-local": "^1.0.0",
-        "prom-client": "https://github.com/siimon/prom-client#14.0.1",
+        "prom-client": "github:siimon/prom-client#v14.2.0",
         "safe-browse-url-lookup": "0.1.1",
-        "swagger-jsdoc": "^4.0.0",
-        "swagger-ui-express": "^4.1.4",
-        "underscore": "^1.12.1"
+        "swagger-jsdoc": "^4.3.2",
+        "swagger-ui-express": "^4.6.2",
+        "underscore": "^1.13.6"
     },
     "devDependencies": {
         "autoprefixer-core": "6.0.1",
-        "bower": "^1.8.8",
-        "eslint": "^8.6.0",
-        "grunt": "1.1.0",
+        "bower": "^1.8.14",
+        "eslint": "^8.38.0",
+        "grunt": "^1.6.1",
         "grunt-angular-templates": "^1.2.0",
-        "grunt-cli": "^1.3.2",
+        "grunt-cli": "^1.4.3",
         "grunt-concurrent": "3.0.0",
         "grunt-connect-proxy": "0.2.0",
         "grunt-contrib-clean": "2.0.0",
@@ -86,5 +86,13 @@
         "grunt-wiredep/**/minimist": "1.2.5",
         "grunt-ng-annotate/**/minimist": "1.2.5",
         "multiparty": "4.2.2"
+    },
+    "overrides": {
+        "grunt-connect-proxy": {
+            "grunt": "^1.6.1"
+        },
+        "grunt-execute": {
+            "grunt": "^1.6.1"
+        }
     }
 }

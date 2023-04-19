@@ -40,7 +40,7 @@ Anchr’s focus is on ease and quickness of use – short loading times, flat me
 ## 📡 How to run?
 ### Prerequisites
 In order to host Anchr on your own, you need a few things.
-* Node.js 16.x
+* Node.js >= 18.x
 * A MongoDB 3.4 database (you can use [mlab.com](http://mlab.com) to get a free, hosted MongoDB)
 * Optionally, but recommended: A webserver as a reverse proxy (e.g. nginx) to enable compression and SSL encryption
 
