@@ -6,7 +6,7 @@
                 <h3 class="modal-title text-primary">Settings</h3>
             </div>
             <div class="modal-body">
-                <section id="changePasswordSection" ng-if="data.authStrategy == 'local'" style="margin-top: -20px;">
+                <section id="changePasswordSection" ng-if="data.authStrategy == 'local'" style="margin-top: -20px; overflow: auto;">
                     <h4 class="text-primary">Change Password</h4>
                     <form role="form" name="changePasswordForm" ng-submit="updatePassword()" novalidate>
                         <div class="form-group">
@@ -28,12 +28,12 @@
                         </div>
                     </form>
                 </section>
-                <section id="telegramBotSection">
+                <section id="telegramBotSection" style="overflow: auto;">
                     <h4 class="text-primary">Telegram Bot Integration</h4>
                     <p>Anchr integrates with Telegram through the official <a href="https://t.me/AnchrBot" target="_blank">@AnchrBot</a>. It allows you to add and shorten links and upload images right from your favorite messaging app. To get started, create a code below and send a message with <code>/start 123456</code> (for example) to the bot.</p>
                     <button type="button" class="btn btn-primary" ng-click="getOtp()">Generate Code</button>
                 </section>
-                <section id="deleteAccountSection">
+                <section id="deleteAccountSection" style="overflow: auto;">
                     <h4 class="text-primary">Delete Account</h4>
                     <p>You can delete your account and all related data stored in Anchr. But be careful as his action is irreversible. If you hit the big, red button below, there is no turning back.</p>
                     <button ng-if="!data.deleting" ng-click="data.deleting = true" class="btn btn-raised btn-danger"><i class="glyphicon glyphicon-trash"></i> &nbsp;Delete Account</button>

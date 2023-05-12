@@ -11,8 +11,8 @@
         <input type="url" id="shortlinkLinkInput" name="linkInput" class="form-control" ng-model="data.linkInput"
           ng-disabled="data.loading" my-enter="createShortlink(data.linkInput)">
       </form>
-      <p class="help-block">Paste a link which you want to be shortened.</p>
-      <span class="input-group-btn">
+      <p class="help-block" style="margin-top: -25px; margin-left: 5px;">Paste a link which you want to be shortened.</p>
+        <span class="input-group-btn">
         <button type="button" class="btn btn-fab btn-fab-mini btn-primary" id="linkShortenButton"
           ng-disabled="!linkInputForm.linkInput.$valid || stringEmpty(data.linkInput) || data.loading"
           ng-click="createShortlink(data.linkInput)">

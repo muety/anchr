@@ -305,3 +305,24 @@ td h4 {
 .pager span {
     flex-grow: 1;
 }
+
+.btn-fab-mini {
+    border-radius: 100% !important;
+}
+
+.p-0 {
+    padding: 0;
+}
+
+.m-0 {
+    margin: 0;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}

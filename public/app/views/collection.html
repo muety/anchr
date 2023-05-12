@@ -39,12 +39,12 @@
 
         <div class="col-md-9">
 
-            <div class="row" ng-if="!data.active">
+            <div class="row m-0" ng-if="!data.active">
                 <div class="alert alert-dismissible alert-success">
                     Sorry, you have no collections.
                 </div>
             </div>
-            <div class="row" ng-if="data.active">
+            <div class="row m-0" ng-if="data.active">
 
                 <div class="form-group label-floating" style="margin-top: 15px;"
                     ng-if="getCollection(data.active).shared">
@@ -67,9 +67,9 @@
                 <h4 class="text-primary">Add new link</h4>
                 <form name="linkInputForm">
                     <div class="form-group">
-                        <div class="input-group">
+                        <div class="input-group w-full">
                             <label for="collectionLinkInput" class="col-md-2 control-label">Link</label>
-                            <div class="col-md-10">
+                            <div class="col-md-10" style="padding-right: 47px;">
                                 <input type="url" name="linkInput" class="form-control" id="collectionLinkInput"
                                     placeholder="Paste a link here" ng-model="data.linkInput"
                                     ng-change="onLinkChanged()"
@@ -80,9 +80,9 @@
                     </div>
 
                     <div class="form-group" style="margin-top: -20px">
-                        <div class="input-group">
+                        <div class="input-group w-full">
                             <label for="descriptionInput" class="col-md-2 control-label">Description</label>
-                            <div class="col-md-10" style="padding-left: 25px">
+                            <div class="col-md-10" style="padding-left: 20px">
                                 <input type="text" name="descriptionInput" class="form-control" id="descriptionInput"
                                     placeholder="{{ data.loading ? 'Loading ...' : 'Describe your link' }}" ng-model="data.descriptionInput"
                                     my-enter="saveLink(data.active, data.linkInput, data.descriptionInput)">
@@ -100,7 +100,7 @@
                 </form>
             </div>
 
-            <div class="row">
+            <div class="row m-0">
                 <div class="row">
                     <div class="col-md-8">
                         <h4 class="text-primary flex items-center">
