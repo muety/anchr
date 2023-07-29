@@ -30,14 +30,11 @@ function downloadFile(fileId) {
 }
 
 function resolveUser(telegramUser) {
-    return new Promise((resolve, reject) => {
-        User.findOne({ 'telegramUserId': telegramUser.id.toString() }, (err, user) => {
-            if (err) return reject(err)
-            if (!user) return reject('User not found.')
-            resolve(user)
+    return User.findOne({ 'telegramUserId': telegramUser.id.toString() })
+        .then(user => {
+            if (!user) throw new Error('User not found.')
+            return user
         })
-    })
-
 }
 
 module.exports = {

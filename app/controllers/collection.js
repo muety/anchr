@@ -81,10 +81,14 @@ module.exports = function (app, passport) {
             links: [],
             owner: req.user._id,
             shared: false,
-        }).save((err, obj) => {
-            if (err || !obj) return res.makeError(500, err?.message || 'Unable to save new collection.', err)
-            res.status(201).send(_.omit(obj.toObject(), '__v', 'created', 'modified'))
-        })
+        }).save()
+            .then((obj) => {
+                if (!obj) return res.makeError(500, 'Unable to save new collection.')
+                res.status(201).send(_.omit(obj.toObject(), '__v', 'created', 'modified'))
+            })
+            .catch((err) => {
+                res.makeError(500, 'Unable to save new collection.', err)
+            })
     })
 
     /**
@@ -110,11 +114,12 @@ module.exports = function (app, passport) {
         const _id = req.params.id
         if (!_id) return res.makeError(404, 'Not found. Please give an id.')
 
-        Collection.findOne({ _id: _id, owner: req.user._id }, { links: 0 }, (err, obj) => {
-            if (err) return res.makeError(500, err?.message, err)
-            if (!obj) return res.makeError(404, 'Collection not found or unauthorized.')
-            res.send(obj.toObject())
-        })
+        Collection.findOne({ _id: _id, owner: req.user._id }, { links: 0 })
+            .then(obj => {
+                if (!obj) return res.makeError(404, 'Collection not found or unauthorized.')
+                res.send(obj.toObject())
+            })
+            .catch(err => res.makeError(500, err?.message, err))
     })
 
     /**
@@ -239,13 +244,12 @@ module.exports = function (app, passport) {
                     links: { $elemMatch: { date: link.date } },
                 },
                 runValidators: true
-            },
-            (err, obj) => {
-                if (err) return res.makeError(500, err?.message || 'Unable to save new link.', err)
+            })
+            .then(obj => {
                 if (!obj || !obj.links.length) return res.makeError(404, 'Collection not found or unauthorized.')
-                return res.status(201).send(obj.links[0])
-            }
-        )
+                res.status(201).send(obj.links[0])
+            })
+            .catch(err => res.makeError(500, err?.message || 'Unable to save new link.', err))
     })
 
     /**
@@ -269,10 +273,9 @@ module.exports = function (app, passport) {
         const _id = req.params.id
         if (!_id) return res.makeError(404, 'Not found. Please give an id.')
 
-        Collection.remove({ _id: _id, owner: req.user._id }, (err) => {
-            if (err) return res.makeError(500, err?.message, err)
-            res.status(200).end()
-        })
+        Collection.deleteOne({ _id: _id, owner: req.user._id })
+            .then(() => res.status(200).end())
+            .catch((err) => res.makeError(500, err?.message, err))
     })
 
     /**
@@ -300,34 +303,31 @@ module.exports = function (app, passport) {
 
         Collection.updateOne(
             { _id: _id, owner: req.user._id },
-            { $pull: { links: { _id: linkId } } },
-            (err) => {
-                if (err) return res.makeError(500, err?.message, err)
-                return res.status(200).end()
-            }
-        )
+            { $pull: { links: { _id: linkId } } })
+            .then(() => res.status(200).end())
+            .catch(err => res.makeError(500, err?.message, err))
     })
 
     /**
-   * @swagger
-   * /collection/{id}/links/{linkId}:
-   *    get:
-   *      summary: Get details about a link in a collection
-   *      tags:
-   *        - collection
-   *      security:
-   *        - ApiKeyAuth: []
-   *      parameters:
-   *        - $ref: '#/parameters/collectionId'
-   *        - $ref: '#/parameters/linkId'
-   *      produces:
-   *        - application/json
-   *      responses:
-   *          200:
-   *            description: Details about the requested link
-   *            schema:
-   *              $ref: '#/definitions/Link'
-   */
+    * @swagger
+    * /collection/{id}/links/{linkId}:
+    *    get:
+    *      summary: Get details about a link in a collection
+    *      tags:
+    *        - collection
+    *      security:
+    *        - ApiKeyAuth: []
+    *      parameters:
+    *        - $ref: '#/parameters/collectionId'
+    *        - $ref: '#/parameters/linkId'
+    *      produces:
+    *        - application/json
+    *      responses:
+    *          200:
+    *            description: Details about the requested link
+    *            schema:
+    *              $ref: '#/definitions/Link'
+    */
     router.get('/:id/links/:linkId', (req, res) => {
         const _id = req.params.id,
             linkId = req.params.linkId
@@ -335,35 +335,34 @@ module.exports = function (app, passport) {
 
         Collection.findOne(
             { _id: _id, owner: req.user._id },
-            { __v: false, links: { $elemMatch: { _id: linkId } } },
-            (err, obj) => {
-                if (err) return res.makeError(500, err?.message, err)
+            { __v: false, links: { $elemMatch: { _id: linkId } } })
+            .then(obj => {
                 if (!obj || !obj.links.length) return res.makeError(404, 'Collection or link not found or unauthorized.')
-                return res.send(obj.links[0])
-            }
-        )
+                res.send(obj.links[0])
+            })
+            .catch(err => res.makeError(500, err?.message, err))
     })
 
     /**
-   * @swagger
-   * /collection/{id}:
-   *    patch:
-   *      summary: Incrementally update details of a given collection
-   *      tags:
-   *        - collection
-   *      security:
-   *        - ApiKeyAuth: []
-   *      parameters:
-   *        - $ref: '#/parameters/collectionId'
-   *        - $ref: '#/parameters/collectionDetails'
-   *      consumes:
-   *        - application/json
-   *      produces:
-   *        - application/json
-   *      responses:
-   *          200:
-   *            description: Successful
-   */
+    * @swagger
+    * /collection/{id}:
+    *    patch:
+    *      summary: Incrementally update details of a given collection
+    *      tags:
+    *        - collection
+    *      security:
+    *        - ApiKeyAuth: []
+    *      parameters:
+    *        - $ref: '#/parameters/collectionId'
+    *        - $ref: '#/parameters/collectionDetails'
+    *      consumes:
+    *        - application/json
+    *      produces:
+    *        - application/json
+    *      responses:
+    *          200:
+    *            description: Successful
+    */
     router.patch('/:id', (req, res) => {
         const _id = req.params.id
         if (!_id) return res.makeError(404, 'Not found. Please give an id.')
@@ -379,13 +378,12 @@ module.exports = function (app, passport) {
         Collection.updateOne(
             { _id: _id, owner: req.user._id },
             updateFields,
-            { runValidators: true },
-            (err, num) => {
-                if (err) return res.makeError(500, err?.message, err)
+            { runValidators: true })
+            .then(num => {
                 if (!num || !num.modifiedCount) return res.makeError(404, 'Collection not found or unauthorized.')
                 res.status(200).end()
-            }
-        )
+            })
+            .catch(err => res.makeError(500, err?.message, err))
     })
 
     router.delete('/', (req, res) => {

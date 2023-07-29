@@ -5,23 +5,21 @@ const express = require('express')
     , log = require('./config/log')()
 
 function connect(success, error) {
-    function onConnectFailed() {
-        setTimeout(() => {
-            error()
-        }, 0)
+    function onConnectFailed(err) {
+        setTimeout(() => { error() }, 0)
         throw new Error(`unable to connect to database at ${config.db}`)
     }
 
     log.default('Attempting to connect to database ...')
+    mongoose.set('strictQuery', true)
     mongoose.connect(config.db, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
         connectTimeoutMS: 3000,
         serverSelectionTimeoutMS: 9000,
-    }, (err) => {
-        if (err) return onConnectFailed()
-        else log.default('Successfully established database connection.')
     })
+    .then(() => {
+        log.default('Successfully established database connection.')
+    })
+    .catch(onConnectFailed)
 
     const db = mongoose.connection
     db.on('error', onConnectFailed)

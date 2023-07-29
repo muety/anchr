@@ -4,15 +4,13 @@ const mongoose = require('mongoose'),
     _ = require('underscore')
 
 function fetchCollections(user) {
-    return new Promise((resolve, reject) => {
-        Collection.find({ owner: user._id }, '_id name shared', (err, result) => {
-            if (err) return reject({ status: 500, error: err })
-            resolve({ status: 200, data: result })
-        })
-    })
+    return Collection.find({ owner: user._id }, '_id name shared')
+        .then(result => ({ status: 200, data: result }))
+        .catch(err => ({ status: 500, error: err }))
 }
 
 function addLink(link, collectionId, user) {
+    // TODO: promise-ception?!
     return new Promise((resolve, reject) => {
         Collection.findOneAndUpdate(
             {
@@ -30,13 +28,12 @@ function addLink(link, collectionId, user) {
                     links: { $elemMatch: { date: link.date } },
                 },
                 runValidators: true
-            },
-            (err, obj) => {
-                if (err) return reject({ status: 500, error: err })
+            })
+            .then(obj => {
                 if (!obj || !obj.links.length) return reject({ status: 404, error: 'Collection not found or unauthorized.' })
                 resolve({ status: 201, data: obj.links[0] })
-            }
-        )
+            })
+            .catch(err => reject({ status: 500, error: err }))
     })
 }
 
@@ -71,16 +68,22 @@ function fetchLinks(filter, q, pageSize, page, cb) {
             { $match: filters },
             { $group: { _id: null, links: { $push: '$links' } } },
             { $project: projection },
-        ], (err, obj) => {
-            if (err || !obj) {
+        ])
+            .then(obj => {
+                if (!obj) {
+                    const err = new Error('Collection aggregation failed')
+                    cb(err, null)
+                    return reject(err)
+                }
+                let links = obj.length ? obj[0].links : []
+                links = links.map(link => ({ ...link, description: link.description || '' }))
+                cb(null, links)
+                return resolve(links)
+            })
+            .catch(err => {
                 cb(err, null)
-                return reject(err)
-            }
-            let links = obj.length ? obj[0].links : []
-            links = links.map(link => ({ ...link, description: link.description || '' }))
-            cb(err, links)
-            return resolve(links)
-        })
+                reject(err)
+            })
     })
 }
 
@@ -103,15 +106,20 @@ function countLinks(id, q, cb) {
             { $match: filters },
             { $group: { _id: null, links: { $push: '$links' } } },
             { $project: { totalLinks: { $size: '$links' } } }
-        ], (err, obj) => {
-            if (err || !obj || !obj.length) {
-                const errMessage = err || 'failed to count links'
-                reject(errMessage)
-                return cb(errMessage)
-            }
-            resolve(obj[0].totalLinks)
-            return cb(err, obj[0].totalLinks)
-        })
+        ])
+            .then(obj => {
+                if (!obj || !obj.length) {
+                    const err = new Error('failed to count links')
+                    reject(err)
+                    return cb(err)
+                }
+                resolve(obj[0].totalLinks)
+                return cb(err, obj[0].totalLinks)
+            })
+            .catch(err => {
+                reject(err)
+                return cb(err)
+            })
     })
 }
 

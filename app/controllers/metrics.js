@@ -121,32 +121,30 @@ function count(type, select, cb) {
     let model = null
 
     switch (type) {
-    case 'user':
-        model = User
-        break
-    case 'collection':
-        model = Collection
-        break
-    case 'shortlink':
-        model = Shortlink
-        break
-    case 'image':
-        model = Image
-        break
+        case 'user':
+            model = User
+            break
+        case 'collection':
+            model = Collection
+            break
+        case 'shortlink':
+            model = Shortlink
+            break
+        case 'image':
+            model = Image
+            break
     }
 
-    model.countDocuments(select || {}, (err, count) => {
-        cb(err ? -1 : count)
-    })
+    model.countDocuments(select || {}).then(cb).catch(err => cb(-1))
 }
 
 function countLinks(cb) {
     Collection.aggregate([
         { $match: {} },
         { $group: { _id: null, total: { $sum: { $size: '$links' } } } }
-    ], (err, data) => {
-        cb(err ? -1 : data[0].total)
-    })
+    ])
+        .then(data => cb(data[0].total))
+        .catch(err => cb(-1))
 }
 
 module.exports = function (app) {

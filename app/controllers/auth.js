@@ -20,7 +20,7 @@ function checkSignup(req, res, next) {
 }
 
 // Set up mailing
-const mail = function() {
+const mail = function () {
     if (config.smtp.host) return mailService('smtp', config.smtp)
     if (config.mailwhale.clientId) return mailService('mailwhale', config.mailwhale)
     return mailService() // noop mail service
@@ -57,18 +57,20 @@ module.exports = function (app, passport) {
             }
 
             user.generateToken()
-            user.save(() => {
-                sendConfirmationMail(user)
-                    .then(() => {
-                        res.status(201).end()
-                    })
-                    .catch((err) => {
-                        logger.error(`Failed to send confirmation mail to user ${user.local.email} - ${err}`)
-                        res.makeError(500, 'Failed to send confirmation mail.')
-                    })
-            }, (err) => {
-                res.makeError(500, err?.message || err)
-            })
+            user.save()
+                .then(() => {
+                    sendConfirmationMail(user)
+                        .then(() => {
+                            res.status(201).end()
+                        })
+                        .catch((err) => {
+                            logger.error(`Failed to send confirmation mail to user ${user.local.email} - ${err}`)
+                            res.makeError(500, 'Failed to send confirmation mail.')
+                        })
+                })
+                .catch((err) => {
+                    res.makeError(500, err?.message || err)
+                })
 
         })(req, res, next)
     })
@@ -180,7 +182,7 @@ module.exports = function (app, passport) {
         if (!user.validPassword(req.body.old)) return res.makeError(401, 'Password wrong.')
 
         user.local.password = user.generateHash(req.body.new)
-        user.save((err) => {
+        user.save().catch((err) => {
             if (err) return res.makeError(500, err?.message || err)
             res.status(200).send({ token: user.jwtSerialize('local') })
         })
@@ -189,16 +191,20 @@ module.exports = function (app, passport) {
     router.get('/verify', (req, res) => {
         if (!req.query.token) return res.makeError(400, 'Missing token.')
 
-        User.findOne({ verificationToken: req.query.token }, (err, user) => {
-            if (err || !user) return res.makeError(401, 'Invalid token.')
-            user.verificationToken = null
-            user.save(() => {
-                res.redirect(config.clientUrl)
-            }, (err) => {
-                logger.error(`Failed to activate user by token ${req.query.token} - ${err}`)
-                res.makeError(500, 'Failed to activate user')
+        User.findOne({ verificationToken: req.query.token })
+            .then(user => {
+                if (!user) throw new Error('failed to find user')
+                user.verificationToken = null
+                return user.save
+                    .then(() => {
+                        res.redirect(config.clientUrl)
+                    })
+                    .catch((err) => {
+                        logger.error(`Failed to activate user by token ${req.query.token} - ${err}`)
+                        res.makeError(500, 'Failed to activate user')
+                    })
             })
-        })
+            .catch(err => res.makeError(401, 'Invalid token.'))
     })
 
     if (authConfig.with('facebookAuth')) {
@@ -229,19 +235,19 @@ module.exports = function (app, passport) {
 }
 
 function initUser(user) {
-    Collection.findOne({ name: config.shortlinkCollectionName, owner: user._id }, (err, result) => {
-        if (err) return logger.error(`Failed to init user - ${err}`)
-        if (result) return true
-        else {
-            new Collection({
-                _id: utils.generateUUID(),
-                name: config.shortlinkCollectionName,
-                links: [],
-                owner: user._id,
-                shared: false
-            }).save()
-        }
-    })
+    Collection.findOne({ name: config.shortlinkCollectionName, owner: user._id })
+        .then(result => {
+            if (!result) {
+                return new Collection({
+                    _id: utils.generateUUID(),
+                    name: config.shortlinkCollectionName,
+                    links: [],
+                    owner: user._id,
+                    shared: false
+                }).save()
+            }
+        })
+        .catch(err => logger.error(`Failed to init user - ${err}`))
 }
 
 function sendConfirmationMail(user) {
@@ -266,29 +272,27 @@ function deleteUserInBackground(user) {
         if (err) return logger.error(`Failed to delete user "${user._id}" – ${err}`)
         logger.default(`Deleted user ${user._id}`)
 
-        Collection.deleteMany({ owner: user._id }, (err) => {
-            if (err) return logger.error(`Failed to delete collections user "${user._id}" – ${err}`)
-            logger.default(`Deleted collections of user ${user._id}`)
-        })
+        Collection.deleteMany({ owner: user._id })
+            .then(() => logger.default(`Deleted collections of user ${user._id}`))
+            .catch(err => logger.error(`Failed to delete collections user "${user._id}" – ${err}`))
 
-        Shortlink.deleteMany({ createdBy: user._id }, (err) => {
-            if (err) return logger.error(`Failed to delete shortlinks user "${user._id}" – ${err}`)
-            logger.default(`Deleted shortlinks of user ${user._id}`)
-        })
+        Shortlink.deleteMany({ createdBy: user._id })
+            .then(() => logger.default(`Deleted shortlinks of user ${user._id}`))
+            .catch(err => logger.error(`Failed to delete shortlinks user "${user._id}" – ${err}`))
 
-        Image.find({ createdBy: user._id }, (err, results) => {
-            if (err) return logger.error(`Failed to fetch images user "${user._id}" – ${err}`)
-            results.forEach((file) => {
-                const filePath = config.uploadDir + file._id
-                fs.unlink(filePath, (err) => {
-                    if (err) logger.error(`Failed to unlink file ${filePath}`)
+        Image.find({ createdBy: user._id })
+            .then(results => {
+                results.forEach((file) => {
+                    const filePath = config.uploadDir + file._id
+                    fs.unlink(filePath, (err) => {
+                        if (err) logger.error(`Failed to unlink file ${filePath}`)
+                    })
                 })
-            })
 
-            Image.deleteMany({ createdBy: user._id }, (err) => {
-                if (err) return logger.error(`Failed to delete images user "${user._id}" – ${err}`)
-                logger.default(`Deleted images of user ${user._id}`)
+                return Image.deleteMany({ createdBy: user._id })
+                    .then(() => logger.default(`Deleted images of user ${user._id}`))
+                    .catch(err => logger.error(`Failed to delete images user "${user._id}" – ${err}`))
             })
-        })
+            .catch(err => logger.error(`Failed to fetch images user "${user._id}" – ${err}`))
     })
 }

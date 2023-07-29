@@ -43,24 +43,24 @@ module.exports = function (app, passport) {
     router.get('/:id', (req, res) => {
         const asJson = req.get('accept') === 'application/json'
 
-        Shortlink.findOne({ _id: req.params.id }, { __v: false, id: false, createdBy: false, created: false }, (err, obj) => {
-            if (err || !obj) return res.makeError(404, 'Not found.')
+        Shortlink.findOne({ _id: req.params.id }, { __v: false, id: false, createdBy: false, created: false })
+            .then(obj => {
+                if (!obj) throw new Error('Not found.')
+                if (!asJson && obj.url) {
+                    // update counter asynchronously
+                    const regex = new RegExp(`.*${req.params.id}$`, 'i')
+                    Collection.findOneAndUpdate(
+                        { name: config.shortlinkCollectionName, 'links.url': regex },
+                        { $inc: { 'links.$.hits': 1 } },
+                        {})
+                        .catch(err => !!err && logger.error(err))
 
-            if (!asJson && obj.url) {
-                // update counter asynchronously
-                const regex = new RegExp(`.*${req.params.id}$`, 'i')
-                Collection.findOneAndUpdate(
-                    { name: config.shortlinkCollectionName, 'links.url': regex },
-                    { $inc: { 'links.$.hits': 1 } },
-                    {},
-                    err => !!err && logger.error(err)
-                )
+                    return res.redirect(obj.url)
+                }
 
-                return res.redirect(obj.url)
-            }
-
-            res.send(obj.toObject())
-        })
+                res.send(obj.toObject())
+            })
+            .catch(err => res.makeError(404, 'Not found.'))
     })
 
     /**

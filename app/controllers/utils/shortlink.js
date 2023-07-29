@@ -22,9 +22,12 @@ function addShortlink(url, user) {
                     created: Date.now(),
                     createdBy: user._id
                 })
-                shortlink.save((err, obj) => {
-                    if (err) return reject({ status: 500, error: 'Unable to save shortlink to database.', err })
-                    resolve({ status: 201, data: _.omit(obj.toObject(), '__v', 'id', 'createdBy', 'created') })
+                return shortlink.save()
+                .then((obj) => {
+                    return resolve({ status: 201, data: _.omit(obj.toObject(), '__v', 'id', 'createdBy', 'created') })
+                })
+                .catch((err) => {
+                    return reject({ status: 500, error: 'Unable to save shortlink to database.', err })
                 })
             })
             .catch(err => {

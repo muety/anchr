@@ -228,11 +228,11 @@ const commandProcessors = {
                             createdBy: user._id
                         })
 
-                        image.save((err, obj) => {
-                            if (err) throw err
-                            const link = `${config.publicImageUrl}/${obj._id}`
-                            return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: `✅ Successfully uploaded image: ${link}`, disable_web_page_preview: true })
-                        })
+                        return image.save()
+                            .then((obj) => {
+                                const link = `${config.publicImageUrl}/${obj._id}`
+                                return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: `✅ Successfully uploaded image: ${link}`, disable_web_page_preview: true })
+                            })
                     })
                     .catch(() => {
                         return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '❌ Failed to upload photo, sorry.' })

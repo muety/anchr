@@ -16,7 +16,7 @@ const express = require('express'),
 module.exports = function (app, passport) {
     app.use('/api/image', router)
     app.use('/i', router)
-    
+
     router.use(morgan)
 
     /**
@@ -44,20 +44,20 @@ module.exports = function (app, passport) {
     router.get('/:id', (req, res) => {
         const asJson = req.get('accept') === 'application/json'
 
-        Image.findOne({ _id: req.params.id }, { __v: false, ip: false, createdBy: false }, (err, obj) => {
-            if (err) return res.makeError(500, err?.message, err)
-            if (!obj) return res.makeError(404, `Image ${req.params.id} not found`)
+        Image.findOne({ _id: req.params.id }, { __v: false, ip: false, createdBy: false })
+            .then(obj => {
+                if (!obj) return res.makeError(404, `Image ${req.params.id} not found`)
+                const image = _.omit(obj.toObject(), 'id')
+                image.hrefProxied = config.imageProxyUrlTpl ? config.imageProxyUrlTpl.replace('{0}', image.href) : null
 
-            const image = _.omit(obj.toObject(), 'id')
-            image.hrefProxied = config.imageProxyUrlTpl ? config.imageProxyUrlTpl.replace('{0}', image.href) : null
-
-            const filePath = config.uploadDir + obj._id
-            fs.exists(filePath, (exists) => {
-                if (!exists) return res.makeError(404, `File ${obj._id} not found`)
-                if (asJson) res.send(image)
-                else res.sendFile(filePath)
+                const filePath = config.uploadDir + obj._id
+                fs.exists(filePath, (exists) => {
+                    if (!exists) return res.makeError(404, `File ${obj._id} not found`)
+                    if (asJson) res.send(image)
+                    else res.sendFile(filePath)
+                })
             })
-        })
+            .catch(err => res.makeError(500, err?.message, err))
     })
 
     /**
@@ -100,27 +100,30 @@ module.exports = function (app, passport) {
                 createdBy: req.user._id
             })
 
-            img.save((err) => {
-                if (err) return res.makeError(500, 'Unable to save file.', err)
-                res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy', 'created'))
-            })
+            img.save()
+                .then(() => {
+                    res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy', 'created'))
+                })
+                .catch((err) => {
+                    return res.makeError(500, 'Unable to save file.', err)
+                })
         }
 
         fs.rename(tmpPath, newPath, (err) => {
             if (!err) return onSuccess()
             switch (err.code) {
-            case 'EXDEV':
-                fs.copyFile(tmpPath, newPath, (err) => {
-                    if (err) return res.makeError(500, 'Unable to save file.', err)
+                case 'EXDEV':
+                    fs.copyFile(tmpPath, newPath, (err) => {
+                        if (err) return res.makeError(500, 'Unable to save file.', err)
 
-                    fs.unlink(tmpPath, (err) => {
-                        if (err) logger.default(`[WARN] Failed to unlink file ${tmpPath}`)
-                        onSuccess()
+                        fs.unlink(tmpPath, (err) => {
+                            if (err) logger.default(`[WARN] Failed to unlink file ${tmpPath}`)
+                            onSuccess()
+                        })
                     })
-                })
-                break
-            default:
-                return res.makeError(500, 'Unable to save file.', err)
+                    break
+                default:
+                    return res.makeError(500, 'Unable to save file.', err)
             }
         })
     })
