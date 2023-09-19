@@ -89,6 +89,7 @@ $ > exit
 ### ⚙️ Run
 #### Setup
 1. `$ source env.sh`
+2. `$ corepack enable`
 3. `$ yarn`
 4. `$ cd public && ../node_modules/.bin/bower install && cd ..`
    
