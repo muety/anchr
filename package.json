@@ -81,10 +81,6 @@
         "time-grunt": "2.0.0"
     },
     "resolutions": {
-        "grunt-connect-proxy/**/lodash": "4.17.21",
-        "grunt-connect-proxy/**/http-proxy": "1.18.1",
-        "grunt-wiredep/**/minimist": "1.2.5",
-        "grunt-ng-annotate/**/minimist": "1.2.5",
         "multiparty": "4.2.2"
     },
     "overrides": {
@@ -94,5 +90,6 @@
         "grunt-execute": {
             "grunt": "^1.6.1"
         }
-    }
+    },
+    "packageManager": "yarn@3.6.3"
 }
