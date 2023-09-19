@@ -41,8 +41,17 @@ Anchr’s focus is on ease and quickness of use – short loading times, flat me
 ### Prerequisites
 In order to host Anchr on your own, you need a few things.
 * Node.js >= 18.x
-* A MongoDB 3.4 database (you can use [mlab.com](http://mlab.com) to get a free, hosted MongoDB)
-* Optionally, but recommended: A webserver as a reverse proxy (e.g. nginx) to enable compression and SSL encryption
+* MongoDB >= 6.x
+	* Alternative 1: [Mongo Atlas](https://mongodb.com/atlas) (hosted cloud MongoDB)
+	* Alternative 2: [FerretDB](https://www.ferretdb.io/) (with Postgres or SQLite)
+
+#### Database Setup
+```bash
+$ mongosh
+$ > use anchr;  // choose 'anchr' as your database
+$ > db.createUser({user: 'anchr', pwd: passwordPrompt(), roles: [{ role: 'dbOwner', db: 'anchr' }]});  // create user 'anchr'
+$ > exit
+```
 
 ### Configuration
 1. `$ git clone https://github.com/muety/anchr`
