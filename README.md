@@ -40,7 +40,7 @@ Anchr’s focus is on ease and quickness of use – short loading times, flat me
 ## 📡 How to run?
 ### Prerequisites
 In order to host Anchr on your own, you need a few things.
-* Node.js >= 18.x
+* Node.js >= 20.x
 * MongoDB >= 6.x
 	* Alternative 1: [Mongo Atlas](https://mongodb.com/atlas) (hosted cloud MongoDB)
 	* Alternative 2: [FerretDB](https://www.ferretdb.io/) (with Postgres or SQLite)
@@ -128,6 +128,17 @@ You can integrate Anchr with [ShareX](https://github.com/ShareX/ShareX) on Windo
 
 ## 🧩 Project History
 The project's origins lie in 2014, back when the [MEAN stack](https://www.mongodb.com/mean-stack) was the sh*t. It was the author's first real web project and a great opportunity to learn. The project is maintained ever since, however, considered mostly feature-complete. Dependencies are updated occasionally. Because the project started quite a couple of years ago, some parts are still based on old-fashioned JavaScript ES5 syntax, alongside vintage tools like [Grunt](https://gruntjs.com/) and [Bower](https://bower.io/). Certainly, this is not state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. **Update:** Just [recently](https://github.com/muety/anchr/issues/54), all backend-side code was refactored to modern JavaScript syntax to ease development. 
+
+## 🧑‍💻 Developer Notes
+### Upgrade packges
+```bash
+# Backend
+$ yarn plugin import interactive-tools
+$ yarn upgrade-interactive
+
+# Frontend
+$ cat bower.json | jq   '.dependencies | keys[]' -r | xargs npx bower update
+```
 
 ## 📓 License
 GNU General Public License v3 (GPL-3) @ [Ferdinand Mütsch](https://muetsch.io)
