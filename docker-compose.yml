@@ -18,7 +18,7 @@ services:
       - mongo
 
   mongo:
-    image: mongo:3.4
+    image: mongo:6.0
     volumes:
       - anchr_db_data:/data/db
       - ./scripts/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
