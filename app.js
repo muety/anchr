@@ -7,6 +7,7 @@ const express = require('express')
 function connect(success, error) {
     function onConnectFailed(err) {
         setTimeout(() => { error() }, 0)
+        console.error(err)
         throw new Error(`unable to connect to database at ${config.db}`)
     }
 
