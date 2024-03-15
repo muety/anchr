@@ -379,7 +379,7 @@ __metadata:
   dependencies:
     "@brigand/abp-filter-parser": ^0.3.2
     autoprefixer-core: 6.0.1
-    axios: ^1.6.7
+    axios: ^1.6.8
     bcrypt: ^5.1.1
     body-parser: ^1.20.2
     bower: ^1.8.14
@@ -387,7 +387,7 @@ __metadata:
     cors: ^2.8.5
     du: ^1.0.0
     eslint: ^8.57.0
-    express: ^4.18.2
+    express: ^4.18.3
     grunt: ^1.6.1
     grunt-angular-templates: ^1.2.0
     grunt-cli: ^1.4.3
@@ -421,10 +421,10 @@ __metadata:
     memory-cache: ^0.2.0
     method-override: ^3.0.0
     mime-types: ^2.1.35
-    mongoose: ^8.2.0
+    mongoose: ^8.2.2
     morgan: ^1.10.0
     node-cron: ^3.0.3
-    nodemailer: ^6.9.10
+    nodemailer: ^6.9.12
     passport: ^0.7.0
     passport-facebook: ^3.0.0
     passport-google-oauth: ^2.0.0
@@ -733,14 +733,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.7":
-  version: 1.6.7
-  resolution: "axios@npm:1.6.7"
+"axios@npm:^1.6.8":
+  version: 1.6.8
+  resolution: "axios@npm:1.6.8"
   dependencies:
-    follow-redirects: ^1.15.4
+    follow-redirects: ^1.15.6
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: 87d4d429927d09942771f3b3a6c13580c183e31d7be0ee12f09be6d5655304996bb033d85e54be81606f4e89684df43be7bf52d14becb73a12727bf33298a082
+  checksum: bf007fa4b207d102459300698620b3b0873503c6d47bf5a8f6e43c0c64c90035a4f698b55027ca1958f61ab43723df2781c38a99711848d232cad7accbcdfcdd
   languageName: node
   linkType: hard
 
@@ -814,27 +814,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"body-parser@npm:1.20.1":
-  version: 1.20.1
-  resolution: "body-parser@npm:1.20.1"
-  dependencies:
-    bytes: 3.1.2
-    content-type: ~1.0.4
-    debug: 2.6.9
-    depd: 2.0.0
-    destroy: 1.2.0
-    http-errors: 2.0.0
-    iconv-lite: 0.4.24
-    on-finished: 2.4.1
-    qs: 6.11.0
-    raw-body: 2.5.1
-    type-is: ~1.6.18
-    unpipe: 1.0.0
-  checksum: f1050dbac3bede6a78f0b87947a8d548ce43f91ccc718a50dd774f3c81f2d8b04693e52acf62659fad23101827dd318da1fb1363444ff9a8482b886a3e4a5266
-  languageName: node
-  linkType: hard
-
-"body-parser@npm:^1.20.2":
+"body-parser@npm:1.20.2, body-parser@npm:^1.20.2":
   version: 1.20.2
   resolution: "body-parser@npm:1.20.2"
   dependencies:
@@ -2072,13 +2052,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:^4.18.2":
-  version: 4.18.2
-  resolution: "express@npm:4.18.2"
+"express@npm:^4.18.3":
+  version: 4.18.3
+  resolution: "express@npm:4.18.3"
   dependencies:
     accepts: ~1.3.8
     array-flatten: 1.1.1
-    body-parser: 1.20.1
+    body-parser: 1.20.2
     content-disposition: 0.5.4
     content-type: ~1.0.4
     cookie: 0.5.0
@@ -2107,7 +2087,7 @@ __metadata:
     type-is: ~1.6.18
     utils-merge: 1.0.1
     vary: ~1.1.2
-  checksum: 3c4b9b076879442f6b968fe53d85d9f1eeacbb4f4c41e5f16cc36d77ce39a2b0d81b3f250514982110d815b2f7173f5561367f9110fcc541f9371948e8c8b037
+  checksum: 3d7fc8762a81dee0adf0b604f11627db2af082c5f2234e78a4aa8134f22c51f96c6282063f2f8b87f5dbc70679a3087caccb93b6107e324c6feb3a70960a5864
   languageName: node
   linkType: hard
 
@@ -2326,13 +2306,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.15.4":
-  version: 1.15.5
-  resolution: "follow-redirects@npm:1.15.5"
+"follow-redirects@npm:^1.15.6":
+  version: 1.15.6
+  resolution: "follow-redirects@npm:1.15.6"
   peerDependenciesMeta:
     debug:
       optional: true
-  checksum: 5ca49b5ce6f44338cbfc3546823357e7a70813cecc9b7b768158a1d32c1e62e7407c944402a918ea8c38ae2e78266312d617dc68783fac502cbb55e1047b34ec
+  checksum: a62c378dfc8c00f60b9c80cab158ba54e99ba0239a5dd7c81245e5a5b39d10f0c35e249c3379eae719ff0285fff88c365dd446fab19dee771f1d76252df1bbf5
   languageName: node
   linkType: hard
 
@@ -4533,9 +4513,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongoose@npm:^8.2.0":
-  version: 8.2.0
-  resolution: "mongoose@npm:8.2.0"
+"mongoose@npm:^8.2.2":
+  version: 8.2.2
+  resolution: "mongoose@npm:8.2.2"
   dependencies:
     bson: ^6.2.0
     kareem: 2.5.1
@@ -4544,7 +4524,7 @@ __metadata:
     mquery: 5.0.0
     ms: 2.1.3
     sift: 16.0.1
-  checksum: 5402c1d05ab5e1c2f9736b81f2d827bd9774201f7b6e40d5fb7f9c645b56c8c2538b7dfe2a8e761e29e48b164e6c56efe9802a3a5dabbc68578258ed31cec53b
+  checksum: 98ea8ba825ee3acd3b83b24d92320c28d432d53a33636009092f0c25160f8b1d3a57d6722c40b8a2c207ecb964bf6a9567d3ddff248e62ca48e49b8d3252926a
   languageName: node
   linkType: hard
 
@@ -4743,10 +4723,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:^6.9.10":
-  version: 6.9.10
-  resolution: "nodemailer@npm:6.9.10"
-  checksum: 6e447ae0b88f5c9563f9303ed708f9bd1509cf68c5019d076f65d8d0f346f40bc31b743502158b6ad9fd6b8b2792adca5714b00e6bf7aa391e074f0076c519b6
+"nodemailer@npm:^6.9.12":
+  version: 6.9.12
+  resolution: "nodemailer@npm:6.9.12"
+  checksum: 061f4c785b5362903078ef2434d1e5a50901439caa0102435cfdb33efa993ac5d03ae26780c1baef5adb90909793e40ba36d853273294fe83dc4dffb9719dfd0
   languageName: node
   linkType: hard
 
@@ -5623,18 +5603,6 @@ __metadata:
   version: 1.2.1
   resolution: "range-parser@npm:1.2.1"
   checksum: 0a268d4fea508661cf5743dfe3d5f47ce214fd6b7dec1de0da4d669dd4ef3d2144468ebe4179049eff253d9d27e719c88dae55be64f954e80135a0cada804ec9
-  languageName: node
-  linkType: hard
-
-"raw-body@npm:2.5.1":
-  version: 2.5.1
-  resolution: "raw-body@npm:2.5.1"
-  dependencies:
-    bytes: 3.1.2
-    http-errors: 2.0.0
-    iconv-lite: 0.4.24
-    unpipe: 1.0.0
-  checksum: 5362adff1575d691bb3f75998803a0ffed8c64eabeaa06e54b4ada25a0cd1b2ae7f4f5ec46565d1bec337e08b5ac90c76eaa0758de6f72a633f025d754dec29e
   languageName: node
   linkType: hard
 
