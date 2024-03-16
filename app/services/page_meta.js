@@ -1,5 +1,4 @@
-const axios = require('axios'),
-    htmlparser = require('htmlparser2'),
+const htmlparser = require('htmlparser2'),
     cache = require('memory-cache'),
     config = require('../../config/config')
 
@@ -25,29 +24,30 @@ class PageMetaService {
 
         cache.put(url, null, CACHE_TIMEOUT) // prevent redirect loops
 
-        return await axios({
+        return await fetch(url, {
             method: 'head',
-            url: url,
             headers: { 'Accept': 'text/html' }
         }).then((response) => {
-            const contentType = response.headers['content-type']
+            const contentType = response.headers.get('content-type')
             const contentLenth = parseInt(response['content-length']) / 1000
 
             if (!contentType.includes('text/html') && (!contentLenth || contentLenth > config.maxHtmlSizeKb)) {
                 return done(null)
             }
 
-            return axios({
+            return fetch(url, {
                 method: 'get',
-                url: url,
                 headers: { 'Accept': 'text/html' }
             })
         }).then((response) => {
             if (!response) return
 
-            const contentType = response.headers['content-type']
+            const contentType = response.headers.get('content-type')
             if (!contentType.startsWith('text/html')) return done(null)
 
+            return response.text()
+        })
+        .then((data) => {
             let title = null
 
             const handler = new htmlparser.DomHandler((error, dom) => {
@@ -62,7 +62,7 @@ class PageMetaService {
             })
 
             const parser = new htmlparser.Parser(handler)
-            parser.parseComplete(response.data)
+            parser.parseComplete(data)
 
             return title
         })

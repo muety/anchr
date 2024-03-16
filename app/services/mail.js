@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer')
-    , axios = require('axios')
     , logger = require('../../config/log')()
 
 module.exports = function (provider, config) {
@@ -13,24 +12,6 @@ module.exports = function (provider, config) {
             const mailTransport = nodemailer.createTransport(config)
             mailTransport.sendMail = mailTransport.sendMail.bind(mailTransport)
             sendFn = mailTransport.sendMail
-        }
-    } else if (provider === 'mailwhale') {
-        sendFn = function (mail) {
-            return axios.request({
-                method: 'post',
-                baseURL: config.url,
-                url: '/api/mail',
-                timeout: 5000,
-                auth: {
-                    username: config.clientId,
-                    password: config.clientSecret,
-                },
-                data: {
-                    to: [mail.to],
-                    subject: mail.subject,
-                    text: mail.text
-                }
-            })
         }
     }
 

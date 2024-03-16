@@ -40,7 +40,7 @@ Anchr’s focus is on ease and quickness of use – short loading times, flat me
 ## 📡 How to run?
 ### Prerequisites
 In order to host Anchr on your own, you need a few things.
-* Node.js >= 20.x
+* Node.js >= 21.x
 * MongoDB >= 6.x
 	* Alternative 1: [Mongo Atlas](https://mongodb.com/atlas) (hosted cloud MongoDB)
 	* Alternative 2: [FerretDB](https://www.ferretdb.io/) (with Postgres or SQLite)
