@@ -14,10 +14,12 @@ const fs = require('fs'),
     tgutils = require('./utils/telegram'),
     addLink = require('./utils/collection').addLink,
     fetchCollections = require('./utils/collection').fetchCollections,
-    addShortlink = require('./utils/shortlink').addShortlink
+    addShortlink = require('./utils/shortlink').addShortlink,
+    PageMetaService = require('./../services/page_meta')
 
 const otps = {}
 const pendingLinks = {}  // by user
+const pageMetaService = new PageMetaService()
 
 const CMD_START = 'CMD_START',
     CMD_LOGOUT = 'CMD_LOGOUT',
@@ -169,7 +171,12 @@ const commandProcessors = {
                 const link = pendingLinks[user._id]
                 const index = parseInt(args[0]) - 1
 
-                fetchCollections(user)
+                pageMetaService.fetchTitle(link.url)
+                    .then((title) => {
+                        link.description = title
+                    })
+                    .catch((err) => null)  // ignore and continue without setting title
+                    .then(() => fetchCollections(user))
                     .then(({ data }) => {
                         // this is not robust to the collections changing while the user does their choice
                         if (index < 0 || index >= data.length) return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '❌ Invalid collection.' })
