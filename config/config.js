@@ -6,10 +6,10 @@ const path = require('path'),
 /* Specialized configs (development, test, production) will inherit and possibly override all properties from root */
 const config = {
     root: {
-        publicUrl: 'http://localhost:3000/api',
-        publicShortlinkUrl: 'http://localhost:3000/s',
-        publicImageUrl: 'http://localhost:3000/i',
-        clientUrl: 'http://localhost:3000/#/',
+        publicUrl: `${process.env.ANCHR_PUBLIC_URL || 'http://localhost:3000'}/api`,
+        publicShortlinkUrl: `${process.env.ANCHR_PUBLIC_URL || 'http://localhost:3000'}/s`,
+        publicImageUrl: `${process.env.ANCHR_PUBLIC_URL || 'http://localhost:3000'}/i`,
+        clientUrl: `${process.env.ANCHR_PUBLIC_URL || 'http://localhost:3000'}/#/`,
         root: rootPath,
         app: {
             name: 'anchr-multi-webservice'
@@ -59,10 +59,10 @@ const config = {
     },
     test: {},
     production: {
-        publicUrl: 'https://anchr.io/api',
-        publicShortlinkUrl: 'https://anchr.io/s',
-        publicImageUrl: 'https://anchr.io/i',
-        clientUrl: 'https://anchr.io/#/'
+        publicUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io:3000'}/api`,
+        publicShortlinkUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io:3000'}/s`,
+        publicImageUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io:3000'}/i`,
+        clientUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io:3000'}/#/`,
     }
 }
 

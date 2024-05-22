@@ -58,6 +58,7 @@ $ > exit
 2. Copy `.env.example` to `.env` and edit the contents to set environment variables:
     * `PORT`: TCP port to start the server on (default: `3000`)
     * `LISTEN_ADDR`: IPv4 address to make the server listen on (default: `127.0.0.1`)
+    * `ANCHR_PUBLIC_URL`: Public base URL of your hosted instance (no trailing slash) (default: `http://localhost:3000`)
     * `ANCHR_DB_USER`: MongoDB user name (default: `anchr`)
     * `ANCHR_DB_PASSWORD`: MongoDB password (**required**)
     * `ANCHR_DB_HOST`: MongoDB host name (default: `localhost`)
