@@ -1,6 +1,4 @@
-FROM node:18-alpine
-
-MAINTAINER Ferdinand Mütsch <ferdinand@muetsch.io>
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -23,4 +21,6 @@ RUN npm install && \
     npm run build && \
     mkdir -p /var/log/anchr
 
-ENTRYPOINT npm run production
+ENTRYPOINT ["npm", "run", "production"]
+
+

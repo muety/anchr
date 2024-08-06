@@ -1,0 +1,1 @@
+mongosh -u anchr -p 1234  --authenticationDatabase admin admin --eval 

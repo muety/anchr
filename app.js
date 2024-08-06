@@ -39,7 +39,7 @@ function run() {
     require('./config/express')(app, config)
 
     app.listen(config.port, config.addr, () => {
-        log.default(`Express server listening on ${config.addr}:${config.port}`)
+        log.default(`Express server listening on http://${config.addr}:${config.port}/`)
     })
 }
 

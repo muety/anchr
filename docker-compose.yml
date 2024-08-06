@@ -1,10 +1,26 @@
-version: "3.6"
-
 services:
-  
+  mongo:
+    container_name: mongo
+    image: mongo
+    command: ["mongod", "--port", "857"]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=anchr
+      - MONGO_INITDB_ROOT_PASSWORD=1234
+      - MONGO_INITDB_DATABASE=admin
+    volumes:
+      - anchr_db_data:/data/db
+      - ./scripts/mongo-entrypoint.sh:/docker-entrypoint-initdb.d/mongo-entrypoint.sh:ro
+    ports:
+      - 857:857
+    networks:
+      devops_bridge:
+        ipv4_address: 172.18.0.2
+
   anchr:
-    image: anchr:latest
-    build: ./
+    container_name: anchr
+    image: anchr
+    build:
+      context: .
     ports:
       - "${PORT}:${PORT}"
     volumes:
@@ -12,23 +28,24 @@ services:
     env_file: .env
     environment:
       - ANCHR_DB_HOST=mongo
-      - ANCHR_DB_PORT=27017
+      - ANCHR_DB_PORT=857
+      - ANCHR_DB_NAME=admin
       - LISTEN_ADDR=0.0.0.0
     depends_on:
       - mongo
-
-  mongo:
-    image: mongo:6.0
-    volumes:
-      - anchr_db_data:/data/db
-      - ./scripts/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${ANCHR_DB_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${ANCHR_DB_PASSWORD}
-      - MONGO_INITDB_DATABASE=${ANCHR_DB_NAME}
-      - DB_USER=${ANCHR_DB_USER}
-      - DB_PASSWORD=${ANCHR_DB_PASSWORD}
+    networks:
+      devops_bridge:
+        ipv4_address: 172.18.0.3
 
 volumes:
   anchr_data:
   anchr_db_data:
+
+networks:
+  devops_bridge:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet:  172.18.0.0/29
+        gateway: 172.18.0.1

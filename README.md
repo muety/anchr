@@ -40,30 +40,33 @@ Anchr’s focus is on ease and quickness of use – short loading times, flat me
 ## 📡 How to run?
 ### Prerequisites
 In order to host Anchr on your own, you need a few things.
-* Node.js >= 20.x
-* MongoDB >= 6.x
-	* Alternative 1: [Mongo Atlas](https://mongodb.com/atlas) (hosted cloud MongoDB)
-	* Alternative 2: [FerretDB](https://www.ferretdb.io/) (with Postgres or SQLite)
 
-#### Database Setup
+* Node.js >= 20.x
+* MongoDB >= latest
+  * Alternative 1: [Mongo Atlas](https://mongodb.com/atlas) (hosted cloud MongoDB)
+  * Alternative 2: [FerretDB](https://www.ferretdb.io/) (with Postgres or SQLite)
+
+## Database Setup
+
 ```bash
-$ mongosh
-$ > use anchr;  // choose 'anchr' as your database
-$ > db.createUser({user: 'anchr', pwd: passwordPrompt(), roles: [{ role: 'dbOwner', db: 'anchr' }]});  // create user 'anchr'
-$ > exit
+mongosh
+> use admin;  // choose 'admin' as your database
+> db.createUser({user: 'anchr', pwd: passwordPrompt(), roles: [{ role: 'root', db: 'admin' }]});  // create user 'anchr'
+> exit
 ```
 
 ### Configuration
+
 1. `$ git clone https://github.com/muety/anchr`
 2. Copy `.env.example` to `.env` and edit the contents to set environment variables:
     * `PORT`: TCP port to start the server on (default: `3000`)
     * `LISTEN_ADDR`: IPv4 address to make the server listen on (default: `127.0.0.1`)
     * `ANCHR_PUBLIC_URL`: Public base URL of your hosted instance (no trailing slash) (default: `http://localhost:3000`)
     * `ANCHR_DB_USER`: MongoDB user name (default: `anchr`)
-    * `ANCHR_DB_PASSWORD`: MongoDB password (**required**)
+    * `ANCHR_DB_PASSWORD`: MongoDB password ( **required** )
     * `ANCHR_DB_HOST`: MongoDB host name (default: `localhost`)
     * `ANCHR_DB_PORT`: MongoDB port (default: `27017`)
-    * `ANCHR_DB_NAME`: MongoDB database name (default: `anchr`)
+    * `ANCHR_DB_NAME`: MongoDB database name (default: `admin`)
     * `ANCHR_UPLOAD_DIR`: Absolute path to a file system directory (must exist!) to persist uploaded images to (default: `/var/data/anchr`)
     * `ANCHR_SECRET`: A (preferably long), random character sequence to be used for the JSON Web Token (default: `shhh`)
     * `ANCHR_LOG_PATH`: Absolute file path for access logs (directory must exist!) (default:  `/var/log/anchr/access.log`)
@@ -93,7 +96,7 @@ $ > exit
 2. `$ corepack enable`
 3. `$ yarn`
 4. `$ cd public && ../node_modules/.bin/bower install && cd ..`
-   
+
 #### Option 1: Run Natively
 ##### For development
 1. Run backend `$ yarn start`
@@ -128,10 +131,11 @@ You can integrate Anchr with [ShareX](https://github.com/ShareX/ShareX) on Windo
 1. Import both files as custom uploaders in ShareX
 
 ## 🧩 Project History
-The project's origins lie in 2014, back when the [MEAN stack](https://www.mongodb.com/mean-stack) was the sh*t. It was the author's first real web project and a great opportunity to learn. The project is maintained ever since, however, considered mostly feature-complete. Dependencies are updated occasionally. Because the project started quite a couple of years ago, some parts are still based on old-fashioned JavaScript ES5 syntax, alongside vintage tools like [Grunt](https://gruntjs.com/) and [Bower](https://bower.io/). Certainly, this is not state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. **Update:** Just [recently](https://github.com/muety/anchr/issues/54), all backend-side code was refactored to modern JavaScript syntax to ease development. 
+The project's origins lie in 2014, back when the [MEAN stack](https://www.mongodb.com/mean-stack) was the sh*t. It was the author's first real web project and a great opportunity to learn. The project is maintained ever since, however, considered mostly feature-complete. Dependencies are updated occasionally. Because the project started quite a couple of years ago, some parts are still based on old-fashioned JavaScript ES5 syntax, alongside vintage tools like [Grunt](https://gruntjs.com/) and [Bower](https://bower.io/). Certainly, this is not state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. **Update:** Just [recently](https://github.com/muety/anchr/issues/54), all backend-side code was refactored to modern JavaScript syntax to ease development.
 
 ## 🧑‍💻 Developer Notes
 ### Upgrade packges
+
 ```bash
 # Backend
 $ yarn plugin import interactive-tools
