@@ -17,7 +17,6 @@ bower_components
 .jshintrc
 .yo-rc.json
 .sass-cache
-.env
 easylist-matches.json
 .yarn/*
 !.yarn/patches
