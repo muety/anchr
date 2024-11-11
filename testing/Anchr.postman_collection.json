@@ -1,0 +1,801 @@
+{
+	"info": {
+		"_postman_id": "95395037-8a54-4cbe-823a-6578096b8a83",
+		"name": "Anchr",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15969615"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Get Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Check if status is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"const jsonBody = pm.response.json()",
+									"pm.environment.set(\"api_token\", jsonBody.token)",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "postman"
+							},
+							{
+								"key": "",
+								"value": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"{{test_user}}\",\n\t\"password\": \"{{test_password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/auth/token",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Collections",
+			"item": [
+				{
+					"name": "Create collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"const jsonBody = pm.response.json()",
+									"pm.environment.set(\"test_collection_id\", jsonBody._id)",
+									"",
+									"pm.test('Check if response content is correct', () => {",
+									"    const collectionName = pm.environment.get(\"test_collection_name\")",
+									"    pm.expect(jsonBody.name).to.eql(collectionName)",
+									"    pm.expect(jsonBody._id).to.have.lengthOf(5)",
+									"    pm.expect(new Date(jsonBody.date)).to.be.a('Date')",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "postman"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"{{test_collection_name}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/collection",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"collection"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List collections",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Check if status is 200', () => {",
+									"    pm.expect(pm.response.code).to.eql(200)",
+									"});",
+									"",
+									"const jsonBody = pm.response.json()",
+									"",
+									"pm.test('Check if list is not empty', () => {\t",
+									"\tpm.expect(jsonBody.length).to.be.above(1)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "postman"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}/collection",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"collection"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Check if status is 200', () => {",
+									"    pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"// TODO: more checks!"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "postman"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}/collection/{{test_collection_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"collection",
+								"{{test_collection_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add link to collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Check if status is 201', () => {",
+									"    pm.expect(pm.response.code).to.eql(201)",
+									"})",
+									"",
+									"const jsonBody = pm.response.json()",
+									"pm.environment.set(\"test_link_id\", jsonBody._id)",
+									"",
+									"pm.test('Check if response content is correct', () => {\t",
+									"    const linkUrl = pm.environment.get(\"test_link_url\")",
+									"    const linkDescription = pm.environment.get(\"test_link_description\")",
+									"    pm.expect(jsonBody.url).to.eql(linkUrl)",
+									"    pm.expect(jsonBody.description).to.eql(linkDescription)",
+									"    pm.expect(new Date(jsonBody.date)).to.be.a('Date')",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "postman"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"{{test_link_url}}\",\n\t\"description\": \"{{test_link_description}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/collection/{{test_collection_id}}/links",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"collection",
+								"{{test_collection_id}}",
+								"links"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List collection links",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Check if status is 200', () => {",
+									"    pm.expect(pm.response.code).to.eql(200)",
+									"});",
+									"",
+									"const jsonBody = pm.response.json()",
+									"",
+									"pm.test('Check if list is not empty', () => {",
+									"    const linkUrl = pm.environment.get(\"test_link_url\")",
+									"    const linkDescription = pm.environment.get(\"test_link_description\")",
+									"    pm.expect(jsonBody.length).to.eql(1)",
+									"    pm.expect(jsonBody[0].url).to.eql(linkUrl)",
+									"    pm.expect(jsonBody[0].description).to.eql(linkDescription)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "postman"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}/collection/{{test_collection_id}}/links?page=1",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"collection",
+								"{{test_collection_id}}",
+								"links"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove link from collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Check if status is 200', () => {",
+									"    pm.expect(pm.response.code).to.eql(200)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "postman"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"{{test_link_url}}\",\n\t\"description\": \"{{test_link_description}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/collection/{{test_collection_id}}/links/{{test_link_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"collection",
+								"{{test_collection_id}}",
+								"links",
+								"{{test_link_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete collection",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Check if status is 200', () => {",
+									"    pm.expect(pm.response.code).to.eql(200)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "postman"
+							}
+						],
+						"url": {
+							"raw": "{{api_url}}/collection/{{test_collection_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"collection",
+								"{{test_collection_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{api_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Shortlinks",
+			"item": [
+				{
+					"name": "Create shortlink",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Check if status is 201', () => {",
+									"    pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"const baseUrl = pm.environment.get(\"base_url\")",
+									"const jsonBody = pm.response.json()",
+									"pm.environment.set(\"test_shortlink_href\", jsonBody.href)",
+									"",
+									"pm.test('Check if response body is correct', () => {",
+									"\tconst testShortlinkUrl = pm.environment.get(\"test_shortlink_url\")",
+									"\tpm.expect(jsonBody.url).to.eql(testShortlinkUrl)",
+									"\tpm.expect(jsonBody.href.startsWith(`${baseUrl}/s/`)).to.eql(true)",
+									"\tpm.expect(jsonBody._id).to.have.lengthOf(5)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "User-Agent",
+								"value": "postman"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"url\": \"{{test_shortlink_url}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/shortlink",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"shortlink"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow shortlink",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Check if status is 302', () => {",
+									"    pm.expect(pm.response.code).to.eql(302)",
+									"});",
+									"",
+									"pm.test('Check if redirection target is correct', () => {",
+									"\tconst testShortlinkUrl = pm.environment.get(\"test_shortlink_url\")",
+									"\tconst locationHeader = pm.response.headers.get('location')",
+									"\tpm.expect(locationHeader).to.eql(testShortlinkUrl)",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": false,
+						"disableUrlEncoding": false,
+						"disableCookies": false
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "postman"
+							}
+						],
+						"url": {
+							"raw": "{{test_shortlink_href}}",
+							"host": [
+								"{{test_shortlink_href}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{api_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Images",
+			"item": [
+				{
+					"name": "Upload image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Check if status is 201', () => {",
+									"    pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"const baseUrl = pm.environment.get(\"base_url\")",
+									"const jsonBody = pm.response.json()",
+									"pm.environment.set(\"test_image_href\", jsonBody.href)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uploadFile",
+									"type": "file",
+									"src": "avatar.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api_url}}/image",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Check if status is 200', () => {",
+									"    pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test('Check if response headers are correct', () => {",
+									"    const contentType = pm.response.headers.get(\"Content-Type\")",
+									"    pm.expect(contentType).to.eql(\"image/png\")",
+									"    pm.expect(pm.response.size().body).to.eql(1209)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{test_image_href}}",
+							"host": [
+								"{{test_image_href}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{api_token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
