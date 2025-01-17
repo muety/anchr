@@ -156,7 +156,8 @@ const commandProcessors = {
                                 .join('\n')
                             return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: text, parse_mode: 'Markdown' })
                         })
-                        .catch(() => {
+                        .catch((e) => {
+                            console.error(e)
                             return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '❌ Failed to add link, sorry.' })
                         })
                 }
@@ -185,11 +186,12 @@ const commandProcessors = {
                                 delete pendingLinks[user._id]
                                 return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '✅ Link added successfully.' })
                             })
-                            .catch(() => {
+                            .catch((e) => {
                                 return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '❌ Failed to add link.' })
                             })
                     })
-                    .catch(() => {
+                    .catch((e) => {
+                        console.error(e)
                         return tgutils.doRequest('sendMessage', { chat_id: rawMessage.chat.id, text: '❌ Failed to add link, sorry.' })
                     })
             })
