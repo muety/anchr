@@ -4,6 +4,8 @@ const express = require('express')
     , mongoose = require('mongoose')
     , log = require('./config/log')()
 
+let isFirstConnect = true
+
 function connect(success, error) {
     function onConnectFailed(err) {
         setTimeout(() => { error() }, 0)
@@ -24,7 +26,14 @@ function connect(success, error) {
 
     const db = mongoose.connection
     db.on('error', onConnectFailed)
-    db.on('connected', success)
+    db.on('disconnected', () => console.warn('Database disconnected.'))
+    db.on('connected', () => {
+      if (isFirstConnect) {
+        isFirstConnect = false
+        return success()
+      }
+      console.log('Database reconnected.')
+    })
 }
 
 function run() {
