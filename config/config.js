@@ -59,10 +59,10 @@ const config = {
     },
     test: {},
     production: {
-        publicUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io:3000'}/api`,
-        publicShortlinkUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io:3000'}/s`,
-        publicImageUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io:3000'}/i`,
-        clientUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io:3000'}/#/`,
+        publicUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io'}/api`,
+        publicShortlinkUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io'}/s`,
+        publicImageUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io'}/i`,
+        clientUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io'}/#/`,
     }
 }
 
