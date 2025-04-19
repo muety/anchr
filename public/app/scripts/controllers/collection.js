@@ -91,6 +91,9 @@ angular.module('anchrClientApp')
 
         $scope.deleteCollection = function (collId) {
             var c = $scope.getCollection(collId);
+
+            if (!confirm(`Are you sure you want to delete collection "${c.name}"? This action cannot be undone.`)) return
+
             c.$delete(function (result) {
                 collections.splice(findCollection(collections, collId), 1);
                 $scope.setActiveCollection(collections[0]._id || 0);
