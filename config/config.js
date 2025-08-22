@@ -23,6 +23,7 @@ const config = {
         imageProxyUrlTpl: process.env.ANCHR_IMAGE_PROXY_URL_TPL,
         allowedFileTypes: ['image/'],
         shortlinkCollectionName: process.env.ANCHR_SHORTLINK_COLLECTION || 'My shortlinks',
+        imageCollectionName: process.env.ANCHR_IMAGE_COLLECTION || 'My images',
         cron: {
             linkcheckUpdate: process.env.ANCHR_LINKCHECK_UPDATE_CRON || '10 0 * * *',
             shortlinkCleanup: process.env.ANCHR_LINKCHECK_UPDATE_CRON || '20 0 * * *',

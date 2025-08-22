@@ -1,6 +1,6 @@
 {
     "name": "anchr-multi-webservice",
-    "version": "3.4.3",
+    "version": "3.4.4",
     "description": "⚓️ Anchr provides you with a toolbox for tiny tasks on the internet, especially bookmark collections",
     "private": true,
     "scripts": {
@@ -27,10 +27,10 @@
         "memory-cache": "^0.2.0",
         "method-override": "^3.0.0",
         "mime-types": "^3.0.1",
-        "mongoose": "^8.15.1",
-        "morgan": "^1.10.0",
-        "node-cron": "^4.1.0",
-        "nodemailer": "^7.0.3",
+        "mongoose": "^8.17.2",
+        "morgan": "^1.10.1",
+        "node-cron": "^4.2.1",
+        "nodemailer": "^7.0.5",
         "passport": "^0.7.0",
         "passport-facebook": "^3.0.0",
         "passport-google-oauth": "^2.0.0",

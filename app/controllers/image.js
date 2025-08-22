@@ -11,7 +11,9 @@ const express = require('express'),
     filetype = require('./../../config/middlewares/filetype'),
     multipart = require('connect-multiparty'),
     mongoose = require('mongoose'),
-    Image = mongoose.model('Image')
+    Image = mongoose.model('Image'),
+    Collection = mongoose.model('Collection'),
+    log = require('../../config/log')()
 
 module.exports = function (app, passport) {
     app.use('/api/image', router)
@@ -86,8 +88,30 @@ module.exports = function (app, passport) {
         const FILE_UPLOAD_FIELD = 'uploadFile'
 
         const tmpPath = req.files[FILE_UPLOAD_FIELD].path
+        const oldName = req.files[FILE_UPLOAD_FIELD].name
         const newName = utils.generateUUID() + path.parse(tmpPath).ext.toLowerCase()
         const newPath = config.uploadDir + newName
+
+        function addToCollection(img) {
+            const link = {
+                url: `${config.publicImageUrl}/${img._id}`,
+                description: `Image upload ${oldName} (${new Date().toLocaleString()})`,
+                date: Date.now(),
+            }
+
+            Collection.findOneAndUpdate(
+                {
+                    name: config.imageCollectionName,
+                    owner: img.createdBy,
+                },
+                {
+                    $push: { links: link },
+                    modified: new Date(),
+                },
+                {})
+                .then(() => log.default(`Uploaded image ${img._id} added to image collection for user ${img.createdBy}`))
+                .catch(err => log.error(`Failed to add ${img._id} added to image collection for user ${img.createdBy} (${err})`))
+        }
 
         function onSuccess() {
             const img = new Image({
@@ -103,6 +127,7 @@ module.exports = function (app, passport) {
             img.save()
                 .then(() => {
                     res.status(201).send(_.omit(img.toObject(), '__v', 'ip', 'id', 'createdBy', 'created'))
+                    addToCollection(img)
                 })
                 .catch((err) => {
                     return res.makeError(500, 'Unable to save file.', err)

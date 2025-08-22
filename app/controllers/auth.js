@@ -235,19 +235,31 @@ module.exports = function (app, passport) {
 }
 
 function initUser(user) {
+    const initCollection = (name) => new Collection({
+        _id: utils.generateUUID(),
+        name,
+        links: [],
+        owner: user._id,
+        shared: false
+    })
+
+    // create default collection for shortlinks
     Collection.findOne({ name: config.shortlinkCollectionName, owner: user._id })
         .then(result => {
             if (!result) {
-                return new Collection({
-                    _id: utils.generateUUID(),
-                    name: config.shortlinkCollectionName,
-                    links: [],
-                    owner: user._id,
-                    shared: false
-                }).save()
+                return initCollection(config.shortlinkCollectionName).save()
             }
         })
-        .catch(err => logger.error(`Failed to init user - ${err}`))
+        .catch(err => logger.error(`Failed to create default shortlink collection for user - ${err}`))
+
+    // create default collection for image uploads
+    Collection.findOne({ name: config.imageCollectionName, owner: user._id })
+        .then(result => {
+            if (!result) {
+                return initCollection(config.imageCollectionName).save()
+            }
+        })
+        .catch(err => logger.error(`Failed to create default image collection for user - ${err}`))
 }
 
 function sendConfirmationMail(user) {

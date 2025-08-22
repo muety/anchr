@@ -455,10 +455,10 @@ __metadata:
     memory-cache: ^0.2.0
     method-override: ^3.0.0
     mime-types: ^3.0.1
-    mongoose: ^8.15.1
-    morgan: ^1.10.0
-    node-cron: ^4.1.0
-    nodemailer: ^7.0.3
+    mongoose: ^8.17.2
+    morgan: ^1.10.1
+    node-cron: ^4.2.1
+    nodemailer: ^7.0.5
     passport: ^0.7.0
     passport-facebook: ^3.0.0
     passport-google-oauth: ^2.0.0
@@ -936,10 +936,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bson@npm:^6.10.3":
-  version: 6.10.3
-  resolution: "bson@npm:6.10.3"
-  checksum: 156807dc7a36954273cbe364783bffaaa8b89f193241d388250314f4d60b24f719d9c9fcb2d7fcbfb28f8330811617c5fd5e0b00c459867f16df6e8efe29d850
+"bson@npm:^6.10.4":
+  version: 6.10.4
+  resolution: "bson@npm:6.10.4"
+  checksum: 5b0b625ac9b3661497aa1baec58c8e8979cc501a5c490a5740001b3cc415d0d5d51f16bf9da433b28ffd1303b6f98c1427e8192cf4220b13b09a9a4184bfceb2
   languageName: node
   linkType: hard
 
@@ -4625,12 +4625,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:~6.16.0":
-  version: 6.16.0
-  resolution: "mongodb@npm:6.16.0"
+"mongodb@npm:~6.18.0":
+  version: 6.18.0
+  resolution: "mongodb@npm:6.18.0"
   dependencies:
     "@mongodb-js/saslprep": ^1.1.9
-    bson: ^6.10.3
+    bson: ^6.10.4
     mongodb-connection-string-url: ^3.0.0
   peerDependencies:
     "@aws-sdk/credential-providers": ^3.188.0
@@ -4655,26 +4655,39 @@ __metadata:
       optional: true
     socks:
       optional: true
-  checksum: e00025d5bfba6e653ece13c06799fda9faa8abb0466268c52e67c601eb9cab7268b34a00e65d9e1aedb6db4c2c81307f634b8120f8ecb8a1fb746f4a41735220
+  checksum: 2bb06653a86ed92090594e870f7e9c7effb4f4bb4ea0a923574c2e97711fd88714d7bfed889782c2116bedbd8d4809da3f42176bca6cd5382a389f6260125922
   languageName: node
   linkType: hard
 
-"mongoose@npm:^8.15.1":
-  version: 8.15.1
-  resolution: "mongoose@npm:8.15.1"
+"mongoose@npm:^8.17.2":
+  version: 8.17.2
+  resolution: "mongoose@npm:8.17.2"
   dependencies:
-    bson: ^6.10.3
+    bson: ^6.10.4
     kareem: 2.6.3
-    mongodb: ~6.16.0
+    mongodb: ~6.18.0
     mpath: 0.9.0
     mquery: 5.0.0
     ms: 2.1.3
     sift: 17.1.3
-  checksum: c5b418c9bdb7a6c8177d30a5393a7dc6c45a6d1febc84dceb217c2da47b7bca4ec602035fd6f47af7a0eccacc894728c0495164b74a11aaf5b8a6c48bde41342
+  checksum: e60bf602e0fef62ea43494d34c31165e97f58b16471bb57e03c38058e0e6a22f661555f221fd26d3437158c8b9855c0055ace8ec256568eb1f330afb4684b8d5
   languageName: node
   linkType: hard
 
-"morgan@npm:^1.10.0, morgan@npm:^1.9.1":
+"morgan@npm:^1.10.1":
+  version: 1.10.1
+  resolution: "morgan@npm:1.10.1"
+  dependencies:
+    basic-auth: ~2.0.1
+    debug: 2.6.9
+    depd: ~2.0.0
+    on-finished: ~2.3.0
+    on-headers: ~1.1.0
+  checksum: 8e637a2795d0f6dafb7dbc6a3ef6870731d160123cd56c496d305f1a185c9b0831699c456081328c107b3be49f25fade40519fa1b4990546040595fa44312fe3
+  languageName: node
+  linkType: hard
+
+"morgan@npm:^1.9.1":
   version: 1.10.0
   resolution: "morgan@npm:1.10.0"
   dependencies:
@@ -4816,10 +4829,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-cron@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "node-cron@npm:4.1.0"
-  checksum: 1dafcb3373a9b2e0be35c3bd6ddd8feb1a32cba26290437bc57f99bceffa031e54d609b79565bb711f889e8765dc5a96a8710464188efdb7e10e61d07d294faf
+"node-cron@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "node-cron@npm:4.2.1"
+  checksum: 961e18a452f2d0cd12cde1dfa5897d788ebbba259861ceca6b717ab80a0962f916be10584381647d6e20415620c17bbdc9238b3d601c7675afcb6c157fed9d97
   languageName: node
   linkType: hard
 
@@ -4871,10 +4884,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:^7.0.3":
-  version: 7.0.3
-  resolution: "nodemailer@npm:7.0.3"
-  checksum: 2cb15a4f48e6d791aae8c964d9cc59fb7c04cb513ee22254cc3e287afa1baeb2fc76369c1df20150a6ba62663b544a0a77dd326997e2ea3950e1b3d2ad1de472
+"nodemailer@npm:^7.0.5":
+  version: 7.0.5
+  resolution: "nodemailer@npm:7.0.5"
+  checksum: 13d986d5cea1d7ce0c1d624c989a711f0b9d040d21063961428287747fe1897ddef78cdefcb7b4428acb09d833c8456b563b933aca1f77f76532a6e8fa994fd4
   languageName: node
   linkType: hard
 
@@ -5096,6 +5109,13 @@ __metadata:
   version: 1.0.2
   resolution: "on-headers@npm:1.0.2"
   checksum: 2bf13467215d1e540a62a75021e8b318a6cfc5d4fc53af8e8f84ad98dbcea02d506c6d24180cd62e1d769c44721ba542f3154effc1f7579a8288c9f7873ed8e5
+  languageName: node
+  linkType: hard
+
+"on-headers@npm:~1.1.0":
+  version: 1.1.0
+  resolution: "on-headers@npm:1.1.0"
+  checksum: 98aa64629f986fb8cc4517dd8bede73c980e31208cba97f4442c330959f60ced3dc6214b83420491f5111fc7c4f4343abe2ea62c85f505cf041d67850f238776
   languageName: node
   linkType: hard
 
