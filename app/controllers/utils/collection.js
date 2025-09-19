@@ -3,8 +3,24 @@ const mongoose = require('mongoose'),
     escapeRegExp = require('../../utils/string').escapeRegExp,
     _ = require('underscore')
 
+function fetchCollection(id, user) {
+    return Collection.aggregate([
+        { $match: { _id: id, owner: user._id } },
+        { $addFields: { site: { $size: '$links' } } },
+        { $project: { links: 0 } },
+    ])
+        .then(result => {
+            if (!result.length) return reject({ status: 404, error: 'Collection not found or unauthorized.' })
+            return { status: 200, data: _.omit(result[0], '__v') }
+        })
+        .catch(err => ({ status: 500, error: err }))
+}
+
 function fetchCollections(user) {
-    return Collection.find({ owner: user._id }, '_id name shared')
+    return Collection.aggregate([
+        { $match: { owner: user._id } },
+        { $project: { _id: 1, name: 1, shared: 1, size: { $size: '$links' } } },
+    ])
         .then(result => ({ status: 200, data: result }))
         .catch(err => ({ status: 500, error: err }))
 }
@@ -124,6 +140,7 @@ function countLinks(id, q, cb) {
 }
 
 module.exports = {
+    fetchCollection: fetchCollection,
     fetchCollections: fetchCollections,
     addLink: addLink,
     fetchLinks: fetchLinks,
