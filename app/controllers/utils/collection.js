@@ -21,6 +21,7 @@ function fetchCollections(user) {
         { $match: { owner: user._id } },
         { $project: { _id: 1, name: 1, shared: 1, size: { $size: '$links' } } },
     ])
+        .then(result => result.map(c => ({ ...c, id: c._id })))  // backwards compatibility (e.g. for browser plugin)
         .then(result => ({ status: 200, data: result }))
         .catch(err => ({ status: 500, error: err }))
 }
