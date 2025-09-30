@@ -166,7 +166,7 @@ module.exports = function (app, passport) {
 
             const links = r1.value
             const count = r2.value || 0
-            res.set('Link', `<?pageSize=${pageSize}&page=${Math.ceil(count / pageSize)}>; rel="last"`)
+            res.set('Link', `<?pageSize=${pageSize}&page=${Math.ceil(count / pageSize)}>; rel="last", <?pageSize=${count}&page=1>; rel="all";`)
             res.send(links)
         }).catch((e) => {
             return res.makeError(500, e)

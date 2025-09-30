@@ -34,8 +34,10 @@ angular.module('anchrClientApp')
                 setActive()
             } else {
                 Collection.links.query({ collId: id, page: $scope.data.currentPage, pageSize: 25, q: $scope.data.search || undefined }, function (result, headers) {
-                    $scope.data.numPages = parseNumPages(headers('link'))
-                    collections[findCollection(collections, id)].links = result;
+                    $scope.data.numPages = parseNumPages(headers('link'));
+                    var c = collections[findCollection(collections, id)]
+                    c.links = result;
+                    c.size = parseNumItems(headers('link'));
                     if (isNonFiltered) {
                         if (!collectionsPagesCache[id]) collectionsPagesCache[id] = [];
                         collectionsPagesCache[id][$scope.data.currentPage - 1] = [angular.copy(result), $scope.data.numPages];
@@ -63,12 +65,14 @@ angular.module('anchrClientApp')
             l.$save(function (result) {
                 $scope.data.linkInput = '';
                 $scope.data.descriptionInput = '';
-                $scope.getCollection(collId).links.push({
+                var c = $scope.getCollection(collId);
+                c.links.push({
                     _id: result._id,
                     url: result.url,
                     description: result.description,
                     date: result.date
                 });
+                c.size++;
                 collectionsPagesCache = [];
             }, function (err) {
                 Snackbar.show('Failed to save link: ' + err.data.error);
@@ -83,6 +87,7 @@ angular.module('anchrClientApp')
             l.$delete(function (result) {
                 var c = $scope.getCollection(collId);
                 c.links.splice(findLinkInCollection(c, linkId), 1);
+                c.size--;
                 collectionsPagesCache = [];
             }, function (err) {
                 Snackbar.show('Failed to delete link: ' + err.data.error);
@@ -232,7 +237,13 @@ angular.module('anchrClientApp')
         }
 
         function parseNumPages(linkHeader) {
-            var match = /[\?&]page=(\d+)/gi.exec(linkHeader)
+            var match = /[\?&]page=(\d+)>; rel="last"/gi.exec(linkHeader)
+            if (match.length !== 2) return 1
+            return parseInt(match[1]) || 1
+        }
+
+        function parseNumItems(linkHeader) {
+            var match = /[\?&]pageSize=(\d+)&page=\d+>; rel="all"/gi.exec(linkHeader)
             if (match.length !== 2) return 1
             return parseInt(match[1]) || 1
         }
