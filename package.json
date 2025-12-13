@@ -90,5 +90,11 @@
             "grunt": "^1.6.1"
         }
     },
-    "packageManager": "yarn@4.10.2"
+    "packageManager": "yarn@4.10.2",
+    "prettier": {
+        "singleQuote": true,
+        "semi": false,
+        "tabWidth": 4,
+        "useTabs": false
+    }
 }
