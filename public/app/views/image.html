@@ -62,7 +62,7 @@
           <div class="input-group">
             <span class="input-group-addon"><i class="mdi-action-done text-success"></i></span>
             <input type="text" id="image_{{removeChar(f.result._id, '.')}}" class="form-control"
-              value="{{getClientUrl()}}image/{{f.result._id}}" readonly>
+              value="{{getBaseUrl()}}i/{{f.result._id}}" readonly>
             <span class="input-group-btn">
               <button type="button" class="btn btn-fab btn-fab-mini" ngclipboard
                 data-clipboard-target="#image_{{removeChar(f.result._id, '.')}}"
