@@ -40,7 +40,7 @@ function addLink(link, collectionId, user) {
 function fetchLinks(filter, q, pageSize, page, cb) {
     if (!cb) cb = function () { }
 
-    const skip = (page - 1) * pageSize
+    const skip = ((page || 1) - 1) * (pageSize || 25)
     const regex = q ? new RegExp(`.*${escapeRegExp(q)}.*`, 'i') : null
     const filters = _.clone(filter)
 
