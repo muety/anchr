@@ -8,6 +8,7 @@ const express = require('express'),
     mongoose = require('mongoose'),
     Collection = mongoose.model('Collection'),
     fetchCollections = require('./utils/collection').fetchCollections,
+    fetchCollection = require('./utils/collection').fetchCollection,
     addLink = require('./utils/collection').addLink,
     fetchLinks = require('./utils/collection').fetchLinks,
     countLinks = require('./utils/collection').countLinks
@@ -114,12 +115,14 @@ module.exports = function (app, passport) {
         const _id = req.params.id
         if (!_id) return res.makeError(404, 'Not found. Please give an id.')
 
-        Collection.findOne({ _id: _id, owner: req.user._id }, { links: 0 })
-            .then(obj => {
-                if (!obj) return res.makeError(404, 'Collection not found or unauthorized.')
-                res.send(obj.toObject())
+        fetchCollection(_id, req.user._id)
+            .then(({ status, data }) => {
+                res.status(status).send(data)
             })
-            .catch(err => res.makeError(500, err?.message, err))
+            .catch((err) => {
+                if (err.status) return res.makeError(err.status, (err.error.message || 'Unable get collections.'), err.error)
+                res.makeError(500, err?.message, err)
+            })
     })
 
     /**
@@ -163,7 +166,7 @@ module.exports = function (app, passport) {
 
             const links = r1.value
             const count = r2.value || 0
-            res.set('Link', `<?pageSize=${pageSize}&page=${Math.ceil(count / pageSize)}>; rel="last"`)
+            res.set('Link', `<?pageSize=${pageSize}&page=${Math.ceil(count / pageSize)}>; rel="last", <?pageSize=${count}&page=1>; rel="all";`)
             res.send(links)
         }).catch((e) => {
             return res.makeError(500, e)

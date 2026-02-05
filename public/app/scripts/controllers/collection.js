@@ -4,7 +4,7 @@ angular.module('anchrClientApp')
     .controller('CollectionCtrl', ['$scope', '$rootScope', 'Collection', 'Remote', 'Snackbar', '$window', '$timeout', function ($scope, $rootScope, Collection, Remote, Snackbar, $window, $timeout) {
 
         var collections = [];
-        var collectionsPagesCache = [];
+        var collectionsPagesCache = [];  // [links, numPages, numItems]
         var fetchTitleDebounce = null;
         var searchDebounce = null;
 
@@ -19,6 +19,7 @@ angular.module('anchrClientApp')
                 $scope.data.search = '';
             }
 
+            var collection = collections[findCollection(collections, id)]
             var isNonFiltered = $scope.data.search === '';
             var hasCache = collectionsPagesCache[id] && collectionsPagesCache[id][$scope.data.currentPage - 1] && collectionsPagesCache[id][$scope.data.currentPage - 1][0].length;
 
@@ -30,15 +31,17 @@ angular.module('anchrClientApp')
             if (isNonFiltered && hasCache) {
                 var cacheEntry = collectionsPagesCache[id][$scope.data.currentPage - 1];
                 $scope.data.numPages = cacheEntry[1];
-                collections[findCollection(collections, id)].links = angular.copy(cacheEntry[0]);
+                collection.links = angular.copy(cacheEntry[0]);
+                collection.size = cacheEntry[2];
                 setActive()
             } else {
                 Collection.links.query({ collId: id, page: $scope.data.currentPage, pageSize: 25, q: $scope.data.search || undefined }, function (result, headers) {
-                    $scope.data.numPages = parseNumPages(headers('link'))
-                    collections[findCollection(collections, id)].links = result;
+                    $scope.data.numPages = parseNumPages(headers('link'));
+                    collection.links = result;
+                    collection.size = parseNumItems(headers('link'));
                     if (isNonFiltered) {
                         if (!collectionsPagesCache[id]) collectionsPagesCache[id] = [];
-                        collectionsPagesCache[id][$scope.data.currentPage - 1] = [angular.copy(result), $scope.data.numPages];
+                        collectionsPagesCache[id][$scope.data.currentPage - 1] = [angular.copy(result), $scope.data.numPages, collection.size];
                     }
                     setActive();
                 }, function (err) {
@@ -63,12 +66,14 @@ angular.module('anchrClientApp')
             l.$save(function (result) {
                 $scope.data.linkInput = '';
                 $scope.data.descriptionInput = '';
-                $scope.getCollection(collId).links.push({
+                var c = $scope.getCollection(collId);
+                c.links.push({
                     _id: result._id,
                     url: result.url,
                     description: result.description,
                     date: result.date
                 });
+                c.size++;
                 collectionsPagesCache = [];
             }, function (err) {
                 Snackbar.show('Failed to save link: ' + err.data.error);
@@ -83,6 +88,7 @@ angular.module('anchrClientApp')
             l.$delete(function (result) {
                 var c = $scope.getCollection(collId);
                 c.links.splice(findLinkInCollection(c, linkId), 1);
+                c.size--;
                 collectionsPagesCache = [];
             }, function (err) {
                 Snackbar.show('Failed to delete link: ' + err.data.error);
@@ -232,8 +238,14 @@ angular.module('anchrClientApp')
         }
 
         function parseNumPages(linkHeader) {
-            var match = /[\?&]page=(\d+)/gi.exec(linkHeader)
+            var match = /[\?&]page=(\d+)>; rel="last"/gi.exec(linkHeader)
             if (match.length !== 2) return 1
             return parseInt(match[1]) || 1
+        }
+
+        function parseNumItems(linkHeader) {
+            var match = /[\?&]pageSize=(\d+)&page=\d+>; rel="all"/gi.exec(linkHeader)
+            if (match.length !== 2) return 0
+            return parseInt(match[1]) || 0
         }
     }]);

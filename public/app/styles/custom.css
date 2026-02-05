@@ -326,3 +326,34 @@ td h4 {
     box-shadow: none;
     -webkit-box-shadow: none;
 }
+
+ul.collections-list li a {
+    white-space: nowrap;
+}
+
+ul.collections-list li a span {
+    display: inline-block;
+    max-width: 176px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+ul.collections-list li a span.active {
+    max-width: 156px;
+}
+
+ul.collections-list li small.collection-counter {
+    position: absolute;
+    right: 0;
+}
+
+ul.collections-list li div.collection-controls {
+    position: absolute;
+    right: 12px;
+    top: calc(50% - 10px);
+    white-space: nowrap;
+}
+
+ul.collections-list li div.collection-controls i {
+    float: right;
+}

@@ -82,7 +82,7 @@ module.exports = function (app) {
 
             const links = r1.value
             if (r2.status === 'fulfilled') {
-                res.set('Link', `<?pageSize=${pageSize}&page=${Math.ceil(r2.value / pageSize)}>; rel="last"`)
+                res.set('Link', `<?pageSize=${pageSize}&page=${Math.ceil(r2.value / pageSize)}>; rel="last", <?pageSize=${count}&page=1>; rel="all";`)
             }
             res.send(links)
         }).catch((e) => {

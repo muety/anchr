@@ -9,18 +9,19 @@
     <div class="row" ng-if="loggedIn()">
 
         <div class="col-md-3">
-            <ul class="nav nav-pills nav-stacked nav-primary">
+            <ul class="nav nav-pills nav-stacked nav-primary collections-list">
                 <li role="presentation" ng-class="{'active' : data.active == c._id}"
                     ng-repeat="c in data.collections | orderBy : 'name'" ng-mouseover="hover[c._id] = true"
                     ng-mouseleave="hover[c._id] = false">
-                    <a href="javascript:void(0)" ng-click="setActiveCollection(c._id)" class="nowrap">
-                        <span>{{c.name}}</span>
-                        <div class="nowrap" style="float: right">
-                            <i class="glyphicon glyphicon-trash" style="float:right" ng-if="hover[c._id]"
+                    <a href="javascript:void(0)" ng-click="setActiveCollection(c._id)">
+                        <span ng-class="{ active: hover[c._id] }">{{c.name}}</span>
+                        <small ng-if="!hover[c._id]" class="badge bg-primary collection-counter">{{ c.size || 0 }}</small>
+                        <div class="collection-controls" ng-if="hover[c._id]">
+                            <i class="glyphicon glyphicon-trash" ng-if="hover[c._id]"
                                 ng-click="deleteCollection(c._id); $event.stopPropagation();"></i>
-                            <i class="glyphicon glyphicon-share" style="float:right; padding-right: 10px"
+                            <i class="glyphicon glyphicon-share" style="padding-right: 10px"
                                 ng-if="hover[c._id] && !c.shared" ng-click="shareCollection(c._id); $event.stopPropagation();"></i>
-                            <i class="glyphicon glyphicon-pencil" style="float:right; padding-right: 10px" ng-if="hover[c._id]"
+                            <i class="glyphicon glyphicon-pencil" style="padding-right: 10px" ng-if="hover[c._id]"
                                 data-target="#modalRename" data-toggle="modal" ng-click="data.editing = c; data.editing.newName = c.name"></i>
                         </div>
                     </a>
