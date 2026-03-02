@@ -48,7 +48,7 @@ module.exports = function (app, config) {
         app.use('/', express.static(`${config.root}/public/dist`, {
             redirect: false,
             setHeaders: (res, path) => {
-                if (/.*\.(css|js|png|jpg)/.test(path)) res.setHeader('Cache-Control', 'public, max-age=604800')
+                if (/.*\.(css|js|png|jpg|webp)/.test(path)) res.setHeader('Cache-Control', 'public, max-age=604800')
             }
         }))
     }

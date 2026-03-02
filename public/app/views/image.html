@@ -4,26 +4,6 @@
     device - while you can't interact with your browser.
   </div>
   <h3 class="text-primary">Upload image</h3>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group" style="padding: 0; margin: 0" ng-if="files.encrypt">
-        <div class="input-group">
-          <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-          <input type="password" ng-model="files.password" class="form-control" placeholder="Passphrase (min. 6 chars)">
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="togglebutton" style="float: right">
-        <label>
-          Encrypt image? <input type="checkbox" ng-model="files.encrypt" ng-disabled="!loggedIn()"
-            style="margin-left: 20px">
-          <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left"
-            title="You can encrypt images client-sided with a password so absolutely nobody without the password can see them. You can only upload one image at once and need to be logged in to your account. Note that the amount of data to upload will almost double."></span>
-        </label>
-      </div>
-    </div>
-  </div>
   <div ng-if="!files.encrypt" class="file-drag" ngf-select="uploadFiles($files, $invalidFiles)"
     ngf-drop="uploadFiles($files, $invalidFiles)" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="true"
     ngf-allow-dir="false" accept="image/*" ngf-pattern="'image/*'" ngf-max-size="5MB">
@@ -35,6 +15,24 @@
     ngf-max-size="5MB">
     Drop images here or click to upload
   </div>
+
+  <div class="row" style="margin: 16px 0;">
+    <div class="col-md-12" style="padding: 0 8px;">
+      <div class="togglebutton" style="display: inline-block; margin-right: 20px;">
+        <label>
+          <input type="checkbox" ng-model="files.webp"> Convert to WebP
+        </label>
+      </div>
+      <div class="togglebutton" style="display: inline-block;">
+        <label>
+          <input type="checkbox" ng-model="files.encrypt" ng-disabled="!loggedIn()"> Encrypt image
+          <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right"
+            title="You can encrypt images client-sided with a password so absolutely nobody without the password can see them. You can only upload one image at once and need to be logged in to your account. Note that the amount of data to upload will almost double."></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
   <button ng-if="!files.encrypt" class="btn btn-block btn-primary" ngf-select="uploadFiles($files, $invalidFiles)"
     ngf-multiple="true" accept="image/*" ngf-max-size="5MB">
     Select Files
@@ -44,6 +42,18 @@
     accept="image/*" ngf-max-size="5MB">
     Select Files
   </button>
+
+  <div class="row" ng-if="files.encrypt">
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+          <input type="password" ng-model="files.password" class="form-control" placeholder="Passphrase (min. 6 chars)">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div ng-show="files.files.length || files.errFiles.length">
     <ul class="list-unstyled">
       <li ng-repeat="f in files.files" class="list-unstyled">
