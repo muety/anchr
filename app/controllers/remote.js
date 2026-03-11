@@ -2,11 +2,12 @@ const express = require('express'),
     router = express.Router(),
     morgan = require('../../config/middlewares/morgan')(),
     logger = require('./../../config/log')(),
+    auth = require('./../../config/middlewares/auth'),
     PageMetaService = require('../services/page_meta')
 
 const pageMetaService = new PageMetaService()
 
-module.exports = function (app) {
+module.exports = function (app, passport) {
     app.use('/api/remote', router)
 
     router.use(morgan)
@@ -18,6 +19,8 @@ module.exports = function (app) {
      *      summary: Get a remote HTML website's title
      *      tags:
      *        - remote
+     *      security:
+     *        - ApiKeyAuth: []
      *      parameters:
      *        - $ref: '#/parameters/remoteUrl'
      *      produces:
@@ -32,12 +35,13 @@ module.exports = function (app) {
      *                  type: string
      *                  description: Website title
      */
-    router.get('/page', (req, res) => {
+    router.get('/page', auth(passport), (req, res) => {
         const url = req.query.url
 
         if (!url || !url.length) return res.makeError(400, 'No url given')
 
-        pageMetaService.fetchTitle(url)
+        pageMetaService
+            .fetchTitle(url)
             .then((title) => {
                 return res.send({ title })
             })
