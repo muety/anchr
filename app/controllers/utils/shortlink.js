@@ -7,8 +7,11 @@ const _ = require('underscore'),
     Shortlink = mongoose.model('Shortlink'),
     LinkCheckerService = require('../../services/linkcheck')
 
-const checker = new LinkCheckerService()
-checker.initialize()  // not waiting for promise here
+let checker = { check: (args) => Promise.resolve([false]) }  // noop link checker
+if (config.checkLinks) {
+    checker = new LinkCheckerService()
+    checker.initialize()  // not waiting for promise here
+}
 
 function addShortlink(url, user) {
     return new Promise((resolve, reject) => {

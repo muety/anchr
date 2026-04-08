@@ -12,7 +12,7 @@ const config = {
         clientUrl: `${process.env.ANCHR_PUBLIC_URL || 'http://localhost:3000'}/#/`,
         root: rootPath,
         app: {
-            name: 'anchr-multi-webservice'
+            name: 'anchr-multi-webservice',
         },
         port: parseInt(process.env.PORT) || 3000,
         addr: process.env.LISTEN_ADDR || 'localhost',
@@ -28,6 +28,7 @@ const config = {
             linkcheckUpdate: process.env.ANCHR_LINKCHECK_UPDATE_CRON || '10 0 * * *',
             shortlinkCleanup: process.env.ANCHR_LINKCHECK_UPDATE_CRON || '20 0 * * *',
         },
+        checkLinks: process.env.ANCHR_CHECK_LINKS !== 'false',
         secret: process.env.ANCHR_SECRET || 'shhh',
         tokenExpire: '7d',
         workers: 2,
@@ -48,7 +49,7 @@ const config = {
             auth: {
                 user: process.env.ANCHR_SMTP_USER || '',
                 pass: process.env.ANCHR_SMTP_PASS || '',
-            }
+            },
         },
         mailwhale: {
             url: process.env.ANCHR_MAILWHALE_URL || 'https://mailwhale.dev',
@@ -56,15 +57,14 @@ const config = {
             clientSecret: process.env.ANCHR_MAILWHALE_CLIENT_SECRET,
         },
     },
-    development: {
-    },
+    development: {},
     test: {},
     production: {
         publicUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io'}/api`,
         publicShortlinkUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io'}/s`,
         publicImageUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io'}/i`,
         clientUrl: `${process.env.ANCHR_PUBLIC_URL || 'https://anchr.io'}/#/`,
-    }
+    },
 }
 
 const resolvedConfig = {}

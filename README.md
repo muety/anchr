@@ -72,7 +72,8 @@ $ > exit
     * `ANCHR_FB_CLIENT_ID` and `ANCHR_FB_SECRET`: OAuth credentials for Facebook Login (default: `''`, leave blank to disable Facebook login)
     * `ANCHR_GOOGLE_CLIENT_ID` and `ANCHR_GOOGLE_SECRET`: OAuth credentials for Google Login (default: `''`, leave blank to disable Google login)
     * `ANCHR_ALLOW_SIGNUP`: Whether to allow sign up of new users (default: `true`)
-    * `ANCHR_VERIFY_USERS`: Whether require new users to activate their accounts with an e-mail link (requires mailing) (default: `true`)
+    * `ANCHR_VERIFY_USERS`: Whether require new users to activate their accounts with an e-mail link (requires mailing) (default: `false`)
+    * `ANCHR_CHECK_LINKS`: Whether to check new shortlinks against various blocklists to filter malicious content (default: `true`)
     * `ANCHR_BASIC_AUTH`: Whether to allow authenticating using [HTTP Basic Auth](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes) (default: `true`)
     * `ANCHR_EXPOSE_METRICS`: Whether to expose [Prometheus](https://prometheus.io) metrics under the public `/api/metrics` endpoint (default: `false`)
     * `ANCHR_MAIL_SENDER`: Sender address in mails from Anchr.io (default: `Anchr.io <noreply@anchr.io>`)
@@ -93,7 +94,7 @@ $ > exit
 2. `$ corepack enable`
 3. `$ yarn`
 4. `$ cd public && ../node_modules/.bin/bower install && cd ..`
-   
+
 #### Option 1: Run Natively
 ##### For development
 1. Run backend `$ yarn start`
@@ -128,7 +129,7 @@ You can integrate Anchr with [ShareX](https://github.com/ShareX/ShareX) on Windo
 1. Import both files as custom uploaders in ShareX
 
 ## 🧩 Project History
-The project's origins lie in 2014, back when the [MEAN stack](https://www.mongodb.com/mean-stack) was the sh*t. It was the author's first real web project and a great opportunity to learn. The project is maintained ever since, however, considered mostly feature-complete. Dependencies are updated occasionally. Because the project started quite a couple of years ago, some parts are still based on old-fashioned JavaScript ES5 syntax, alongside vintage tools like [Grunt](https://gruntjs.com/) and [Bower](https://bower.io/). Certainly, this is not state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. **Update:** Just [recently](https://github.com/muety/anchr/issues/54), all backend-side code was refactored to modern JavaScript syntax to ease development. 
+The project's origins lie in 2014, back when the [MEAN stack](https://www.mongodb.com/mean-stack) was the sh*t. It was the author's first real web project and a great opportunity to learn. The project is maintained ever since, however, considered mostly feature-complete. Dependencies are updated occasionally. Because the project started quite a couple of years ago, some parts are still based on old-fashioned JavaScript ES5 syntax, alongside vintage tools like [Grunt](https://gruntjs.com/) and [Bower](https://bower.io/). Certainly, this is not state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. **Update:** Just [recently](https://github.com/muety/anchr/issues/54), all backend-side code was refactored to modern JavaScript syntax to ease development.
 
 ## 🧑‍💻 Developer Notes
 ### API Tests
