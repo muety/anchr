@@ -64,7 +64,7 @@ class PageMetaService {
             const parser = new htmlparser.Parser(handler)
             parser.parseComplete(data)
 
-            return title
+            return done(title)
         })
     }
 }
