@@ -11,7 +11,7 @@
         "lint": "eslint --fix *.js app/**/*.js config/*.js config/**/*.js lib/**/*.js"
     },
     "engines": {
-        "node": ">=22.0.0"
+        "node": ">=24.0.0"
     },
     "dependencies": {
         "@brigand/abp-filter-parser": "^0.3.2",
@@ -90,7 +90,7 @@
             "grunt": "^1.6.1"
         }
     },
-    "packageManager": "yarn@4.10.2",
+    "packageManager": "yarn@4.17.0",
     "prettier": {
         "singleQuote": true,
         "semi": false,
