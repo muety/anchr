@@ -117,7 +117,7 @@ module.exports = function (app, passport) {
 
         fetchCollection(_id, req.user._id)
             .then(({ status, data }) => {
-                res.status(status).send(data)
+                res.set({ 'Last-Modified': data.modified.toUTCString() }).status(status).send(data)
             })
             .catch((err) => {
                 if (err.status) return res.makeError(err.status, (err.error.message || 'Unable get collections.'), err.error)
