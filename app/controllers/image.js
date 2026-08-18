@@ -84,7 +84,7 @@ module.exports = function (app, passport) {
      *            schema:
      *              $ref: '#/definitions/Image'
      */
-    router.post('/', auth(passport), multipart({ maxFilesSize: config.maxFilesSize }), filetype(config.allowedFileTypes), (req, res) => {
+    router.post('/', auth(passport), multipart({ maxFilesSize: config.maxFileSize }), filetype(config.allowedFileTypes), (req, res) => {
         const FILE_UPLOAD_FIELD = 'uploadFile'
 
         const tmpPath = req.files[FILE_UPLOAD_FIELD].path

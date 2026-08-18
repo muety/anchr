@@ -195,7 +195,7 @@ module.exports = function (app, passport) {
             .then(user => {
                 if (!user) throw new Error('failed to find user')
                 user.verificationToken = null
-                return user.save
+                return user.save()
                     .then(() => {
                         res.redirect(config.clientUrl)
                     })
