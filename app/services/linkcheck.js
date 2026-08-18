@@ -4,12 +4,12 @@ const config = require('../../config/config'),
     _ = require('underscore')
 
 const BLACKLIST = [
-    /.*bit\.ly.*/gi,
-    /.*goo\.gl.*/gi,
-    /.*confirm.*/gi,
-    /.*verif.*/gi,
-    /.*account.*/gi,
-    /.*secur.*/gi
+    /.*bit\.ly.*/i,
+    /.*goo\.gl.*/i,
+    /.*confirm.*/i,
+    /.*verif.*/i,
+    /.*account.*/i,
+    /.*secur.*/i
 ]
 
 // Singleton
