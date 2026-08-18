@@ -34,7 +34,6 @@ const config = {
         workers: 2,
         googleApiKey: process.env.ANCHR_GOOGLE_API_KEY || '',
         allowSignUp: process.env.ANCHR_ALLOW_SIGNUP !== 'false',
-        basicAuth: process.env.ANCHR_BASIC_AUTH !== 'false',
         exposeMetrics: process.env.ANCHR_EXPOSE_METRICS === 'true',
         verifyUsers: process.env.ANCHR_VERIFY_USERS === 'true' || false,
         mailSender: process.env.ANCHR_MAIL_SENDER || 'Anchr.io <noreply@anchr.io>',

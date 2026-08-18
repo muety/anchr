@@ -2,7 +2,6 @@ const LocalStrategy = require('passport-local').Strategy
     , JwtStrategy = require('passport-jwt').Strategy
     , FacebookStrategy = require('passport-facebook').Strategy
     , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-    , BasicStrategy = require('passport-http').BasicStrategy
     , ExtractJwt = require('passport-jwt').ExtractJwt
     , User = require('../app/models/user')
     , config = require('./config')
@@ -94,25 +93,6 @@ module.exports = function (passport) {
             })
             .catch(err => done(err, false))
     })))
-
-    // =========================================================================
-    // BASIC AUTH ==============================================================
-    // =========================================================================
-    if (config.basicAuth) {
-        passport.use(new BasicStrategy((username, password, done) => {
-            const query = { 'local.email': username }
-            User.findOne(query)
-                .then(user => {
-                    if (!user) return done({ message: 'User not found.' })
-                    password = (password || '').trim()
-                    if (!user.validPassword(password)) return done({ message: 'Wrong password.' })
-
-                    postUserLogin(user)  // async, don't wait
-                    done(null, user)
-                })
-                .catch(done)
-        }))
-    }
 
     // =========================================================================
     // FACEBOOK  ===============================================================

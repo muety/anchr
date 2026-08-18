@@ -74,7 +74,6 @@ $ > exit
     * `ANCHR_ALLOW_SIGNUP`: Whether to allow sign up of new users (default: `true`)
     * `ANCHR_VERIFY_USERS`: Whether require new users to activate their accounts with an e-mail link (requires mailing) (default: `false`)
     * `ANCHR_CHECK_LINKS`: Whether to check new shortlinks against various blocklists to filter malicious content (default: `true`)
-    * `ANCHR_BASIC_AUTH`: Whether to allow authenticating using [HTTP Basic Auth](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes) (default: `true`)
     * `ANCHR_EXPOSE_METRICS`: Whether to expose [Prometheus](https://prometheus.io) metrics under the public `/api/metrics` endpoint (default: `false`)
     * `ANCHR_MAIL_SENDER`: Sender address in mails from Anchr.io (default: `Anchr.io <noreply@anchr.io>`)
     * `ANCHR_SMTP_HOST`: SMTP server host for sending mails (leave empty to disable mailing)
@@ -116,17 +115,6 @@ $ > exit
 ```bash
 curl https://api.telegram.org/bot<BOT_TOKEN>/setWebhook?url=https://<ANCHR_URL>/api/telegram/updates/<URL_SECRET>
 ```
-
-## 🧰 Tooling
-### [ShareX](https://github.com/ShareX/ShareX) (Windows only)
-You can integrate Anchr with [ShareX](https://github.com/ShareX/ShareX) on Windows and make it be used as a custom target for **image uploads** and **shortlinks**.
-1. Generate an HTTP basic auth hash Base64 hash of `youremail@example.org:yourpassword`
-    * **Option 1 (Linux):** `echo "youremail@example.org:yourpassword" | base64`
-    * **Option 2:** Use an [online tool](https://www.base64encode.net/)
-1. Insert your newly generated hash in
-    * [`sharex-images.json`](scripts/sharex-images.json) and
-    * [`sharex-shortlinks.json`](scripts/sharex-shortlinks.json)
-1. Import both files as custom uploaders in ShareX
 
 ## 🧩 Project History
 The project's origins lie in 2014, back when the [MEAN stack](https://www.mongodb.com/mean-stack) was the sh*t. It was the author's first real web project and a great opportunity to learn. The project is maintained ever since, however, considered mostly feature-complete. Dependencies are updated occasionally. Because the project started quite a couple of years ago, some parts are still based on old-fashioned JavaScript ES5 syntax, alongside vintage tools like [Grunt](https://gruntjs.com/) and [Bower](https://bower.io/). Certainly, this is not state-of-the-art in web dev anymore. However, to keep consistency with existing code, the original code style should still be followed in new contributions. **Update:** Just [recently](https://github.com/muety/anchr/issues/54), all backend-side code was refactored to modern JavaScript syntax to ease development.
