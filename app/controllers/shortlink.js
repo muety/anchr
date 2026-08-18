@@ -2,6 +2,7 @@ const express = require('express'),
     router = express.Router(),
     mongoose = require('mongoose'),
     config = require('../../config/config'),
+    utils = require('../../utils'),
     Shortlink = mongoose.model('Shortlink'),
     Collection = mongoose.model('Collection'),
     morgan = require('./../../config/middlewares/morgan')(),
@@ -47,6 +48,7 @@ module.exports = function (app, passport) {
             .then(obj => {
                 if (!obj) throw new Error('Not found.')
                 if (!asJson && obj.url) {
+                    if (!utils.isURL(obj.url)) return res.makeError(400, 'Invalid redirect target.')
                     // update counter asynchronously
                     const regex = new RegExp(`.*${req.params.id}$`, 'i')
                     Collection.findOneAndUpdate(

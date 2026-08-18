@@ -15,6 +15,7 @@ if (config.checkLinks) {
 
 function addShortlink(url, user) {
     return new Promise((resolve, reject) => {
+        if (!utils.isURL(url)) return reject({ status: 400, error: 'Invalid URL. Only http(s) URLs are allowed.' })
         checker.check([url])
             .then(result => {
                 const isMalicious = result[0]
