@@ -47,25 +47,25 @@ class PageMetaService {
 
             return response.text()
         })
-        .then((data) => {
-            let title = null
+            .then((data) => {
+                let title = null
 
-            const handler = new htmlparser.DomHandler((error, dom) => {
-                if (error) throw new Error(error)
+                const handler = new htmlparser.DomHandler((error, dom) => {
+                    if (error) throw new Error(error)
 
-                const htmlNode = dom.filter((n) => { return n.type === 'tag' && n.name === 'html' })[0]
-                const headNode = htmlNode.children.filter((n) => { return n.type === 'tag' && n.name === 'head' })[0]
-                const titleNode = headNode.children.filter((n) => { return n.type === 'tag' && n.name === 'title' })[0]
+                    const htmlNode = dom.filter((n) => { return n.type === 'tag' && n.name === 'html' })[0]
+                    const headNode = htmlNode.children.filter((n) => { return n.type === 'tag' && n.name === 'head' })[0]
+                    const titleNode = headNode.children.filter((n) => { return n.type === 'tag' && n.name === 'title' })[0]
 
-                title = titleNode.children[0].data.trim()
-                title = title.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec)).replace(/&.+;/g, '')
+                    title = titleNode.children[0].data.trim()
+                    title = title.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec)).replace(/&.+;/g, '')
+                })
+
+                const parser = new htmlparser.Parser(handler)
+                parser.parseComplete(data)
+
+                return done(title)
             })
-
-            const parser = new htmlparser.Parser(handler)
-            parser.parseComplete(data)
-
-            return done(title)
-        })
     }
 }
 

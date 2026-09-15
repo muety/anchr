@@ -81,6 +81,7 @@ module.exports = function (app) {
             if (!r1.value) return res.makeError(404, 'Collection not found or unauthorized.')
 
             const links = r1.value
+            const count = r2.value || 0
             if (r2.status === 'fulfilled') {
                 res.set('Link', `<?pageSize=${pageSize}&page=${Math.ceil(r2.value / pageSize)}>; rel="last", <?pageSize=${count}&page=1>; rel="all";`)
             }
