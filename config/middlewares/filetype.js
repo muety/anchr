@@ -1,27 +1,20 @@
-const _ = require('underscore'),
-    fs = require('fs')
-
-const FILE_UPLOAD_FIELD = 'uploadFile'
+const fs = require('fs'),
+    { fileTypeFromFile } = require('file-type'),
+    logger = require('./../../config/log')()
 
 module.exports = function (allowedTypes) {
-    function matchType(val) {
-        for (let i = 0; i < allowedTypes.length; i++) {
-            if (val.match(allowedTypes[i])) return true
-        }
-        return false
-    }
-
     return function (req, res, next) {
-        if (req.files && Object.keys(req.files).length) {
-            _.each(req.files, (val) => {
-                if (!matchType(val.type)) {
-                    const path = req.files[FILE_UPLOAD_FIELD].path
-                    fs.unlink(path)
-                    res.status(415).send({ error: 'Type not supported.' })
-                }
-                else next()
+        if (req.file) {
+            fileTypeFromFile(req.file.path).then((result) => {
+                const ok = result && allowedTypes.some((t) => result.mime.match(t))
+                if (!ok) {
+                    const path = req.file.path
+                    fs.unlink(path, (err) => {
+                        if (err) logger.default(`[WARN] Failed to unlink file ${path}`)
+                        res.status(415).send({ error: 'Type not supported.' })
+                    })
+                } else next()
             })
-        }
-        else next()
+        } else next()
     }
 }
