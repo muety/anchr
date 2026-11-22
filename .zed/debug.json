@@ -1,0 +1,13 @@
+[
+  {
+    "adapter": "JavaScript",
+    "label": "Start server",
+    "request": "launch",
+    "type": "node",
+    "program": "${ZED_WORKTREE_ROOT}/app.js",
+    "args": [],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "envFile": "${ZED_WORKTREE_ROOT}/.env",
+    "skipFiles": ["<node_internals>/**", "**/node_modules/**"]
+  }
+]
